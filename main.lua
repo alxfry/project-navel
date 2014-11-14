@@ -5,7 +5,7 @@ local fullscreen = false
 
 function love.load(arg)
     if arg[3] == "hymn" then
-        require "HymnOfSnowAndMagma.main"()
+        require "hymn.main"()
     else
         print "get a main, biatches!"
     end
