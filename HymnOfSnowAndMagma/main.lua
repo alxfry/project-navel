@@ -4,10 +4,8 @@ local mouseCursor
 local fullscreen = false
 
 local function load()
-    print("test")
-    love.filesystem.setSource("../")
+    mouseCursor = love.graphics.newImage("images/ui/mouseCursor.png")
     love.window.setMode(baseWidth/2, baseHeight/2, { centered = true, resizable = true })
-	mouseCursor = love.graphics.newImage("..\\image\\ui\\mouseCursor.png")
 end
 
 function love.update(dt)
