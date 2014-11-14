@@ -29,13 +29,13 @@ local function setTrackVolumes(...)
 end
 
 local function setTrackPreset(preset)
-    if preset == "machinegun" then
-        setTrackVolumes(1, 0, 0)
-    elseif preset == "grenade" then
-        setTrackVolumes(0, 1, 0)
-    elseif preset == "bomb" then
-        setTrackVolumes(0, 0, 1)
-    end
+    -- if preset == "machinegun" then
+    --     setTrackVolumes(1, 0, 0)
+    -- elseif preset == "grenade" then
+    --     setTrackVolumes(0, 1, 0)
+    -- elseif preset == "bomb" then
+    --     setTrackVolumes(0, 0, 1)
+    -- end
 end
 
 
