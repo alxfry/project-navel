@@ -1,7 +1,9 @@
+local InputHandler = require "hymn.InputHandler"
+
 local baseWidth, baseHeight = 1920, 1080
 
 local function load()
-    mouseCursor = love.graphics.newImage("images/ui/mouseCursor.png")
+    local mouseCursor = love.graphics.newImage("images/ui/mouseCursor.png")
     love.window.setMode(baseWidth/2, baseHeight/2, { centered = true, resizable = true })
 end
 
