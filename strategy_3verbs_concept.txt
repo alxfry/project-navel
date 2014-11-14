@@ -1,0 +1,32 @@
+3 Verbs:
+1. Expand your base
+2. Improve your strength
+3. Kill your enemy
+
+Support 1:
+1.1 Find out how far your units reach
+1.2 Build new spawn locations
+1.3 Cover Ground
+
+Support 2:
+2.1 Find the fastest way to resources
+2.2 Conquer and defend resources
+2.3 Strengthen minions with buildings
+
+Support 3:
+3.1 Find least guarded way to enemy base
+3.2 Find fastest way to enemy base
+3.3 Take resources from your enemy
+
+Derivatives:
+1.1 -> 
+1.2 -> Will burn several minions
+	-> Minions spawn by their own
+1.3 -> Minions will cover ground in their color
+	-> Ground with unit color will make the units stronger
+2.1 -> 
+2.2 -> Resources will increase your minion spawn speed
+2.3 -> Buildings with certain ranges improve closeby minions
+	-> Higher Level improvement buildings need basic level ones
+3.1 -> Units find and attack enemies on their own
+	-> Units need to attack enemy resources to conquer them
