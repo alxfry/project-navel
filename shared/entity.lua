@@ -1,6 +1,5 @@
 local Class = require "shared.middleclass"
 local GameMath = require "shared.gamemath"
-print("sdfagafg")
 local Entity = Class "Entity"
 
 function Entity:initialize()
