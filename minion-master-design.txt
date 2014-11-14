@@ -1,0 +1,31 @@
+Minion Master: Eat or be Eaten
+
+3 Verbs:
+1. Destroy all enemies
+2. Don't get eaten
+3. Upgrade yourself or your minions
+
+Support 1:
+1.1 Find out how strong your minions are
+1.2 Spawn new minions
+1.3 Find new enemies
+
+Support 2:
+2.1 Keep your minions busy
+2.2 Become stronger
+2.3 Run away
+
+Support 3:
+3.1 Gather DNA
+3.2 Choose which upgrade
+
+
+
+Derivatives:
+1.1 -> Try it out and see at which speed minions kill enemies and the other way around
+1.2 -> Action buttons for spawning
+1.3 -> Use the radar
+2.1 -> Balance providing them with more enemies to keep them busy with finding too many enemies causing them to die
+2.2 ->
+2.3 ->
+3.1 ->
