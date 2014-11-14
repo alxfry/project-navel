@@ -7,7 +7,7 @@ end
 
 function InputHandler:mousePressed(x, y, button)
     print("mousePressed", x, y, button)
-    self.unit:setPosition(x, y)
+    self.unit:moveTo(x, y)
 end
 
 function InputHandler:mouseReleased(x, y, button)
