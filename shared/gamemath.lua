@@ -58,6 +58,12 @@ function Vector2.length(v)
 	return math.sqrt(Vector2.sqLength(v))
 end
 
+function Vector2.normalize(v)
+    local length = Vector2.length(v)
+    v.x = v.x/length
+    v.y = v.y/length
+end
+
 function Vector2.add(v1, v2, result)
 	if result then
 		result.x = v1.x + v2.x

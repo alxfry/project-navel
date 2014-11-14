@@ -20,6 +20,7 @@ local function load()
 end
 
 function love.update(dt)
+    myUnit:update(dt)
 	entityManager:update(dt)
 end
 
