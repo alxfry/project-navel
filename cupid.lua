@@ -263,7 +263,7 @@ local function cupid_reload(keep_globals)
 	if not ok then cupid_error(game) return false end
 
 	xpcall(game, cupid_error)
-	if love.load then love.load() end
+	if love.load then love.load(main_args) end
 	return true
 end
 cupid_commands:add("reload", function(...) return cupid_reload(...) end)

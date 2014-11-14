@@ -1,5 +1,6 @@
 local Class = require "shared.middleclass"
 local GameMath = require "shared.gamemath"
+
 local Entity = Class "Entity"
 
 function Entity:initialize()
@@ -13,6 +14,9 @@ end
 function Entity:draw(dt)
 	love.graphics.setColor(255, 0, 0, 255)
 	love.graphics.circle("fill", self.position.x, self.position.y, 30, 30)
+end
+
+function Entity:delete()
 end
 
 function Entity:setPosition(x, y)
