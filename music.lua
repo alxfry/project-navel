@@ -2,9 +2,6 @@ local tracks
 local masterVolume = 0.4
 
 local trackData = {
-    "01.wav",
-    "02.wav",
-    "03.wav",
 }
 
 local function load()
@@ -17,7 +14,7 @@ local function load()
         tracks[#tracks + 1] = track
     end
 
-    tracks[1]:setVolume(masterVolume)
+    -- tracks[1]:setVolume(masterVolume)
     
     for i, track in ipairs(tracks) do
         track:play()
