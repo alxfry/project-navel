@@ -37,7 +37,8 @@ end
 
 M.draw = function()
     lg.setColor(255, 255, 255, 255)
-    Level.draw()
+    map:draw()
+    -- Level.draw()
     Splatter.draw()
     Sprite.draw()
     Grenade.draw()

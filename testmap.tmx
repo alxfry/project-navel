@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="10" height="10" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" name="wpc#blu#1" tilewidth="32" tileheight="32">
+  <image source="wpc#blu#1.png" width="384" height="384"/>
+ </tileset>
+ <layer name="Tile Layer 1" width="10" height="10">
+  <data encoding="base64" compression="zlib">
+   eJxt0DkPgzAMhmH/KgotE/SaCEenhh5Ty9H/P/NWSiRjMTyKEn2xEzsRcUptVo8+rPHcZuJZH/YJdkiRYY8D8pCJ9wqUOOKEMy64hlzsW6k+DVp0uJl6d/XeB5544a3q/bMffDFgxIQZP/MPr+o5Wc9jK+MNt5GpZT1vO78F9TwgnA==
+  </data>
+ </layer>
+</map>

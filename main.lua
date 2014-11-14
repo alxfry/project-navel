@@ -8,6 +8,8 @@ local Player = require "player"
 local Sprite = require "sprite"
 local ControllerHandler = require("controllerhandler")
 
+local sti = require "sti"
+
 local screen = SplashScreen
 local baseWidth, baseHeight = 1920, 1080
 local mouseCursor
@@ -26,6 +28,8 @@ function love.load()
     Player.load()
     SplashScreen.load()
     ArenaScreen.load()
+
+    map = sti.new("testmap")
 end
 
 function love.update(dt)
@@ -45,7 +49,7 @@ function love.draw()
     love.graphics.translate(dx, dy)
     love.graphics.scale(scale, scale)
     ControllerHandler:setTransform(dx, dy, scale, scale)
-    
+
     screen.draw()
 	lg.setColor(255, 255, 255, 255)
 
@@ -54,7 +58,7 @@ function love.draw()
     	   (love.mouse.getX() - dx) / scale - mouseCursor:getWidth() / 4,
     	   (love.mouse.getY() - dy) / scale - mouseCursor:getHeight() / 4,
     		nil, 0.5, 0.5)
-	end	
+	end
 end
 
 function love.keypressed(key, unicode)
