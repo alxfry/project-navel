@@ -3,7 +3,7 @@ local baseWidth, baseHeight = 1920, 1080
 local mouseCursor
 local fullscreen = false
 
-function love.load()
+local function load()
     print("test")
     love.filesystem.setSource("../")
     love.window.setMode(baseWidth/2, baseHeight/2, { centered = true, resizable = true })
@@ -41,3 +41,5 @@ end
 function love.resize(w, h)
     GUI.resize(w, h)
 end
+
+return load
