@@ -1,13 +1,12 @@
 local ControllerHandler = require "controllerhandler"
-local Level = require "level"
-local Player = require "player"
-local Sprite = require "sprite"
 local Flext = require "flext"
-local Music = require "music"
 local Grenade = require "grenade"
-local Sound = require "sound"
+local Level = require "level"
 local Music = require "music"
+local Player = require "player"
+local Sound = require "sound"
 local Splatter = require "splatter"
+local Sprite = require "sprite"
 
 local lg = love.graphics
 
@@ -43,11 +42,11 @@ M.draw = function()
     Sprite.draw()
     Grenade.draw()
     Flext.draw()
-    
+
     -- find player with highest number of kills
     local playerWithHighestNumberOfKills
     local currentHighestNumber = 0
-    
+
     for c,p in pairs(controllerMapping) do
         if c.stats.kills > currentHighestNumber then
             currentHighestNumber = c.stats.kills
@@ -56,7 +55,7 @@ M.draw = function()
             playerWithHighestNumberOfKills = nil
         end
     end
-    
+
     -- draw player color
     for i = 1, 4 do
         local offsetX, offsetY = uiPlayerInfoOffsets[i].x, uiPlayerInfoOffsets[i].y
@@ -64,10 +63,10 @@ M.draw = function()
         lg.setColor(255, 255, 255, 255)
         lg.draw(uiImagePlayer, offsetX + 22, offsetY + 24, nil, 0.5, 0.5)
     end
-		
+
     for c,p in pairs(controllerMapping) do
         local offsetX, offsetY = uiPlayerInfoOffsets[c.colorIndex].x, uiPlayerInfoOffsets[c.colorIndex].y
-		
+
         -- draw player kills
         lg.setColor(0, 0, 0, 255)
         local killsFormattedNumber = c.stats.kills or 0
@@ -76,7 +75,7 @@ M.draw = function()
         end
         love.graphics.setFont(FontSmallSize)
         lg.print(killsFormattedNumber or 0, offsetX + 38, offsetY + 2)
-        
+
         -- draw player lives
         lg.setColor(255, 255, 255, 255)
         if c.stats.lives > 0 then
@@ -85,7 +84,7 @@ M.draw = function()
         if c.stats.lives > 1 then
             lg.draw(uiImageHeart, offsetX + 52, offsetY + 80, nil, 0.5, 0.5)
         end
-        
+
         -- draw player health (max.: 10)
         local healthBarWidth, healthBarHeight = 10, 54
         -- health bar bg
@@ -95,7 +94,7 @@ M.draw = function()
         lg.setColor(255, 50, 100, 255)
 		local healthBarOffset = ((maxHealth - c.stats.health) / maxHealth) * healthBarHeight
         lg.rectangle("fill", offsetX + 12, offsetY + 24 + healthBarOffset, healthBarWidth, healthBarHeight * (c.stats.health / maxHealth))
-        
+
         -- draw player cooldown (3 - 0)
         -- cooldown bar bg
         lg.setColor(37, 36, 87, 255)
@@ -104,7 +103,7 @@ M.draw = function()
         lg.setColor(37, 95, 255, 255)
 		local cooldownBarOffset = ((c.stats.cooldown or 0) / maxCooldown) * healthBarHeight
         lg.rectangle("fill", offsetX + 80, offsetY + 24 + cooldownBarOffset, healthBarWidth, healthBarHeight * ((maxCooldown - (c.stats.cooldown or 0)) / maxCooldown))
-        
+
         -- draw crown over player with highest number of kills
         if playerWithHighestNumberOfKills == c.colorIndex then
             lg.setColor(255, 255, 255, 255)
@@ -112,7 +111,7 @@ M.draw = function()
         end
     end
 
-    --[[    
+    --[[
     local p = Player.get(1)
     if p then -- debugging for blocking
         local px, py = p.pos.x, p.pos.y
@@ -169,7 +168,7 @@ local selectedWeapon = "machinegun"
 
 M.update = function(dt)
     -- find player with highest number of kills
-    
+
     local currentHighestNumber = 0
     for c,p in pairs(controllerMapping) do
         c.stats.isKing = false
@@ -180,13 +179,13 @@ M.update = function(dt)
             playerWithHighestNumberOfKills = nil
         end
     end
-    
+
     if playerWithHighestNumberOfKills then
         playerWithHighestNumberOfKills.stats.isKing = true
         playerWithHighestNumberOfKills = playerWithHighestNumberOfKills.colorIndex
     end
-    
-    
+
+
     for c,p in pairs(controllerMapping) do
         if c.stats.cooldown then
             c.stats.cooldown = c.stats.cooldown - dt
@@ -218,7 +217,7 @@ M.update = function(dt)
             end
         end
     end
-    
+
     for c,p in pairs(controllerMapping) do
         local input = c:getData(p.pos.x, p.pos.y)
         if not c.stats.cooldown then
@@ -237,7 +236,7 @@ M.update = function(dt)
                 controllerMapping[c].controller = c
             --]]
                 local newPos = controllerMapping[switchTo].pos
-                controllerMapping[switchTo].pos = controllerMapping[c].pos 
+                controllerMapping[switchTo].pos = controllerMapping[c].pos
                 controllerMapping[c].pos = newPos
             elseif input.ability[2] then
                 c.stats.cooldown = maxCooldown
@@ -256,14 +255,14 @@ M.update = function(dt)
             end
         end
     end
-    
+
     Player.update(dt)
     Sprite.update(dt)
     Grenade.update(dt)
     Flext.update(dt)
     Music.update(dt)
     Splatter.update(dt)
-    
+
     local i = ControllerHandler:getControllers()
 
     for id,c in pairs(i) do
