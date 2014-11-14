@@ -1,8 +1,12 @@
+local InputHandler = require "hymn.InputHandler"
+
 local baseWidth, baseHeight = 1920, 1080
-local mouseCursor
-local fullscreen = false
 local Entity = require "shared.entity"
 local EntityManager = require "shared.entitymanager"
+local Unit = require "shared.unit"
+
+local myUnit
+local inputHandler
 
 local entityManager
 
@@ -10,7 +14,8 @@ local function load()
     -- mouseCursor = love.graphics.newImage("images/ui/mouseCursor.png")
     love.window.setMode(baseWidth/2, baseHeight/2, { centered = true, resizable = true })
 	entityManager = EntityManager:new()
-    local myUnit = Entity:new(0,0)
+    myUnit = Unit:new(3)
+    inputHandler = InputHandler:new(myUnit)
     entityManager:add(myUnit)
 end
 
@@ -19,8 +24,7 @@ function love.update(dt)
 end
 
 function love.draw(dt)
-    entityManager:update(dt)
-    -- myUnit:draw(dt)
+    entityManager:draw(dt)
 end
 
 function love.keypressed(key, unicode)
@@ -28,12 +32,15 @@ function love.keypressed(key, unicode)
         -- sends quit event
         love.event.quit()
     end
+    inputHandler:keyPressed(key, unicode)
 end
 
 function love.mousepressed(x, y, button)
+    inputHandler:mousePressed(x, y, button)
 end
 
 function love.mousereleased(x, y, button)
+    inputHandler:mouseReleased(x, y, button)
 end
 
 function love.focus(focussed)
