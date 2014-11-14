@@ -28,3 +28,5 @@ function EntityManager:remove(id)
     self.entities[id]:delete()
     self.entities[id] = nil
 end
+
+return EntityManager
