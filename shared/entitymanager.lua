@@ -1,4 +1,4 @@
-local Class = "shared.middleclass"
+local Class = require "shared.middleclass"
 
 local EntityManager = Class "EntityManager"
 
