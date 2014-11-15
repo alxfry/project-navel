@@ -4,6 +4,7 @@ local baseWidth, baseHeight = 1920, 1080
 local Entity = require "shared.entity"
 local EntityManager = require "shared.entitymanager"
 local Unit = require "shared.unit"
+local BehaviorTree = require "shared.behaviortree"
 
 local myUnit
 local inputHandler
