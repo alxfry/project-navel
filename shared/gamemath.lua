@@ -1,5 +1,15 @@
 local Class = require "shared.middleclass"
 
+----------------------------------------------------------------------
+
+local function clamp(val, lower, upper)
+    assert(val and lower and upper, "not very useful error message here")
+    if lower > upper then lower, upper = upper, lower end
+    return math.max(lower, math.min(upper, val))
+end
+
+----------------------------------------------------------------------
+
 local Vector2 = Class "Vector2"
 
 function Vector2:initialize(x, y)
@@ -71,6 +81,8 @@ end
 function Vector2.dot(v1, v2)
 	return v1.x * v2.x + v1.y * v2.y
 end
+
+----------------------------------------------------------------------
 
 local Vector3 = {}
 
@@ -148,6 +160,8 @@ function Vector3.dot(v1, v2)
 	return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z
 end
 
+----------------------------------------------------------------------
+
 local OBB2D = {}
 OBB2D.__index = OBB2D
 
@@ -216,4 +230,11 @@ function OBB2D.checkCollision(obb1, obb2)
     return OBB2D.oneWayOverlap(obb1, obb2) and OBB2D.oneWayOverlap(obb1, obb2)
 end
 
-return { Vector2 = Vector2, Vector3 = Vector3, OBB2D = OBB2D }
+----------------------------------------------------------------------
+
+return {
+    clamp = clamp,
+    Vector2 = Vector2,
+    Vector3 = Vector3,
+    OBB2D = OBB2D,
+}

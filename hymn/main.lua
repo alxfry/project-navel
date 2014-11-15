@@ -43,8 +43,8 @@ local function load()
     entityManager:add(hisUnit)
     hisUnit:setPlayer(player2)
 
-    -- TODO: inputHandler = LogicCore.inputHandler
-    inputHandler = InputHandler:new(myUnit)
+    inputHandler = LogicCore.inputHandler
+    -- inputHandler = InputHandler:new(myUnit)
 
     LogicCore:startMap(sti.new("testmap"))
 end
@@ -59,12 +59,8 @@ function love.draw(dt)
     LogicCore.map:draw()
     local width, height = love.graphics.getDimensions()
     -- Draw Range culls unnecessary tiles
-    LogicCore.map:setDrawRange(inputHandler.translateX, inputHandler.translateY, width, height)
-
-    -- love.graphics.translate(translateX, translateY)
-    -- map:setDrawRange(inputHandler.translateX, inputHandler.translateY, width, height)
-
-    love.graphics.translate(inputHandler.translateX, inputHandler.translateY)
+    LogicCore.map:setDrawRange(inputHandler.translate.x, inputHandler.translate.y, width, height)
+    love.graphics.translate(inputHandler.translate.x, inputHandler.translate.y)
     LogicCore.map:draw()
     entityManager:draw(dt)
 end
