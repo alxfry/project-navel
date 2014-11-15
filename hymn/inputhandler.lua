@@ -58,7 +58,7 @@ function InputHandler:mouseReleased(x, y, button)
             local closestEntity
             for id, entity in pairs(entities) do
                 local dist = GameMath.Vector2.distance(entity.position, position)
-                if dist < closestDist then
+                if entity.selectable and dist < closestDist then
                     closestEntity = entity
                     closestDist = dist
                 end

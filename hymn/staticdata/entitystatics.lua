@@ -10,10 +10,12 @@ EntityStatics.basicDecayMinion = {
 	speed = 300,
 	decayInterval = 1,
 	decayAmount = 1,
+    selectable = false,
 }
 
 EntityStatics.spawnPortal = {
 	health = 25,
+    selectable = true,
 }
 
 return EntityStatics
