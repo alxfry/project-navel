@@ -1,4 +1,4 @@
-
+require "libs.cupid"
 
 local baseWidth, baseHeight = 1920, 1080
 local mouseCursor
