@@ -9,7 +9,7 @@ local blocking = require "shared.blocking"
 -- LogicCore Class
 local LogicCore = Class "LogicCore"
 
-function LogicCore:initialize(eMng, iHdnlr)
+function LogicCore:initialize(eMng, iHndlr)
 	self.players = {
 		Player:new(),
 		Player:new(),
