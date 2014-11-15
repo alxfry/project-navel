@@ -38,7 +38,7 @@ function InputHandler:mousePressed(x, y, button)
 end
 
 function InputHandler:mouseReleased(x, y, button)
-    local position = GameMath.Vector2:new(x, y) + self.translate
+    local position = GameMath.Vector2:new(x, y) - self.translate
     local entityManager = self.logicCore.entityManager
     local logicCore = self.logicCore
 
