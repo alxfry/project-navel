@@ -40,3 +40,5 @@ function Unit:setPosition(x, y)
     self.targetPosition.y = y
     Entity.setPosition(self, x, y)
 end
+
+return Unit
