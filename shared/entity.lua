@@ -25,7 +25,7 @@ function Entity:setAnimation(imagePath, frameWidth, frameHeight, delay)
     local frames = imageWidth / frameWidth
 
     self.image = image
-    self.animation = anim8.newAnimation(grid('1-' .. frames,1), 0.1)
+    self.animation = anim8.newAnimation(grid('1-' .. frames,1), delay)
 end
 
 function Entity:update(dt)
