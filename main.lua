@@ -1,7 +1,11 @@
+local games = {
+    "hymn",
+    "minionmaster",
+}
+
 function love.load(arg)
-    if arg[3] == "hymn" then
-        require "hymn.main"()
-    else
-        require "minionmaster.main"()
-    end
+    math.randomseed(os.time())
+
+    local game = type(arg[3]) == "string" and arg[3] or games[math.random(#games)]
+    require(game .. ".main")()
 end
