@@ -14,6 +14,7 @@ end
 
 function LogicCore:startMap(map)
 	self.map = map
+    self.inputHandler:setMap(map)
 end
 
 function LogicCore:reset()

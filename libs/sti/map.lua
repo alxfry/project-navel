@@ -975,6 +975,12 @@ function Map:convertScreenToTile(x, y)
 	return tx, ty
 end
 
+function Map:size()
+	local tw, th = self.tilewidth, self.tileheight
+	local mw, mh = self.width, self.height
+	return tw * mw, th * mh
+end
+
 function Map:convertIsometricTileToScreen(x, y)
 	local mw = self.width
 	local tw, th = self.tilewidth, self.tileheight

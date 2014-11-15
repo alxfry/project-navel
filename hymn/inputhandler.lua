@@ -27,8 +27,13 @@ function InputHandler:update(dt)
         self.translate.y = self.translate.y - scrollSpeed * dt
     end
 
-    self.translate.x = GameMath.clamp(self.translate.x, -width, width)
-    self.translate.y = GameMath.clamp(self.translate.y, -height, height)
+    local w, h = self.map:size()
+    self.translate.x = GameMath.clamp(self.translate.x, -w + width, 0)
+    self.translate.y = GameMath.clamp(self.translate.y, -h + height, 0)
+end
+
+function InputHandler:setMap(map)
+    self.map = map
 end
 
 function InputHandler:mousePressed(x, y, button)
