@@ -9,7 +9,7 @@ EntityStatics.basicDecayMinion = {
 	classSource = "hymn.decayingunit",
 	health = 10,
 	speed = 300,
-	decayInterval = 1,
+	decayInterval = 0.8,
 	decayAmount = 1,
     selectable = false,
 }

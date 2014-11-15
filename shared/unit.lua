@@ -16,7 +16,7 @@ function Unit:initialize(entityStatic, player)
 end
 
 function Unit:update(dt)
-    self:updateMove(dt)
+    -- self:updateMove(dt)
 
     Entity.update(self, dt)
 end
