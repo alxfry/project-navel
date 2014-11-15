@@ -2,6 +2,12 @@ local quickie = require "libs.quickie"
 local LogicCore = require "hymn.logiccore"
 local ui = {}
 
+local inputHandler
+local entityManager
+
+local cursor = love.graphics.newImage("images/ui/mouseCursor.png")
+local pathFlag = love.graphics.newImage("images/ui/heart.png")
+
 function ui.load()
     -- preload fonts
     fonts = {
@@ -15,21 +21,49 @@ function ui.load()
     quickie.group.default.size[1] = 150
     quickie.group.default.size[2] = 25
     quickie.group.default.spacing = 5
+
+    -- quickie.mouse.disable()
+
+    inputHandler = LogicCore.inputHandler
+    entityManager = LogicCore.entityManager
+
+    ui.windowWidth, ui.windowHeight = love.graphics.getDimensions()
 end
 
 function ui.update(dt)
-    quickie.group.push{grow = "down", pos = {5,5}}
-
-    if quickie.Checkbox { checked = ui.clicked, text = "A test checkbox" } then
-        ui.clicked = not ui.clicked
-        print("click")
+    if quickie.Button { text = "Build", pos = { 10, ui.windowHeight - 40 } } then
+        inputHandler:setMode("build")
+    end
+    if inputHandler.selection and quickie.Button { text = "Path", pos = { 170, ui.windowHeight - 40 } } then
+        inputHandler:setMode("path")
     end
 end
 
 function ui.draw()
-    love.graphics.translate(-LogicCore.inputHandler.translate.x, -LogicCore.inputHandler.translate.y)
+    love.graphics.translate(inputHandler.translate.x, inputHandler.translate.y)
 
+    -- draw selection
+    local entity = inputHandler.selection and entityManager.entities[inputHandler.selection]
+    if entity then
+        love.graphics.draw(cursor, entity.position.x-96, entity.position.y-96)
+        if entity.path then
+            local startPoint = entity.position
+            for _, endPoint in ipairs(entity.path) do
+                love.graphics.line(startPoint.x, startPoint.y, endPoint.x, endPoint.y)
+                love.graphics.draw(pathFlag, endPoint.x-18, endPoint.y-18)
+                startPoint = endPoint
+            end
+        end
+    end
+
+    love.graphics.translate(-inputHandler.translate.x, -inputHandler.translate.y)
+    love.graphics.rectangle("fill", 0, ui.windowHeight - 50, ui.windowWidth, 50)
     quickie.core.draw()
+end
+
+function ui.resize(w, h)
+    ui.windowWidth = w
+    ui.windowHeight = h
 end
 
 return ui

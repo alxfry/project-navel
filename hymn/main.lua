@@ -53,31 +53,22 @@ function love.update(dt)
     ui.update(dt)
 end
 
-local cursor = love.graphics.newImage("images/ui/mouseCursor.png")
-local pathFlag = love.graphics.newImage("images/ui/heart.png")
 
 function love.draw(dt)
-    LogicCore.map:draw()
     local width, height = love.graphics.getDimensions()
+    LogicCore.map:draw()
+
+    -- draw map
+    love.graphics.translate(inputHandler.translate.x, inputHandler.translate.y)
     -- Draw Range culls unnecessary tiles
     LogicCore.map:setDrawRange(inputHandler.translate.x, inputHandler.translate.y, width, height)
-    love.graphics.translate(inputHandler.translate.x, inputHandler.translate.y)
     LogicCore.map:draw()
+
+    -- draw entities
     entityManager:draw(dt)
+    love.graphics.translate(-inputHandler.translate.x, -inputHandler.translate.y)
 
-    local entity = inputHandler.selectedEntityId and entityManager.entities[inputHandler.selectedEntityId]
-    if entity then
-        love.graphics.draw(cursor, entity.position.x-96, entity.position.y-96)
-        if entity.path then
-            local startPoint = entity.position
-            for _, endPoint in ipairs(entity.path) do
-                love.graphics.line(startPoint.x, startPoint.y, endPoint.x, endPoint.y)
-                love.graphics.draw(pathFlag, endPoint.x-18, endPoint.y-18)
-                startPoint = endPoint
-            end
-        end
-    end
-
+    -- draw UI
     ui.draw(dt)
 end
 
@@ -110,6 +101,7 @@ function love.textinput(text)
 end
 
 function love.resize(w, h)
+    ui.resize(w, h)
     LogicCore.map:resize(w, h)
 end
 

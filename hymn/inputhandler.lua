@@ -37,17 +37,22 @@ function InputHandler:mousePressed(x, y, button)
 end
 
 function InputHandler:mouseReleased(x, y, button)
+    local width, height = love.graphics.getDimensions()
+    -- click-through prevention. sucky, sucky Quickie! ;)
+    if y > height - 50 then
+        return
+    end
+
     local position = GameMath.Vector2:new(x, y) - self.translate
     local entityManager = self.logicCore.entityManager
     local logicCore = self.logicCore
-
     if button == "l" then
         if self.mode == "build" then
             local building = self.logicCore.entityManager:spawnFromEntityStatic(EntityStatics.spawnPortal, logicCore.players[1])
             building:setPosition(position.x, position.y)
             self.mode = false
         elseif self.mode == "path" then
-            local entity = entityManager:entity(self.selectedEntityId)
+            local entity = entityManager:entity(self.selection)
             entity:addPathPoint(position)
         else
             -- selection
@@ -65,32 +70,26 @@ function InputHandler:mouseReleased(x, y, button)
         end
     elseif button == "r" then
         self:selectEntity(false)
-    end
-end
-
-function InputHandler:keyPressed(key, unicode)
-    local entityManager = self.logicCore.entityManager
-
-    if key == "b" then
-        self.mode = "build"
-    elseif key == "p" then
-        if self.mode == "path" then
-            self.mode = false
-        elseif self.selectedEntityId then
-            local entity = entityManager:entity(self.selectedEntityId)
-            self.mode = "path"
-            entity:clearPath()
-        end
-    else
         self.mode = false
     end
 end
 
-function InputHandler:selectEntity(entityId)
-    self.selectedEntityId = entityId
+function InputHandler:setMode(mode)
+    local entityManager = self.logicCore.entityManager
+    if mode == "build" then
+        self.mode = "build"
+    elseif mode == "path" then
+        local entity = entityManager:entity(self.selection)
+        entity:clearPath()
+        self.mode = "path"
+    end
 end
 
--- local SubClass =  Class("Subclass", InputHandler)
--- local InputHandler = Handler:subclass("InputHandler")
+function InputHandler:keyPressed(key, unicode)
+end
+
+function InputHandler:selectEntity(entityId)
+    self.selection = entityId
+end
 
 return InputHandler
