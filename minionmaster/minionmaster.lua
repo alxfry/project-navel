@@ -31,6 +31,7 @@ function MinionMaster:draw(dt)
     local x, y = self.position.x, self.position.y
     love.graphics.setColor(0, 0, 255, 255)
     love.graphics.circle("fill", x, y, self.radius, self.radius)
+    love.graphics.setColor(255, 255, 255, 255)
 end
 
 return MinionMaster
