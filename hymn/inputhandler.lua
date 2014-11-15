@@ -57,7 +57,7 @@ function InputHandler:mouseReleased(x, y, button)
             entity:addPathPoint(position)
         else
             -- selection
-            local entities = entityManager.entities 
+            local entities = entityManager.entities
             local closestDist = 10000000
             local closestEntity
             for id, entity in pairs(entities) do
