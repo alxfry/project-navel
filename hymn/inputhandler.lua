@@ -37,6 +37,10 @@ function InputHandler:mousePressed(x, y, button)
 end
 
 function InputHandler:mouseReleased(x, y, button)
+    local function isSelectable(entity)
+        return entity.player == self.logicCore.players[1] and entity.selectable
+    end
+
     local width, height = love.graphics.getDimensions()
     -- click-through prevention. sucky, sucky Quickie! ;)
     if y > height - 50 then
@@ -56,18 +60,8 @@ function InputHandler:mouseReleased(x, y, button)
             local entity = entityManager:entity(self.selection)
             entity:addPathPoint(position)
         else
-            -- selection
-            local entities = entityManager.entities
-            local closestDist = 10000000
-            local closestEntity
-            for id, entity in pairs(entities) do
-                local dist = GameMath.Vector2.distance(entity.position, position)
-                if entity.selectable and dist < closestDist then
-                    closestEntity = entity
-                    closestDist = dist
-                end
-            end
-            self:selectEntity(closestDist < 40 and closestEntity.id)
+            local entity, distance = entityManager:findClosestEntity(position, isSelectable)
+            self:selectEntity(entity and distance < 40 and entity.id)
         end
     elseif button == "r" then
         self:selectEntity(false)
