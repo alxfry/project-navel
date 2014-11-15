@@ -1,4 +1,4 @@
-local InputHandler = require "hymn.InputHandler"
+local InputHandler = require "hymn.inputhandler"
 
 local baseWidth, baseHeight = 1920, 1080
 local Entity = require "shared.entity"
