@@ -1,12 +1,15 @@
 local Class = require "shared.middleclass"
 local Unit = require "shared.unit"
 local LogicCore = require "hymn.logiccore"
+local DecayUnitBT = require "hymn.staticdata.decayunitbehaviortree"
+local BehaviorTree = require "shared.behaviortree"
 
 local DecayingUnit = Class("DecayingUnit", Unit)
 
 function DecayingUnit:initialize(entityStatic, player)
 	Unit.initialize(self, entityStatic, player)
 
+	self.behaviorTree = BehaviorTree.BehaviorTree:new(self, DecayUnitBT)
 	self.decayInterval = 1 -- in seconds
 	self.decayAmount = 1 -- in health
 	self.timeSinceLastDecay = 0
@@ -34,6 +37,8 @@ function DecayingUnit:update(dt)
 	else
 		self.timeSinceLastDecay = dtLastDecay
 	end
+
+	dbgprint(self.behaviorTree:tick(dt))
 
     -- DEATH
     if self.health <= 0 then

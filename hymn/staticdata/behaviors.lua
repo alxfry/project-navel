@@ -1,6 +1,5 @@
 local Class = require "shared.middleclass"
 local GameMath = require "shared.gamemath"
-local Vector2 = 
 
 local BehaviorTree = require "shared.behaviortree"
 local Behavior = BehaviorTree.Behavior
@@ -46,3 +45,9 @@ function MoveTo:update(dt, context)
 	self.status = finished and STATUS.FAILURE or STATUS.SUCCESS
 	return self.status
 end
+
+return 
+{
+	FindWaypoint = FindWaypoint,
+	MoveTo = MoveTo,
+}

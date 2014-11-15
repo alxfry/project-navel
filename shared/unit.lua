@@ -30,12 +30,12 @@ function Unit:moveTo(x, y, stopRange)
                                        self.targetPosition.x, self.targetPosition.y)
 end
 
-function Unit:reachedTarget(target)
+function Unit:reachedTarget(target, step)
     local direction = (target - self.position)
     local length = direction:length()
 
     -- RETURN REACHED, direction vector, direction length
-    return length <= dt * self.speed, direction, length
+    return length <= step, direction, length
 end
 
 function Unit:updateMove(dt)
@@ -43,8 +43,9 @@ function Unit:updateMove(dt)
         local waypoints = self.waypoints
 
         local target = GameMath.Vector2:new(waypoints[1].x, waypoints[1].y)
+        local step = dt * self.speed
 
-        local reached, direction, length = self:reachedTarget(target)
+        local reached, direction, length = self:reachedTarget(target, step)
 
         -- Update orientation
         if length > 0 then

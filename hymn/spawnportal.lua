@@ -52,10 +52,7 @@ function SpawnPortal:update(dt)
 		for k, v in pairs(self.path) do
 			self.userPath[k] = v:copy()
 		end
-		if self.path[1] then
-			spawn:moveTo(self.path[1].x, self.path[1].y)
-		end
-		self.timeSinceLastSpawn = dtLastSpawn - 2
+		--self.timeSinceLastSpawn = dtLastSpawn - 2
 	else
 		self.timeSinceLastSpawn = dtLastSpawn
 	end
