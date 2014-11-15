@@ -3,11 +3,12 @@ local InputHandler = require "hymn.inputhandler"
 local baseWidth, baseHeight = 1920, 1080
 local Entity = require "shared.entity"
 local EntityManager = require "shared.entitymanager"
-local DecayingUnit = require "hymn.decayingunit"
-local Building = require "shared.building"
 local Player = require "shared.player"
 local BehaviorTree = require "shared.behaviortree"
 local sti = require "libs.sti"
+
+local DecayingUnit = require "hymn.decayingunit"
+local SpawnPortal = require "hymn.spawnportal"
 
 local inputHandler
 local entityManager
@@ -21,18 +22,23 @@ local function load()
     local player1 = Player:new()
     local player2 = Player:new()
 
-    local myBuilding = Building:new("portal")
+    local myBuilding = SpawnPortal:new()
     entityManager:add(myBuilding)
     myBuilding:setPosition(170, 209)
     myBuilding:setPlayer(player1)
 
+    local hisBuilding = SpawnPortal:new()
+    entityManager:add(hisBuilding)
+    hisBuilding:setPosition(700, 109)
+    hisBuilding:setPlayer(player2)
+
     local myUnit = DecayingUnit:new(300, 0)
-    myUnit:setPosition(baseHeight/4, baseHeight/4)
+    myUnit:setPosition(baseHeight/4, baseHeight/3)
     entityManager:add(myUnit)
     myUnit:setPlayer(player1)
 
     local hisUnit = DecayingUnit:new(300, 0)
-    hisUnit:setPosition(baseHeight/4, baseHeight/4)
+    hisUnit:setPosition(baseHeight/3, baseHeight/4)
     entityManager:add(hisUnit)
     hisUnit:setPlayer(player2)
 
