@@ -64,9 +64,9 @@ function RandomMovement:update(dt, context)
 	return STATUS.RUNNING
 end
 
-local FindBuilding = Class("FindBuilding", Behavior)
+local FindConstruction = Class("FindConstruction", Behavior)
 
-function FindBuilding:update(dt, context)
+function FindConstruction:update(dt, context)
 	
 end
 
