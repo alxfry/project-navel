@@ -15,7 +15,14 @@ function Behavior:initialize()
 	self.status = STATUS.INVALID
 end
 
+function Behavior:start()
+end
+
 function Behavior:tick()
+	if self.status ~= STATUS.RUNNING then
+		self:start()
+	end
+
 	self.status = self:update()
 
 	if self.status ~= STATUS.RUNNING then
@@ -49,7 +56,7 @@ function Behavior:onTerminate()
 end
 
 
-local TEST_BEHAVIOR = Class("TEST_BEHAVIOR", Behavior)
+local TEST_BEHAVIOR = Class("TEST_BEHAVIOR", Behavior) 
 
 function TEST_BEHAVIOR:initialize()
 	Behavior.initialize(self)
@@ -83,6 +90,11 @@ local Composite = Class("Composite", Behavior)
 function Composite:initialize()
 	Behavior.initialize(self)
 	self.children = {}
+end
+
+function Composite:start()
+	Behavior.start(self)
+	self.currentIdx = 1
 end
 
 function Composite:child(idx)
@@ -128,7 +140,7 @@ function Sequence:initialize()
 end
 
 function Sequence:update()
-	for i = 1, #self.children do
+	for i = self.currentIdx, #self.children do
 		local current = self.children[i]
 
 		local status = current:tick()
@@ -189,7 +201,7 @@ function Selector:initialize()
 end
 
 function Selector:update()
-	for i = 1, #self.children do
+	for i = self.currentIdx, #self.children do
 		local current = self.children[i]
 
 		local status = current:tick()

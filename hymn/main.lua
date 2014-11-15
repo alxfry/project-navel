@@ -13,7 +13,7 @@ local inputHandler
 local entityManager
 
 local function load()
-    love.window.setTitle("Hymn of Snow and Magma")
+    love.window.setTitle("Hymn of Snow and Lava")
     love.window.setMode(baseWidth/2, baseHeight/2, { centered = true, resizable = true })
 	entityManager = EntityManager:new()
 
