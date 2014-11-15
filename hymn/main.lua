@@ -3,7 +3,7 @@ local InputHandler = require "hymn.inputhandler"
 local baseWidth, baseHeight = 1920, 1080
 local Entity = require "shared.entity"
 local EntityManager = require "shared.entitymanager"
-local Unit = require "shared.unit"
+local DecayingUnit = require "hymn.decayingunit"
 local Building = require "shared.building"
 local Player = require "shared.player"
 local BehaviorTree = require "shared.behaviortree"
@@ -28,11 +28,15 @@ local function load()
     myBuilding:setPosition(170, 209)
     myBuilding:setPlayer(player1)
 
-    local myUnit = Unit:new(300, 0)
-    myUnit:setAnimation("images/minion/frost/walk.png", 64, 64, 0.175)
+    local myUnit = DecayingUnit:new(300, 0)
     myUnit:setPosition(baseHeight/4, baseHeight/4)
     entityManager:add(myUnit)
-    myBuilding:setPlayer(player2)
+    myUnit:setPlayer(player1)
+
+    local hisUnit = DecayingUnit:new(300, 0)
+    hisUnit:setPosition(baseHeight/4, baseHeight/4)
+    entityManager:add(hisUnit)
+    hisUnit:setPlayer(player2)
 
     -- TODO: inputHandler = LogicCore.inputHandler
     inputHandler = InputHandler:new(myUnit)

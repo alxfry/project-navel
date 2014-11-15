@@ -12,6 +12,17 @@ function DecayingUnit:initialize(speed, orientation, startingHealth)
 	self.timeSinceLastDecay = 0
 end
 
+local themes = {
+    "frost",
+    "lava",
+}
+
+function DecayingUnit:setPlayer(player)
+    Unit:setPlayer(player)
+    self.theme = themes[player.playerId] or themes[1]
+    self:setAnimation("images/minion/" .. self.theme .. "/walk.png", 64, 64, 0.175)
+end
+
 function DecayingUnit:update(dt)
 	Unit.update(self, dt)
 	local dtLastDecay = self.timeSinceLastDecay
@@ -24,3 +35,5 @@ function DecayingUnit:update(dt)
 		self.timeSinceLastDecay = dtLastDecay
 	end
 end
+
+return DecayingUnit
