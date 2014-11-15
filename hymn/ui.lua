@@ -5,8 +5,8 @@ local ui = {}
 local inputHandler
 local entityManager
 
-local cursor = love.graphics.newImage("images/ui/mouseCursor.png")
-local pathFlag = love.graphics.newImage("images/ui/heart.png")
+local selectionCircle = love.graphics.newImage("images/ui/selectionCircle.png")
+local pathFlag = love.graphics.newImage("images/ui/waypoint.png")
 
 function ui.load()
     -- preload fonts
@@ -49,12 +49,12 @@ function ui.draw()
     -- draw selection
     local entity = inputHandler.selection and entityManager.entities[inputHandler.selection]
     if entity then
-        love.graphics.draw(cursor, entity.position.x-96, entity.position.y-96)
+        love.graphics.draw(selectionCircle, entity.position.x-126/2, entity.position.y-126/2)
         if entity.path then
             local startPoint = entity.position
             for _, endPoint in ipairs(entity.path) do
                 love.graphics.line(startPoint.x, startPoint.y, endPoint.x, endPoint.y)
-                love.graphics.draw(pathFlag, endPoint.x-18, endPoint.y-18)
+                love.graphics.draw(pathFlag, endPoint.x-8, endPoint.y-8)
                 startPoint = endPoint
             end
         end
