@@ -13,7 +13,7 @@ end
 function Entity:setAnimation(image, frameWidth, frameHeight, delay)
     local img = love.graphics.newImage(image)
     self.animation = newAnimation(img, frameWidth, frameHeight, delay or 0.1, 0)
-    self.animation:setMode("bounce")
+    self.animation:setMode("loop")
 end
 
 function Entity:update(dt)
@@ -21,7 +21,9 @@ function Entity:update(dt)
 end
 
 function Entity:draw(dt)
-    self.animation:draw(self.position.x, self.position.y, self.orientation, 0.4, 0.4, 128, 128)
+    if self.animation then
+        self.animation:draw(self.position.x, self.position.y, self.orientation, 1, 1, 32, 32)
+    end
 end
 
 function Entity:delete()
