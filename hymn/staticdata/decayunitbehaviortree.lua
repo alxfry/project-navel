@@ -5,6 +5,10 @@ local Behaviors = require "hymn.staticdata.behaviors"
 local root = BehaviorTree.Selector:new()
 local engageCombat = BehaviorTree.Sequence:new()
 local walkToWaypoint = BehaviorTree.Sequence:new()
+local randomWalk = BehaviorTree.Sequence:new()
+
+root:addChild(randomWalk)
+    randomWalk:addChild(Behaviors.RandomMovement:new())
 
 -- root:addChild(engageCombat)
 root:addChild(walkToWaypoint)

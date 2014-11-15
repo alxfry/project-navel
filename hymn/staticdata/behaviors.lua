@@ -46,8 +46,27 @@ function MoveTo:update(dt, context)
 	return self.status
 end
 
+local RandomMovement = Class("RandomMovement", Behavior)
+
+function RandomMovement:initialize()
+	self.orientation = math.random() * math.pi * 2
+end
+
+function RandomMovement:update(dt, context)
+	local object = context.object
+	local length = 5
+	local alpha = object.orientation
+	local direction = GameMath.Vector2:new(math.cos(alpha) * length, math.sin(alpha) * length)
+	local newPosition = object.position + direction
+
+	object:moveTo(newPosition.x, newPosition.y)
+	object.orientation = self.orientation
+	return STATUS.SUCCESS
+end
+
 return 
 {
 	FindWaypoint = FindWaypoint,
 	MoveTo = MoveTo,
+	RandomMovement = RandomMovement,
 }
