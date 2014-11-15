@@ -16,32 +16,7 @@ function Unit:initialize(entityStatic, player)
 end
 
 function Unit:update(dt)
-    if self.waypoints and #self.waypoints > 0 then
-        local waypoints = self.waypoints
-
-        local target = GameMath.Vector2:new(waypoints[1].x, waypoints[1].y)
-        local direction = (target - self.position)
-        local length = direction:length()
-
-        -- Update orientation
-        if length > 0 then
-            self.orientation = math.atan2(direction.y, direction.x)
-        end
-
-        local reached = length <= dt * self.speed
-
-        -- print(length, reached, self.position, target)
-
-        if #waypoints > 1 or length > self.stopRange then
-            if reached then
-                self.position.x = target.x
-                self.position.y = target.y
-                table.remove(waypoints, 1)
-            else
-                self.position = self.position + direction * dt * self.speed / length
-            end
-        end
-    end
+    self:updateMove(dt)
 
     Entity.update(self, dt)
 end
@@ -53,6 +28,44 @@ function Unit:moveTo(x, y, stopRange)
 
     self.waypoints = blocking.findPath(self.position.x, self.position.y,
                                        self.targetPosition.x, self.targetPosition.y)
+end
+
+function Unit:reachedTarget(target)
+    local direction = (target - self.position)
+    local length = direction:length()
+
+    -- RETURN REACHED, direction vector, direction length
+    return length <= dt * self.speed, direction, length
+end
+
+function Unit:updateMove(dt)
+    if self.waypoints and #self.waypoints > 0 then
+        local waypoints = self.waypoints
+
+        local target = GameMath.Vector2:new(waypoints[1].x, waypoints[1].y)
+
+        local reached, direction, length = self:reachedTarget(target)
+
+        -- Update orientation
+        if length > 0 then
+            self.orientation = math.atan2(direction.y, direction.x)
+        end
+
+        -- print(length, reached, self.position, target)
+
+        if #waypoints > 1 or length > self.stopRange then
+            if reached then
+                self.position.x = target.x
+                self.position.y = target.y
+                table.remove(waypoints, 1)
+            else
+                self.position = self.position + direction * dt * self.speed / length
+            end
+            return true
+        else
+            return false
+        end
+    end
 end
 
 function Unit:drawPath()

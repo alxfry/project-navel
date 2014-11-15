@@ -2,6 +2,18 @@ local Building = require "shared.building"
 local LogicCore = require "hymn.logiccore"
 local EntityStatics = require "hymn.staticdata.entitystatics"
 
+local function copyTable(dst, src)
+    for k,v in pairs(src) do
+        if(type(v) == "table") then
+            dst[k] = {}
+            copyTable(dst[k], v)
+        else
+            dst[k] = v
+        end
+    end
+    return dst
+end
+
 local SpawnPortal = Building:subclass("SpawnPortal")
 
 function SpawnPortal:initialize(entityStatic, player)
@@ -36,6 +48,10 @@ function SpawnPortal:update(dt)
 		-- SPAWN
 		local spawn = entityManager:spawnFromEntityStatic(self.spawnEntityStatics, self.player)
 		spawn:setPosition(self.position.x, self.position.y)
+		self.userPath = {}
+		for k, v in pairs(self.path) do
+			self.userPath[k] = v:copy()
+		end
 		if self.path[1] then
 			spawn:moveTo(self.path[1].x, self.path[1].y)
 		end
