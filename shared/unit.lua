@@ -52,15 +52,14 @@ function Unit:updateMove(dt)
             self.orientation = math.atan2(direction.y, direction.x)
         end
 
-        -- print(length, reached, self.position, target)
-
         if #waypoints > 1 or length > self.stopRange then
             if reached then
                 self.position.x = target.x
                 self.position.y = target.y
                 table.remove(waypoints, 1)
             else
-                self.position = self.position + direction * dt * self.speed / length
+                direction:normalize()
+                self.position = self.position + direction * step / length
             end
             return true
         else
