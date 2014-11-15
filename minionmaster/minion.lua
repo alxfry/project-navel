@@ -5,7 +5,7 @@ local state = require "minionmaster.state"
 local content = require "minionmaster.content"
 local state = require "minionmaster.state"
 
-local MinionBehaviorTree = require "minionmaster.behaviors.minionbehaviortree"
+local BehaviorTrees = require "minionmaster.behaviors.minionbehaviortree"
 local BehaviorTree = require "shared.behaviortree"
 
 local Minion = Unit:subclass("Minion")
@@ -30,7 +30,7 @@ end
 function Minion:initialize(entityStatics, master)
     Unit.initialize(self, entityStatics, state.player)
     self.master = master
-    self.behavior = BehaviorTree.BehaviorTree:new(self, MinionBehaviorTree)
+    self.behavior = BehaviorTree.BehaviorTree:new(self, BehaviorTrees:createTree())
 
     -- self:setAnimation("images/minion/frost/attack.png", 0.175)
     -- self.attackAnim = self.animation:clone()
@@ -56,14 +56,14 @@ function Minion:update(dt)
     if self.attack then
         if not wasAttacking then
             self:setAnimation("images/minion/frost/attack.png", 0.175)
-            print("attackAnim")
+            -- print("attackAnim")
         end
         if self.target then
             self.target:takeDamage(self.damage)
         end
     elseif wasAttacking then
         self:setAnimation("images/minion/frost/walk.png", 0.175)
-        print("walkAnim")
+        -- print("walkAnim")
     end
 end
 
@@ -73,7 +73,7 @@ function Minion:draw(dt)
 end
 
 function Minion:takeDamage(dmg)
-    print("miniondmg")
+    -- print("miniondmg")
     -- self.health = self.health - dmg
 end
 

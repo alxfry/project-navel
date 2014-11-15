@@ -4,10 +4,9 @@ local EntityStatics =
 {
     master = 
     {
-        health = 100,
+        health = 1000,
         damage = 1,
         speed = 200,
-        spriteSize = 20,
     },
 
     minion = 

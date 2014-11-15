@@ -32,7 +32,7 @@ local FindPathBehavior = Class("FindPathBehavior", Behavior)
 function FindPathBehavior:update(dt, context)
 	local object = context.object
 
-    object:moveTo(object.target.position.x, object.target.position.y, object.target.spriteSize)
+    object:moveTo(object.target.position.x, object.target.position.y, object.target.spriteSize / 2)
 
     self.status = object.waypoints and #object.waypoints > 0 and STATUS.SUCCESS or STATUS.FAILURE
     return self.status
@@ -42,7 +42,7 @@ local GotoBehavior = Class("GotoBehavior", Behavior)
 
 function GotoBehavior:update(dt, context)
     local object = context.object
-    self.status = object:updateMove(dt) and STATUS.FAILURE or STATUS.SUCCESS
+    self.status = object:updateMove(dt) and STATUS.RUNNING or STATUS.SUCCESS
     return self.status
 end
 

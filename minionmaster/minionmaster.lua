@@ -1,4 +1,6 @@
 local Unit = require "shared.unit"
+local blocking = require "shared.blocking"
+local GameMath = require "shared.gamemath"
 
 local MinionMaster = Unit:subclass("MinionMaster")
 
@@ -11,34 +13,38 @@ function MinionMaster:initialize(entityStatics)
 
     self.joystick = love.joystick.getJoysticks()[1]
     self.type = "master"
+    self:setAnimation("images/summoner/summon.png", 0.2)
 end
 
 function MinionMaster:update(dt)
-    local moveX = (love.keyboard.isDown("d") and 2 or 0) - (love.keyboard.isDown("a") and 2 or 0)
-    local moveY = (love.keyboard.isDown("s") and 2 or 0) - (love.keyboard.isDown("w") and 2 or 0) 
+    local move = GameMath.Vector2:new(0,0)
+    move.x = (love.keyboard.isDown("d") and 1 or 0) - (love.keyboard.isDown("a") and 1 or 0)
+    move.y = (love.keyboard.isDown("s") and 1 or 0) - (love.keyboard.isDown("w") and 1 or 0) 
 
     if self.joystick then
         local x = self.joystick:getGamepadAxis("leftx")
         local y = self.joystick:getGamepadAxis("lefty")
-        if math.abs(x) > 0.2 then moveX = moveX + x * 2 end
-        if math.abs(y) > 0.2 then moveY = moveY + y * 2 end
+        if math.abs(x) > 0.2 then move.x = move.x + x end
+        if math.abs(y) > 0.2 then move.y = move.y + y end
     end
 
-    self:moveTo(self.position.x + moveX, self.position.y + moveY)
-    Unit.update(self, dt)
-    self:updateMove(dt)
-end
+    move:normalize()
+    local newPosition = self.position + move * dt * self.speed
+    if not blocking.collides(newPosition.x, newPosition.y) then
+        self.position = newPosition
+    end
 
-function MinionMaster:draw(dt)
-    local x, y = self.position.x, self.position.y
-    love.graphics.setColor(0, 0, 255, 255)
-    love.graphics.circle("fill", x, y, self.radius, self.radius)
-    love.graphics.setColor(255, 255, 255, 255)
+    -- Update orientation
+    if move:sqLength() > 0 then
+        self.orientation = math.atan2(move.y, move.x)
+    end
+
+    Unit.update(self, dt)
 end
 
 function MinionMaster:takeDamage(dmg)
     -- print("masterdmg")
-    -- self.health = self.health - dmg
+    self.health = self.health - dmg
 end
 
 return MinionMaster
