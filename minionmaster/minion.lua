@@ -2,6 +2,7 @@ local Unit = require "shared.unit"
 local Entity = require "shared.entity"
 
 local state = require "minionmaster.state"
+local content = require "minionmaster.content"
 
 local Minion = Unit:subclass("Minion")
 
@@ -24,12 +25,12 @@ end
 local minionSpeed = 150
 
 -- speed: pixels/second
-function Minion:initialize(master, kind)
+function Minion:initialize(master)
     Unit.initialize(self, minionSpeed)
     self.master = master
-    self.kind = kind
-
-    self:setAnimation("images/minion/" .. self.kind .. "/walk.png", 64, 64, 0.175)
+    
+    self.image = content.minion.image
+    self.animation = content.minion.walk
 end
 
 function Minion:update(dt)
@@ -43,9 +44,10 @@ function Minion:update(dt)
     local direction = (self.targetPosition - self.position)
     local length = direction:length()
     if length < self.target.radius then
+        self.animation = content.minion.attack
         self.target.health = self.target.health - 1
     else
-
+        self.animation = content.minion.walk
     end
 end
 

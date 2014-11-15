@@ -13,7 +13,10 @@ setmetatable(_G, {
 local sti           = require "libs.sti"
 
 local state         = require "minionmaster.state"
+
 local ui            = require "minionmaster.ui"
+
+local content       = require "minionmaster.content"
 
 local Enemy         = require "minionmaster.enemy"
 local Minion        = require "minionmaster.minion"
@@ -32,6 +35,7 @@ end
 
 local function load()
     state.initialize()
+    content.load()
 
     -- spawn the master
     state.master = MinionMaster:new()

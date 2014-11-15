@@ -6,8 +6,7 @@ local masterSpeed = 100
 
 -- speed: pixels/second
 function MinionMaster:initialize()
-    Unit.initialize(self, masterSpeed)
-    self.health = 1000
+    Unit.initialize(self, masterSpeed, 0 , 1000)
     self.radius = 20
 end
 
