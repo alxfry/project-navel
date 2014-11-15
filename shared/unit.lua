@@ -25,7 +25,8 @@ function Unit:update(dt)
     if length > 1 and factor < 1 then
         self.position = self.position + direction * dt * self.speed / length
     else
-        self.position = self.targetPosition
+        self.position.x = self.targetPosition.x
+        self.position.y = self.targetPosition.y
     end
     Entity.update(self, dt)
 end

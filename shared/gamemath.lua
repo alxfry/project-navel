@@ -41,6 +41,10 @@ Vector2.__unm = function(t)
 	return -1 * t
 end
 
+Vector2.__tostring = function(t)
+    return "(" .. t.x .. "," .. t.y .. ")"
+end
+
 function Vector2.sqLength(v)
 	return v.x * v.x + v.y * v.y
 end
@@ -72,13 +76,13 @@ local Vector3 = {}
 
 local vector3Ops =
 {
-	__index = function(t, k) 
+	__index = function(t, k)
 		if k == "x" then
-			return t[1] 
+			return t[1]
 		elseif k == "y" then
 			return t[2]
 		elseif k == "z" then
-			return t[3] 
+			return t[3]
 		end
 	end,
 
