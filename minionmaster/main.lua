@@ -74,6 +74,9 @@ function love.draw(dt)
     local translateX = -state.master.position.x + width / 2
     local translateY = -state.master.position.y + height / 2
 
+    state.translateX = translateX
+    state.translateY = translateY
+
     state.map:setDrawRange(translateX, translateY, width, height)
     love.graphics.push()
     love.graphics.scale(zoom, zoom)
@@ -101,6 +104,9 @@ function love.mousepressed(x, y, button)
         zoom = zoom - zoomSpeed
     elseif button == "wu" then
         zoom = zoom + zoomSpeed
+    elseif button == "l" then
+        state.master.position.x = x - state.translateX
+        state.master.position.y = y - state.translateY
     end
 end
 
