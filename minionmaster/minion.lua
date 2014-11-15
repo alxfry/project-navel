@@ -3,6 +3,7 @@ local Entity = require "shared.entity"
 
 local state = require "minionmaster.state"
 local content = require "minionmaster.content"
+local state = require "minionmaster.state"
 
 local Minion = Unit:subclass("Minion")
 
@@ -22,15 +23,14 @@ local function findNearestEnemy(position)
     return nearest
 end
 
-local minionSpeed = 150
-
 -- speed: pixels/second
-function Minion:initialize(master)
-    Unit.initialize(self, minionSpeed)
+function Minion:initialize(entityStatics, master)
+    Unit.initialize(self, entityStatics, state.player)
     self.master = master
     
     self.image = content.minion.image
     self.animation = content.minion.walk
+    self:setAnimation("images/minion/frost/walk.png", 0.175)
 end
 
 function Minion:update(dt)

@@ -2,12 +2,12 @@ local Unit = require "shared.unit"
 
 local MinionMaster = Unit:subclass("MinionMaster")
 
-local masterSpeed = 100
+local content = require "minionmaster.content"
+local state = require "minionmaster.state"
 
 -- speed: pixels/second
-function MinionMaster:initialize()
-    Unit.initialize(self, masterSpeed, 0 , 1000)
-    self.radius = 20
+function MinionMaster:initialize(entityStatics)
+    Unit.initialize(self, entityStatics, state.player)
 
     self.joystick = love.joystick.getJoysticks()[1]
 end

@@ -19,6 +19,7 @@ local state         = require "minionmaster.state"
 local ui            = require "minionmaster.ui"
 
 local content       = require "minionmaster.content"
+local EntityStatics = require "minionmaster.entitystatics"
 
 local Enemy         = require "minionmaster.enemy"
 local Minion        = require "minionmaster.minion"
@@ -31,12 +32,8 @@ local enemyCount = 10
 local zoom = 1
 local zoomSpeed = 0.1
 
-local function enemyDied(enemy)
-    state.entityManager:remove(enemy.id)
-end
-
 local function spawnMinion(master)
-    local minion = Minion:new(master)
+    local minion = Minion:new(EntityStatics.minion, master)
     minion:setPosition(master.position.x, master.position.y)
     state.entityManager:add(minion)
 end
@@ -46,13 +43,13 @@ local function load()
     content.load()
 
     -- spawn the master
-    state.master = MinionMaster:new()
+    state.master = MinionMaster:new(EntityStatics.master)
     state.master:setPosition(baseWidth/4, baseHeight/4)
     state.entityManager:add(state.master)
 
     -- spawn initial enemies
     for i=1,enemyCount do
-        local enemy = Enemy:new(state.master, enemyDied)
+        local enemy = Enemy:new(EntityStatics.enemy, state.master)
         enemy:setPosition(math.random(baseWidth/2),math.random(baseHeight/2))
         state.entityManager:add(enemy)
     end

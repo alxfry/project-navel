@@ -2,23 +2,20 @@ local Unit = require "shared.unit"
 
 local Enemy = Unit:subclass("Enemy")
 
-local enemySpeed = 20
-local enemyHealth = 100
+local content = require "minionmaster.content"
+local state = require "minionmaster.state"
 
 -- speed: pixels/second
-function Enemy:initialize(target, deadFunc)
-    Unit.initialize(self, enemySpeed)
+function Enemy:initialize(entityStatics, target)
+    Unit.initialize(self, entityStatics, state.player)
     self.type = "enemy"
     self.target = target
-    self.maxHealth = enemyHealth
-    self.health = enemyHealth
-    self.radius = 25
-    self.deadFunc = deadFunc
+    self.maxHealth = self.health
 end
 
 function Enemy:update(dt)
     if self.health <= 0 then
-        self.deadFunc(self)
+        state.entityManager:remove(self.id)
     end
 
     self:moveTo(self.target.position.x, self.target.position.y)

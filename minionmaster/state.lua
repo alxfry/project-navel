@@ -4,6 +4,7 @@ local sti           = require "libs.sti"
 
 local blocking      = require "shared.blocking"
 local EntityManager = require "shared.entitymanager"
+local Player = require "shared.player"
 
 local baseWidth, baseHeight = 1920, 1080
 
@@ -11,6 +12,7 @@ local state = {}
 
 function state.initialize()
 	state.entityManager = EntityManager:new()
+    state.player = Player:new()
 
     state.dna = 100
 
