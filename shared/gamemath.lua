@@ -51,8 +51,8 @@ end
 
 function Vector2.normalize(v)
     local length = Vector2.length(v)
-    v.x = v.x/length
-    v.y = v.y/length
+    v.x = length == 0 and 0 or v.x/length
+    v.y = length == 0 and 0 or v.y/length
 end
 
 function Vector2.add(v1, v2, result)

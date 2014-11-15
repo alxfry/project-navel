@@ -5,20 +5,23 @@ local Unit = Entity:subclass("Unit")
 
 -- speed: pixels/second
 -- direction: radians
-function Unit:initialize(speed, direction)
+function Unit:initialize(speed, orientation)
     Entity.initialize(self)
 
     self.speed = speed
-    self.direction = direction
+    self.orientation = orientation
     self.targetPosition = GameMath.Vector2:new(self.position.x, self.position.y)
 end
 
 function Unit:update(dt)
     local direction = (self.targetPosition - self.position)
-    local length = GameMath.Vector2.length(direction)
-    if length > 1 then
-        direction = direction/length
-        self.position = self.position + direction * dt * self.speed
+    local length = direction:length()
+
+    local factor = dt * self.speed / length
+    if length > 1 and factor < 1 then
+        self.position = self.position + direction * dt * self.speed / length
+    else
+        self.position = self.targetPosition
     end
 end
 
