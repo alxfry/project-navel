@@ -58,7 +58,7 @@ function Unit:updateMove(dt)
                 table.remove(waypoints, 1)
             else
                 direction:normalize()
-                local newPosition = self.position + direction * step / length
+                local newPosition = self.position + direction * step
                 self:setPosition(newPosition.x, newPosition.y)
             end
             return true

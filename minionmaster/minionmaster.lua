@@ -10,6 +10,7 @@ function MinionMaster:initialize(entityStatics)
     Unit.initialize(self, entityStatics, state.player)
 
     self.joystick = love.joystick.getJoysticks()[1]
+    self.type = "master"
 end
 
 function MinionMaster:update(dt)
@@ -25,6 +26,7 @@ function MinionMaster:update(dt)
 
     self:moveTo(self.position.x + moveX, self.position.y + moveY)
     Unit.update(self, dt)
+    self:updateMove(dt)
 end
 
 function MinionMaster:draw(dt)
@@ -32,6 +34,11 @@ function MinionMaster:draw(dt)
     love.graphics.setColor(0, 0, 255, 255)
     love.graphics.circle("fill", x, y, self.radius, self.radius)
     love.graphics.setColor(255, 255, 255, 255)
+end
+
+function MinionMaster:takeDamage(dmg)
+    -- print("masterdmg")
+    -- self.health = self.health - dmg
 end
 
 return MinionMaster

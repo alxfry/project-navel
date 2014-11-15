@@ -31,7 +31,6 @@ function Minion:initialize(entityStatics, master)
     Unit.initialize(self, entityStatics, state.player)
     self.master = master
     self.behavior = BehaviorTree.BehaviorTree:new(self, MinionBehaviorTree)
-    self.behavior:start()
 
     -- self:setAnimation("images/minion/frost/attack.png", 0.175)
     -- self.attackAnim = self.animation:clone()
@@ -41,32 +40,41 @@ function Minion:initialize(entityStatics, master)
 end
 
 function Minion:update(dt)
-    self.behavior:update(dt, self)
+    local wasAttacking = self.attack
+
+    self.behavior:tick(dt)
 
     -- if not self.target or self.target == self.master or self.target.health <= 0 then
     --     self.target = self:findNearestEnemy(self.position, self.attackRange) or self.master
     -- end
 
     -- self:moveTo(self.target.position.x, self.target.position.y, self.target.spriteSize)
-    -- Unit.update(self, dt)
+    Unit.update(self, dt)
 
-    -- local direction = (self.targetPosition - self.position)
-    -- local length = direction:length()
-    -- if length < self.target.spriteSize then
-    --     if not self.attack then
-    --         self:setAnimation("images/minion/frost/attack.png", 0.175)
-    --         self.attack = true
-    --     end
-    --     self.target.health = self.target.health - 1
-    -- elseif self.attack then
-    --     self.attack = false
-    --     self:setAnimation("images/minion/frost/walk.png", 0.175)
-    -- end
+    -- print(self.attack, wasAttacking)
+
+    if self.attack then
+        if not wasAttacking then
+            self:setAnimation("images/minion/frost/attack.png", 0.175)
+            print("attackAnim")
+        end
+        if self.target then
+            self.target:takeDamage(self.damage)
+        end
+    elseif wasAttacking then
+        self:setAnimation("images/minion/frost/walk.png", 0.175)
+        print("walkAnim")
+    end
 end
 
 function Minion:draw(dt)
     love.graphics.setColor(255, 255, 255, 255)
     Entity.draw(self, dt)
+end
+
+function Minion:takeDamage(dmg)
+    print("miniondmg")
+    -- self.health = self.health - dmg
 end
 
 return Minion

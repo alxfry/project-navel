@@ -12,7 +12,7 @@ function Enemy:initialize(entityStatics, target)
     self.target = target
     self.maxHealth = self.health
 
-    self:setAnimation("images/minion/lava/walk.png", 0.175 * 0.33)
+    self:setAnimation("images/minion/lava/attack.png", 0.175)
     self.attackAnim = self.animation
     self:setAnimation("images/minion/lava/walk.png", 0.175)
     self.walkAnim = self.animation
@@ -27,6 +27,11 @@ function Enemy:update(dt)
 
     self:moveTo(self.target.position.x, self.target.position.y)
     Unit.update(self, dt)
+    self:updateMove(dt)
+end
+
+function Enemy:takeDamage(dmg)
+    self.health = self.health - dmg
 end
 
 return Enemy
