@@ -1,4 +1,4 @@
-require("AnAL")
+require("libs.AnAL")
 
 local Class = require "shared.middleclass"
 local GameMath = require "shared.gamemath"
