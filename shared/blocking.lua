@@ -19,38 +19,30 @@ function blocking.setMap(map)
 end
 
 local function contains(map, x, y)
-    return x >= 1 and y >= 1 and x <= map.width and y <= map.height
+    return x >= 1 and y >= 1 and x <= map.width * 2 and y <= map.height * 2
 end
 
-function blocking.tileCollides(tileX, tileY)
+function blocking.gridCollides(gridX, gridY)
     local map = assert(blocking.map, "no map specified")
 
-    tileX = math.floor(tileX)
-    tileY = math.floor(tileY)
-
-    if not contains(map, tileX, tileY) then
+    if not contains(map, gridX, gridY) then
         return true
     end
 
-    local groundLayer = map.layers[1]
-    local tile = groundLayer.data[tileY+1][tileX+1]
-    local properties = tile and tile.properties
-
-    return (properties and properties.block) or false
+    return blocking.grid[gridY][gridX] == BLOCKED
 end
 
 function blocking.collides(x, y)
     local map = assert(blocking.map, "no map specified")
 
-    local mapWidth = map.tilewidth * map.width
-    local mapHeight = map.tileheight * map.height
-
-    -- First do a simple out of bounds check
-    if x < 0 or y < 0 or x > mapWidth or y > mapHeight then
-        return true
+    if not blocking.finder then
+        blocking.createFinder()
     end
 
-    return blocking.tileCollides(map:convertScreenToTile(x, y))
+    gridX = math.floor(x / (map.tilewidth / 2)) + 1
+    gridY = math.floor(y / (map.tileheight / 2)) + 1
+
+    return blocking.gridCollides(gridX, gridY)
 end
 
 local function raytrace(x0, y0, x1, y1, visit)
@@ -108,47 +100,30 @@ local function raytrace(x0, y0, x1, y1, visit)
 end
 
 local function lineOfSight(x0, y0, x1, y1)
-    return raytrace(x0, y0, x1, y1, blocking.tileCollides)
+    return raytrace(x0, y0, x1, y1, blocking.gridCollides)
 end
 
 function blocking.findPath(startX, startY, endX, endY)
     local map = assert(blocking.map, "no map specified")
 
-    -- Generate grid and finder instances on-demand
     if not blocking.finder then
-        local groundLayer = map.layers[1]
-        local grid = {}
-
-        for y = 1, map.height do
-            local row = {}
-
-            for x = 1, map.width do
-                local tile = groundLayer.data[y][x]
-                local properties = tile and tile.properties
-                row[x] = (properties and properties.block and BLOCKED) or WALKABLE
-            end
-
-            grid[y] = row
-        end
-
-        blocking.finder = Pathfinder(Grid(grid), 'JPS', WALKABLE)
+        blocking.createFinder()
     end
 
-    local startTileX, startTileY = map:convertScreenToTile(startX, startY)
-    startTileX = math.floor(startTileX) + 1
-    startTileY = math.floor(startTileY) + 1
+    local startGridX, startGridY, endGridX, endGridY
 
-    local endTileX, endTileY = map:convertScreenToTile(endX, endY)
-    endTileX = math.floor(endTileX) + 1
-    endTileY = math.floor(endTileY) + 1
+    startGridX = math.floor(startX / (map.tilewidth / 2)) + 1
+    startGridY = math.floor(startY / (map.tileheight / 2)) + 1
+    endGridX = math.floor(endX / (map.tilewidth / 2)) + 1
+    endGridY = math.floor(endY / (map.tileheight / 2)) + 1
 
     -- Can't find paths when either of the locations is invalid
-    if not contains(map, startTileX, startTileY) or
-       not contains(map, endTileX, endTileY) then
+    if not contains(map, startGridX, startGridY) or
+       not contains(map, endGridX, endGridY) then
         return
     end
 
-    local path = blocking.finder:getPath(startTileX, startTileY, endTileX, endTileY)
+    local path = blocking.finder:getPath(startGridX, startGridY, endGridX, endGridY)
     if not path then
         return
     end
@@ -165,34 +140,85 @@ function blocking.findPath(startX, startY, endX, endY)
     --]]
 
     local waypoints = {}
-    local lastRequiredTileX, lastRequiredTileY
-    local previousTileX, previousTileY
+    local lastRequiredGridX, lastRequiredGridY
+    local previousGridX, previousGridY
 
     for node, count in path:nodes() do
         if count > 1 then
-            local tileX, tileY = node:getX(), node:getY()
+            local gridX, gridY = node:getX(), node:getY()
 
-            if previousTileX then
-                if lineOfSight(lastRequiredTileX, lastRequiredTileY, tileX, tileY) then
-                    previousTileX, previousTileY = tileX, tileY
+            if previousGridX then
+                if lineOfSight(lastRequiredGridX, lastRequiredGridY, gridX, gridY) then
+                    previousGridX, previousGridY = gridX, gridY
                 else
-                    local x, y = map:convertTileToScreen(previousTileX-1, previousTileY-1)
-                    x = x + map.tilewidth / 2
-                    y = y + map.tileheight / 2
+                    local x = (previousGridX-1) * (map.tilewidth / 2)
+                    local y = (previousGridY-1) * (map.tileheight / 2)
+                    x = x + map.tilewidth / 4
+                    y = y + map.tileheight / 4
                     waypoints[#waypoints + 1] = { x = x, y = y }
-                    lastRequiredTileX, lastRequiredTileY = previousTileX, previousTileY
+                    lastRequiredGridX, lastRequiredGridY = previousGridX, previousGridY
                 end
             else
-                lastRequiredTileX, lastRequiredTileY = tileX, tileY
+                lastRequiredGridX, lastRequiredGridY = gridX, gridY
             end
 
-            previousTileX, previousTileY = tileX, tileY
+            previousGridX, previousGridY = gridX, gridY
         end
     end
 
     waypoints[#waypoints + 1] = { x = endX, y = endY }
 
     return waypoints
+end
+
+function blocking.createFinder()
+    local map = assert(blocking.map, "no map specified")
+
+    -- Generate grid and finder instances on-demand
+    local groundLayer = map.layers[1]
+    local grid = {}
+
+    for y = 1, map.height do
+        local row1 = {}
+        local row2 = {}
+
+        for x = 1, map.width do
+            local topLeft, topRight, bottomLeft, bottomRight = WALKABLE, WALKABLE, WALKABLE, WALKABLE
+            local tile = groundLayer.data[y][x]
+
+            local terrain = tile.terrain
+            if terrain then
+                local topLeftTerrain = terrain[1]
+                local topRightTerrain = terrain[2]
+                local bottomLeftTerrain = terrain[3]
+                local bottomRightTerrain = terrain[4]
+
+                topLeft = topLeftTerrain.properties.block and BLOCKED or WALKABLE
+                topRight = topRightTerrain.properties.block and BLOCKED or WALKABLE
+                bottomLeft = bottomLeftTerrain.properties.block and BLOCKED or WALKABLE
+                bottomRight = bottomRightTerrain.properties.block and BLOCKED or WALKABLE
+            end
+
+            row1[x*2-1] = topLeft
+            row1[x*2] = topRight
+            row2[x*2-1] = bottomLeft
+            row2[x*2] = bottomRight
+        end
+
+        grid[y*2-1] = row1
+        grid[y*2] = row2
+    end
+
+    --[[
+    print("{")
+    for y,row in ipairs(grid) do
+        print("   {",table.concat(row, ","),"}")
+    end
+    print("}")
+    --]]
+
+    blocking.grid = grid
+    blocking.finder = Pathfinder(Grid(grid), 'JPS', WALKABLE)
 end
 
 return blocking

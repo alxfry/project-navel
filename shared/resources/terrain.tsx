@@ -6,9 +6,21 @@
   <terrain name="Dirt" tile="1"/>
   <terrain name="Grass" tile="2"/>
   <terrain name="Lavarock" tile="3"/>
-  <terrain name="Water" tile="4"/>
-  <terrain name="Lava" tile="321"/>
-  <terrain name="Hole" tile="336"/>
+  <terrain name="Water" tile="4">
+   <properties>
+    <property name="block" value="true"/>
+   </properties>
+  </terrain>
+  <terrain name="Lava" tile="321">
+   <properties>
+    <property name="block" value="true"/>
+   </properties>
+  </terrain>
+  <terrain name="Hole" tile="336">
+   <properties>
+    <property name="block" value="true"/>
+   </properties>
+  </terrain>
   <terrain name="PlowedSoil" tile="337"/>
   <terrain name="Sand" tile="338"/>
  </terraintypes>
