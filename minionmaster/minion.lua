@@ -5,6 +5,9 @@ local state = require "minionmaster.state"
 local content = require "minionmaster.content"
 local state = require "minionmaster.state"
 
+local MinionBehaviorTree = require "minionmaster.behaviors.minionbehaviortree"
+local BehaviorTree = require "shared.behaviortree"
+
 local Minion = Unit:subclass("Minion")
 
 local function findNearestEnemy(position, range)
@@ -27,6 +30,8 @@ end
 function Minion:initialize(entityStatics, master)
     Unit.initialize(self, entityStatics, state.player)
     self.master = master
+    self.behavior = BehaviorTree:new(self, MinionBehaviorTree)
+
     -- self:setAnimation("images/minion/frost/attack.png", 0.175)
     -- self.attackAnim = self.animation:clone()
     self:setAnimation("images/minion/frost/walk.png", 0.175)
@@ -35,6 +40,8 @@ function Minion:initialize(entityStatics, master)
 end
 
 function Minion:update(dt)
+    self.behavior:update(dt, self)
+
     if not self.target or self.target == self.master or self.target.health <= 0 then
         self.target = findNearestEnemy(self.position, self.attackRange) or self.master
     end
