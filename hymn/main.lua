@@ -51,7 +51,7 @@ end
 
 function love.update(dt)
     LogicCore.entityManager:update(dt)
-    LogicCore.inputHandler:update(dt, map)
+    LogicCore.inputHandler:update(dt, LogicCore.map)
     LogicCore.map:update(dt)
 end
 
