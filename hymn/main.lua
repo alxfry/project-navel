@@ -43,9 +43,18 @@ end
 
 function love.update(dt)
     entityManager:update(dt)
+    map:update(dt)
 end
 
 function love.draw(dt)
+    local width, height = love.graphics.getDimensions()
+    local translateX = -love.mouse.getX() + width / 2
+    local translateY = -love.mouse.getY() + height / 2
+
+    -- Draw Range culls unnecessary tiles
+    map:setDrawRange(translateX, translateY, width, height)
+
+    love.graphics.translate(translateX, translateY)
     map:draw()
     entityManager:draw(dt)
 end
@@ -73,6 +82,7 @@ function love.textinput(text)
 end
 
 function love.resize(w, h)
+    map:resize(w, h)
 end
 
 return load
