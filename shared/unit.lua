@@ -1,3 +1,4 @@
+local blocking = require "shared.blocking"
 local GameMath = require "shared.gamemath"
 local Entity = require "shared.entity"
 local Unit = Entity:subclass("Unit")
@@ -24,11 +25,17 @@ function Unit:update(dt)
 
     local factor = dt * self.speed / length
     if length > self.stopRange and factor < 1 then
-        self.position = self.position + direction * dt * self.speed / length
+        local newpos = self.position + direction * dt * self.speed / length
+        if not blocking.collides(newpos.x, newpos.y) then
+            self.position = newpos
+        end
     elseif self.stopRange <= 1 then
-        self.position.x = self.targetPosition.x
-        self.position.y = self.targetPosition.y
+        if not blocking.collides(self.targetPosition.x, self.targetPosition.y) then
+            self.position.x = self.targetPosition.x
+            self.position.y = self.targetPosition.y
+        end
     end
+
     Entity.update(self, dt)
 
     -- DEATH

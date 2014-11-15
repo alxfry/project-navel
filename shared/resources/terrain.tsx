@@ -16,7 +16,11 @@
  <tile id="1" terrain="1,1,1,1"/>
  <tile id="2" terrain="2,2,2,2"/>
  <tile id="3" terrain="3,3,3,3"/>
- <tile id="4" terrain="4,4,4,4"/>
+ <tile id="4" terrain="4,4,4,4">
+  <properties>
+   <property name="block" value="true"/>
+  </properties>
+ </tile>
  <tile id="5" terrain="1,1,1,0"/>
  <tile id="6" terrain="1,1,1,4"/>
  <tile id="7" terrain="1,1,1,2"/>

@@ -2,6 +2,7 @@
 
 local sti           = require "libs.sti"
 
+local blocking      = require "shared.blocking"
 local EntityManager = require "shared.entitymanager"
 
 local baseWidth, baseHeight = 1920, 1080
@@ -15,6 +16,7 @@ function state.initialize()
 
     -- load the map
     state.map = sti.new("testmap")
+    blocking.map = state.map
 end
 
 return state
