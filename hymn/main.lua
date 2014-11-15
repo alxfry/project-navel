@@ -50,20 +50,22 @@ local function load()
 end
 
 function love.update(dt)
-    entityManager:update(dt)
+    LogicCore.entityManager:update(dt)
+    LogicCore.inputHandler:update(dt, map)
     LogicCore.map:update(dt)
 end
 
 function love.draw(dt)
     LogicCore.map:draw()
     local width, height = love.graphics.getDimensions()
-    local translateX = -love.mouse.getX() + width / 2
-    local translateY = -love.mouse.getY() + height / 2
-
     -- Draw Range culls unnecessary tiles
-    LogicCore.map:setDrawRange(translateX, translateY, width, height)
+    LogicCore.map:setDrawRange(inputHandler.translateX, inputHandler.translateY, width, height)
 
-    love.graphics.translate(translateX, translateY)
+    -- love.graphics.translate(translateX, translateY)
+    -- map:setDrawRange(inputHandler.translateX, inputHandler.translateY, width, height)
+
+    love.graphics.translate(inputHandler.translateX, inputHandler.translateY)
+    LogicCore.map:draw()
     entityManager:draw(dt)
 end
 
