@@ -65,6 +65,8 @@ function InputHandler:mouseReleased(x, y, button)
             end
             self:selectEntity(closestDist < 40 and closestEntity.id)
         end
+    elseif button == "r" then
+        self:selectEntity(false)
     end
 end
 
@@ -73,10 +75,14 @@ function InputHandler:keyPressed(key, unicode)
 
     if key == "b" then
         self.mode = "build"
-    elseif self.selectedEntityId and key == "p" then
-        local entity = entityManager:entity(self.selectedEntityId)
-        self.mode = "path"
-        entity:clearPath()
+    elseif key == "p" then
+        if self.mode == "path" then
+            self.mode = false
+        elseif self.selectedEntityId then
+            local entity = entityManager:entity(self.selectedEntityId)
+            self.mode = "path"
+            entity:clearPath()
+        end
     else
         self.mode = false
     end
