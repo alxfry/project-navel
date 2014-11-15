@@ -21,7 +21,6 @@ function EntityManager:draw(dt)
 end
 
 function EntityManager:spawnFromEntityStatic(entityStatic, player)
-    dbgprint(entityStatic)
     local entityClass = require(entityStatic.classSource)
     local entity = entityClass:new(entityStatic, player)
     self:add(entity)
