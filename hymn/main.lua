@@ -13,6 +13,7 @@ local SpawnPortal = require "hymn.spawnportal"
 
 local EntityStatics = require "hymn.staticdata.entitystatics"
 
+local ui = require "hymn.ui"
 local inputHandler
 local entityManager
 
@@ -40,6 +41,8 @@ local function load()
     inputHandler = LogicCore.inputHandler
     -- inputHandler = InputHandler:new(myUnit)
 
+    ui.load()
+
     LogicCore:startMap(sti.new("testmap"))
 end
 
@@ -47,6 +50,7 @@ function love.update(dt)
     LogicCore.entityManager:update(dt)
     LogicCore.inputHandler:update(dt, LogicCore.map)
     LogicCore.map:update(dt)
+    ui.update(dt)
 end
 
 local cursor = love.graphics.newImage("images/ui/mouseCursor.png")
@@ -73,6 +77,8 @@ function love.draw(dt)
             end
         end
     end
+
+    ui.draw(dt)
 end
 
 function love.keypressed(key, unicode)
