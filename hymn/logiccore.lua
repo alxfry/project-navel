@@ -2,11 +2,18 @@ local Class = require "shared.middleclass"
 
 local EntityManager = require "shared.entitymanager"
 local InputHandler 	= require "hymn.inputhandler"
+local Player 		= require "shared.player"
 
 -- LogicCore Class
 local LogicCore = Class "LogicCore"
 
 function LogicCore:initialize(eMng, iHdnlr)
+	self.players = {
+		Player:new(),
+		Player:new(),
+		Player:new(),
+		Player:new(),
+	}
 	self.entityManager = eMng or  EntityManager:new(self)
 	self.inputHandler = iHndlr or InputHandler:new(self)
 	self.map = false

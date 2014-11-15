@@ -3,12 +3,11 @@ local Unit = require "shared.unit"
 
 local DecayingUnit = Class("DecayingUnit", Unit)
 
-function DecayingUnit:initialize(speed, orientation, startingHealth)
-	startingHealth = startingHealth or 12
-	Unit.initialize(self, speed, orientation, startingHealth)
+function DecayingUnit:initialize(entityStatic, player)
+	Unit.initialize(self, entityStatic, player)
 
 	self.decayInterval = 1 -- in seconds
-	self.decayAmount = 1
+	self.decayAmount = 1 -- in health
 	self.timeSinceLastDecay = 0
 end
 
@@ -18,7 +17,7 @@ local themes = {
 }
 
 function DecayingUnit:setPlayer(player)
-    Unit:setPlayer(player)
+    -- Unit:setPlayer(player)
     self.theme = themes[player.playerId] or themes[1]
     self:setAnimation("images/minion/" .. self.theme .. "/walk.png", 64, 64, 0.175)
 end
