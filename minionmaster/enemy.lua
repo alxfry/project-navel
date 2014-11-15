@@ -16,6 +16,7 @@ end
 function Enemy:update(dt)
     if self.health <= 0 then
         state.entityManager:remove(self.id)
+        return
     end
 
     self:moveTo(self.target.position.x, self.target.position.y)
