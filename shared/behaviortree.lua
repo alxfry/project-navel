@@ -4,7 +4,7 @@ local BTClasses = {}
 
 local Behavior = Class "Behavior"
 
-STATUS = {
+local STATUS = {
 	INVALID = 1,
 	SUCCESS = 2,
 	FAILURE = 3,
@@ -254,7 +254,7 @@ for i = 1, 2 do
 	assert(TEST_INSTANCE:child(1).onTerminateCalled == 1, "Test failed")
 end
 
-local BehaviorTree = Class("RootNode", Behavior)
+local BehaviorTree = Class("BehaviorTree", Behavior)
 
 function BehaviorTree:initialize(object, behavior)
 	Behavior.initialize(self)
