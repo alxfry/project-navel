@@ -17,4 +17,4 @@ local function createDecayUnitBT()
 	return root
 end
 
-return createDecayUnitBT()
+return createDecayUnitBT

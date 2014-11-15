@@ -10,7 +10,7 @@ function DecayingUnit:initialize(entityStatic, player)
 	Unit.initialize(self, entityStatic, player)
     self.speed = self.speed + (math.random()-0.5) * 200
 
-	self.behaviorTree = BehaviorTree.BehaviorTree:new(self, DecayUnitBT)
+	self.behaviorTree = BehaviorTree.BehaviorTree:new(self, DecayUnitBT())
 	self.decayInterval = 1 -- in seconds
 	self.decayAmount = 1 -- in health
 	self.timeSinceLastDecay = 0

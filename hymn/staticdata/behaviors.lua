@@ -57,10 +57,17 @@ function RandomMovement:update(dt, context)
 	local alpha = self.orientation
 	local direction = GameMath.Vector2:new(math.cos(alpha) * length, math.sin(alpha) * length)
 	local newPosition = object.position + direction
+	-- dbgprint(object.id, self.orientation)
 
 	object:moveTo(newPosition.x, newPosition.y)
 	local finished = object:updateMove(dt)
 	return STATUS.RUNNING
+end
+
+local FindBuilding = Class("FindBuilding", Behavior)
+
+function FindBuilding:update(dt, context)
+	
 end
 
 return 
