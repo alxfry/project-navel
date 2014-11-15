@@ -36,6 +36,9 @@ function SpawnPortal:update(dt)
 		-- SPAWN
 		local spawn = entityManager:spawnFromEntityStatic(self.spawnEntityStatics, self.player)
 		spawn:setPosition(self.position.x, self.position.y)
+		if self.path[1] then
+			spawn:moveTo(self.path[1].x, self.path[1].y)
+		end
 		self.timeSinceLastSpawn = dtLastSpawn - 2
 	else
 		self.timeSinceLastSpawn = dtLastSpawn
