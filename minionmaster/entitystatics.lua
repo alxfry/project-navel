@@ -7,6 +7,7 @@ local EntityStatics =
         health = 100,
         damage = 1,
         speed = 200,
+        spriteSize = 20,
     },
 
     minion = 

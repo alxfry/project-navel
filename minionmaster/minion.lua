@@ -27,10 +27,11 @@ end
 function Minion:initialize(entityStatics, master)
     Unit.initialize(self, entityStatics, state.player)
     self.master = master
-    self:setAnimation("images/minion/frost/walk.png", 0.175 * 0.33)
-    self.attackAnim = self.animation
-    self:setAnimation("images/minion/frost/walk.png", 0.175)
-    self.walkAnim = self.animation
+    -- self:setAnimation("images/minion/frost/attack.png", 0.175)
+    -- self.attackAnim = self.animation:clone()
+    -- self:setAnimation("images/minion/frost/walk.png", 0.175)
+    -- self.walkAnim = self.animation:clone()
+    self.attack = false
 end
 
 function Minion:update(dt)
@@ -38,16 +39,20 @@ function Minion:update(dt)
         self.target = findNearestEnemy(self.position, self.attackRange) or self.master
     end
 
-    self:moveTo(self.target.position.x, self.target.position.y, self.target.radius)
+    self:moveTo(self.target.position.x, self.target.position.y, self.target.spriteSize)
     Unit.update(self, dt)
 
     local direction = (self.targetPosition - self.position)
     local length = direction:length()
-    if length < self.target.radius then
-        self.animation = self.attackAnim
+    if length < self.target.spriteSize then
+        self.attack = true
+        if not self.attack then
+            self:setAnimation("images/minion/frost/attack.png", 0.175)
+        end
         self.target.health = self.target.health - 1
-    else
-        self.animation = self.walkAnim
+    elseif self.attack then
+        self.attack = false
+        self:setAnimation("images/minion/frost/walk.png", 0.175)
     end
 end
 
