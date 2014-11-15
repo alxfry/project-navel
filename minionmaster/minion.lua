@@ -1,6 +1,8 @@
 local Unit = require "shared.unit"
+local Entity = require "shared.entity"
 
 local state = require "minionmaster.state"
+local content = require "minionmaster.content"
 
 local Minion = Unit:subclass("Minion")
 
@@ -26,6 +28,9 @@ local minionSpeed = 150
 function Minion:initialize(master)
     Unit.initialize(self, minionSpeed)
     self.master = master
+    
+    self.image = content.minion.image
+    self.animation = content.minion.walk
 end
 
 function Minion:update(dt)
@@ -33,20 +38,22 @@ function Minion:update(dt)
         self.target = findNearestEnemy(self.position) or self.master
     end
 
-    self:moveTo(self.target.position.x, self.target.position.y)
+    self:moveTo(self.target.position.x, self.target.position.y, self.target.radius)
     Unit.update(self, dt)
 
     local direction = (self.targetPosition - self.position)
     local length = direction:length()
     if length < self.target.radius then
+        self.animation = content.minion.attack
         self.target.health = self.target.health - 1
+    else
+        self.animation = content.minion.walk
     end
 end
 
 function Minion:draw(dt)
-    local x, y = self.position.x, self.position.y
-    love.graphics.setColor(255, 255, 0, 255)
-    love.graphics.circle("fill", x, y, 10, 10)
+    love.graphics.setColor(255, 255, 255, 255)
+    Entity.draw(self, dt)
 end
 
 return Minion

@@ -4,6 +4,8 @@ local EntityManager = require "shared.entitymanager"
 local InputHandler 	= require "hymn.inputhandler"
 local Player 		= require "shared.player"
 
+local blocking = require "shared.blocking"
+
 -- LogicCore Class
 local LogicCore = Class "LogicCore"
 
@@ -20,7 +22,8 @@ function LogicCore:initialize(eMng, iHdnlr)
 end
 
 function LogicCore:startMap(map)
-	self.map = map
+    self.map = map
+    blocking.map = map
 end
 
 function LogicCore:reset()

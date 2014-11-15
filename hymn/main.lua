@@ -49,6 +49,8 @@ function love.update(dt)
     LogicCore.map:update(dt)
 end
 
+local cursor = love.graphics.newImage("images/ui/mouseCursor.png")
+
 function love.draw(dt)
     LogicCore.map:draw()
     local width, height = love.graphics.getDimensions()
@@ -57,6 +59,11 @@ function love.draw(dt)
     love.graphics.translate(inputHandler.translate.x, inputHandler.translate.y)
     LogicCore.map:draw()
     entityManager:draw(dt)
+
+    local entity = inputHandler.selectedEntityId and entityManager.entities[inputHandler.selectedEntityId]
+    if entity then
+        love.graphics.draw(cursor, entity.position.x-96, entity.position.y-96)
+    end
 end
 
 function love.keypressed(key, unicode)

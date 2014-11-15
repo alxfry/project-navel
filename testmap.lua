@@ -24,7 +24,14 @@ return {
         y = 0
       },
       properties = {},
-      tiles = {}
+      tiles = {
+        {
+          id = 4,
+          properties = {
+            ["block"] = "true"
+          }
+        }
+      }
     }
   },
   layers = {
