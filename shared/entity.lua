@@ -1,4 +1,4 @@
-require "libs.AnAL"
+local AnAL = require "libs.AnAL"
 
 local Class = require "shared.middleclass"
 local GameMath = require "shared.gamemath"
@@ -15,7 +15,7 @@ end
 
 function Entity:setAnimation(image, frameWidth, frameHeight, delay)
     local img = love.graphics.newImage(image)
-    self.animation = newAnimation(img, frameWidth, frameHeight, delay or 0.1, 0)
+    self.animation = AnAL.newAnimation(img, frameWidth, frameHeight, delay or 0.1, 0)
 end
 
 function Entity:update(dt)

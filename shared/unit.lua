@@ -31,7 +31,8 @@ function Unit:update(dt)
 end
 
 function Unit:moveTo(x, y)
-    self.targetPosition = GameMath.Vector2:new(x, y)
+    self.targetPosition.x = x
+    self.targetPosition.y = y
 end
 
 function Unit:setPosition(x, y)
@@ -39,5 +40,3 @@ function Unit:setPosition(x, y)
     self.targetPosition.y = y
     Entity.setPosition(self, x, y)
 end
-
-return Unit

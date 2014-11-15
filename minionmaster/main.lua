@@ -1,84 +1,58 @@
 require "libs.cupid"
 
+-- lock down the globals table for performance and error detection
+setmetatable(_G, {
+  __index = function(_, key)
+    return error("no such global '" .. tostring(key) .. "'")
+  end,
+  __newindex = function(_, key, value)
+    return error("creating global '" .. tostring(key) .. "' not allowed")
+  end,
+})
+
+local sti           = require "libs.sti"
+
+local state         = require "minionmaster.state"
+
+local Enemy         = require "minionmaster.enemy"
+local Minion        = require "minionmaster.minion"
+local MinionMaster  = require "minionmaster.minionmaster"
+
 local baseWidth, baseHeight = 1920, 1080
 local mouseCursor
-local fullscreen = false
-
-local sti = require "libs.sti"
-
--- local Entity = require "shared.entity"
-local EntityManager = require "shared.entitymanager"
--- local Unit = require "shared.unit"
-local MinionMaster = require "minionmaster.minionmaster"
-local Minion = require "minionmaster.minion"
-local Enemy = require "minionmaster.enemy"
-
-local master
-local entityManager
-local tick
 
 local enemyCount = 10
-local masterSpeed = 100
-local minionSpeed = 150
-local enemySpeed = 20
-local enemyHealth = 100
-
-local map
 
 local zoom = 1
 local zoomSpeed = 0.1
 
-local enemies = {}
-
-function findEnemy()
-    local nearest = nil
-    local minDist = 9999999999
-    for i, enemy in ipairs(enemies) do
-        local dist = (enemy.position - master.position):sqLength()
-        if dist < minDist then
-            minDist = dist
-            nearest = enemy
-        end
-    end
-
-    return nearest or master
+local function enemyDied(enemy)
+    state.entityManager:remove(enemy.id)
 end
 
-function enemyDied(enemy)
-    entityManager:remove(enemy.id)
-    for i, _enemy in ipairs(enemies) do
-        if _enemy == enemy then
-            table.remove(enemies, i)
-            break
-        end
-    end
-end
-
-local function load(arg)
-    print("local load "..tostring(arg))
+local function load()
     mouseCursor = love.graphics.newImage("images/ui/mouseCursor.png")
+    state.initialize()
 
-    map = sti.new("testmap")
+    -- spawn the master
+    state.master = MinionMaster:new()
+    state.master:setPosition(baseWidth/4, baseHeight/4)
+    state.entityManager:add(state.master)
 
-    entityManager = EntityManager:new()
-    master = MinionMaster:new(masterSpeed)
-    master:setPosition(baseWidth/4, baseHeight/4)
-    entityManager:add(master)
-
+    -- spawn initial enemies
     for i=1,enemyCount do
-        local enemy = Enemy:new(enemySpeed, master, enemyHealth, enemyDied)
+        local enemy = Enemy:new(state.master, enemyDied)
         enemy:setPosition(math.random(baseWidth/2),math.random(baseHeight/2))
-        entityManager:add(enemy)
-        table.insert(enemies, enemy)
+        state.entityManager:add(enemy)
     end
 end
 
 function love.update(dt)
-    entityManager:update(dt)
+    state.entityManager:update(dt)
 end
 
 function love.draw(dt)
-    entityManager:draw(dt)
+    state.entityManager:draw(dt)
 
     local translateX = love.mouse.getX()
     local translateY = love.mouse.getY()
@@ -88,7 +62,7 @@ function love.draw(dt)
 
     love.graphics.translate(translateX, translateY)
 
-    map:setDrawRange(translateX, translateY, width, height)
+    state.map:setDrawRange(translateX, translateY, width, height)
     -- map:draw(zoom,zoom)
 
     love.graphics.translate(0, 0)
@@ -101,10 +75,9 @@ function love.keypressed(key, unicode)
     end
 
     if key == "m" then
-
-        local minion = Minion:new(minionSpeed, findEnemy())
-        minion:setPosition(master.position.x, master.position.y)
-        entityManager:add(minion)
+        local minion = Minion:new(state.master)
+        minion:setPosition(state.master.position.x, state.master.position.y)
+        state.entityManager:add(minion)
     end
 end
 
