@@ -12,25 +12,34 @@ function Unit:initialize(entityStatic, player)
     -- self.orientation = orientation
     self.targetPosition = GameMath.Vector2:new(self.position.x, self.position.y)
     self.stopRange = 1
+    self.waypoints = false
 end
 
 function Unit:update(dt)
-    local direction = (self.targetPosition - self.position)
-    local length = direction:length()
-    if length > 0 then
-        self.orientation = math.atan2(direction.y, direction.x)
-    end
+    if self.waypoints and #self.waypoints > 0 then
+        local waypoints = self.waypoints
 
-    local factor = dt * self.speed / length
-    if length > self.stopRange and factor < 1 then
-        local newpos = self.position + direction * dt * self.speed / length
-        if not blocking.collides(newpos.x, newpos.y) then
-            self.position = newpos
+        local target = GameMath.Vector2:new(waypoints[1].x, waypoints[1].y)
+        local direction = (target - self.position)
+        local length = direction:length()
+
+        -- Update orientation
+        if length > 0 then
+            self.orientation = math.atan2(direction.y, direction.x)
         end
-    elseif self.stopRange <= 1 then
-        if not blocking.collides(self.targetPosition.x, self.targetPosition.y) then
-            self.position.x = self.targetPosition.x
-            self.position.y = self.targetPosition.y
+
+        local reached = length <= dt * self.speed
+
+        -- print(length, reached, self.position, target)
+
+        if #waypoints > 1 or length > self.stopRange then
+            if reached then
+                self.position.x = target.x
+                self.position.y = target.y
+                table.remove(waypoints, 1)
+            else
+                self.position = self.position + direction * dt * self.speed / length
+            end
         end
     end
 
@@ -41,6 +50,9 @@ function Unit:moveTo(x, y, stopRange)
     self.targetPosition.x = x
     self.targetPosition.y = y
     self.stopRange = stopRange or self.stopRange
+
+    self.waypoints = blocking.findPath(self.position.x, self.position.y,
+                                       self.targetPosition.x, self.targetPosition.y)
 end
 
 function Unit:setPosition(x, y)

@@ -15,15 +15,15 @@ setmetatable(_G, {
 local sti           = require "libs.sti"
 
 local state         = require "minionmaster.state"
-
 local ui            = require "minionmaster.ui"
-
 local content       = require "minionmaster.content"
 local EntityStatics = require "minionmaster.entitystatics"
 
 local Enemy         = require "minionmaster.enemy"
 local Minion        = require "minionmaster.minion"
 local MinionMaster  = require "minionmaster.minionmaster"
+
+local blocking      = require "shared.blocking"
 
 local baseWidth, baseHeight = 1920, 1080
 
@@ -83,6 +83,29 @@ function love.draw(dt)
     love.graphics.translate(translateX, translateY)
     state.map:draw()
     state.entityManager:draw(dt)
+
+    -- debug printing the entity paths
+    for id, entity in pairs(state.entityManager.entities) do
+        if entity.waypoints and #entity.waypoints > 0 then
+            local waypoints = entity.waypoints
+
+            -- Draw the path to the destination
+            love.graphics.setColor(255,0,0,64)
+            love.graphics.setPointSize(5)
+            local px, py = entity.position.x, entity.position.y
+            for i, waypoint in ipairs(waypoints) do
+                local x, y = waypoint.x, waypoint.y
+                if px then
+                    love.graphics.line(px, py, x, y)
+                else
+                    love.graphics.point(x, y)
+                end
+                px, py = x, y
+            end
+            love.graphics.point(px, py)
+        end
+    end
+
     love.graphics.pop()
 
     ui.draw()
