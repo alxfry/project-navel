@@ -8,7 +8,7 @@ local DecayingUnit = Class("DecayingUnit", Unit)
 
 function DecayingUnit:initialize(entityStatic, player)
 	Unit.initialize(self, entityStatic, player)
-    self.speed = self.speed + (math.random()-0.5) * 200
+    self.speed = self.speed + (math.random()-0.5) * 600
 
 	self.behaviorTree = BehaviorTree.BehaviorTree:new(self, DecayUnitBT())
 	self.decayInterval = 1 -- in seconds

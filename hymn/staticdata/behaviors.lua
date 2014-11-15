@@ -5,9 +5,9 @@ local BehaviorTree = require "shared.behaviortree"
 local Behavior = BehaviorTree.Behavior
 local STATUS = Behavior.static.STATUS
 
-local SearchEnemyBehavior = Class("SearchEnemyBehavior", Behavior)
+local SearchEnemy = Class("SearchEnemy", Behavior)
 
-function SearchEnemyBehavior:update(dt, context)
+function SearchEnemy:update(dt, context)
 	return STATUS.FAILURE
 end
 

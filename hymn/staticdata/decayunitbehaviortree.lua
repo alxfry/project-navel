@@ -11,8 +11,10 @@ local Behaviors = require "hymn.staticdata.behaviors"
 --     randomWalk:addChild(Behaviors.RandomMovement:new())
 local function createDecayUnitBT()
 	local root = BehaviorTree.Sequence:new()
-	root:addChild(Behaviors.RandomMovement:new())
--- root:addChild(Behaviors.FindWaypoint:new())
+    root:addChild(Behaviors.FindWaypoint:new())
+    root:addChild(Behaviors.MoveTo:new())
+    -- root:addChild(Behaviors.RandomMovement:new())
+-- root:addChild(Behaviors.RandomMovement:new())
 -- root:addChild(Behaviors.MoveTo:new())
 	return root
 end

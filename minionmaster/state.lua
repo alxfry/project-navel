@@ -18,7 +18,7 @@ function state.initialize()
 
     -- load the map
     state.map = sti.new("testmap")
-    blocking.map = state.map
+    blocking.setMap(state.map)
 end
 
 return state

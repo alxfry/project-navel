@@ -9,72 +9,69 @@ local state = require "minionmaster.state"
 local SearchEnemyBehavior = Class("SearchEnemyBehavior", Behavior)
 
 function SearchEnemyBehavior:update(dt, context)
-    print(self)
-    
     local object = context.object
 
     object.target = object:findNearestEnemy(object.position, object.attackRange)
-    return STATUS.SUCCESS
-	-- return object.target and STATUS.SUCCESS or STATUS.FAILURE
+    self.status = object.target and STATUS.SUCCESS or STATUS.FAILURE
+    -- print(object.target)
+	return self.status
 end
 
 local SearchMasterBehavior = Class("SearchMasterBehavior", Behavior)
 
 function SearchMasterBehavior:update(dt, context)
-    print(self)
     local object = context.object
-
     object.target = state.master
-
-    return STATUS.SUCCESS
+    -- print("master")
+    self.status = STATUS.SUCCESS
+    return self.status
 end
 
 local FindPathBehavior = Class("FindPathBehavior", Behavior)
 
 function FindPathBehavior:update(dt, context)
-    print(self)
 	local object = context.object
 
-    object:moveTo(object.target.position.x, object.target.position.y)
+    object:moveTo(object.target.position.x, object.target.position.y, object.target.spriteSize)
 
-	return object.waypoints and #object.waypoints > 0 and STATUS.SUCCESS or STATUS.FAILURE
+    self.status = object.waypoints and #object.waypoints > 0 and STATUS.SUCCESS or STATUS.FAILURE
+    return self.status
 end
 
 local GotoBehavior = Class("GotoBehavior", Behavior)
 
 function GotoBehavior:update(dt, context)
-    print(self)
     local object = context.object
-    return object:updateMove(dt) and STATUS.RUNNING or STATUS.SUCCESS
+    self.status = object:updateMove(dt) and STATUS.FAILURE or STATUS.SUCCESS
+    return self.status
 end
 
 local AttackBehavior = Class("AttackBehavior", Behavior)
 
 function AttackBehavior:update(dt, context)
-    print(self)
     local object = context.object
 
-    local reached, dir, length = object:reachedTarget(object.target.position, object.target.spriteSize)
+    local reached, dir, length = object:reachedTarget(object.target.position, dt * object.speed)
 
     if length < object.target.spriteSize then
-        if not object.attack then
-            object:setAnimation("images/minion/frost/attack.png", 0.175)
-            object.attack = true
-        end
-        print("attack")
-        object.target.health = object.target.health - 1
+        object.attack = true
+
+        -- print(object.target.type)
+
         if object.target.health <= 0 then
-            return STATUS.SUCCESS
+            object.attack = false
+            self.status = STATUS.SUCCESS
+            -- print("dead")
+            return self.status
         end
-        return STATUS.RUNNING
-    elseif object.attack then
-        print("walk")
+        self.status = STATUS.RUNNING
+    else
+        -- print("stop attacking")
         object.attack = false
-        object:setAnimation("images/minion/frost/walk.png", 0.175)
-        return STATUS.FAILURE
+        self.status = STATUS.FAILURE
     end
 
-    return STATUS.SUCCESS
+    return self.status
 end
 
 return {

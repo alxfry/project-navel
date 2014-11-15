@@ -23,7 +23,7 @@ end
 
 function LogicCore:startMap(map)
     self.map = map
-    blocking.map = map
+    blocking.setMap(map)
 end
 
 function LogicCore:reset()
