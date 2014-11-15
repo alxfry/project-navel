@@ -20,6 +20,14 @@ function EntityManager:draw(dt)
     end
 end
 
+function EntityManager:spawnFromEntityStatic(entityStatic, player)
+    dbgprint(entityStatic)
+    local entityClass = require(entityStatic.classSource)
+    local entity = entityClass:new(entityStatic, player)
+    self:add(entity)
+    return entity
+end
+
 function EntityManager:add(entity)
     local id = self.nextId
     self.nextId = id + 1

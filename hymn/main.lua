@@ -21,21 +21,21 @@ local function load()
     love.window.setMode(baseWidth/2, baseHeight/2, { centered = true, resizable = true })
 	entityManager = LogicCore.entityManager
 
-    local myBuilding = SpawnPortal:new(EntityStatics.spawnPortal, LogicCore.players[1])
-    entityManager:add(myBuilding)
-    myBuilding:setPosition(170, 209)
+    -- local myBuilding = SpawnPortal:new(EntityStatics.spawnPortal, LogicCore.players[1])
+    -- entityManager:add(myBuilding)
+    -- myBuilding:setPosition(170, 209)
 
-    local hisBuilding = SpawnPortal:new(EntityStatics.spawnPortal, LogicCore.players[2])
-    entityManager:add(hisBuilding)
-    hisBuilding:setPosition(700, 109)
+    -- local hisBuilding = SpawnPortal:new(EntityStatics.spawnPortal, LogicCore.players[2])
+    -- entityManager:add(hisBuilding)
+    -- hisBuilding:setPosition(700, 109)
 
-    local myUnit = DecayingUnit:new(EntityStatics.basicDecayMinion, LogicCore.players[1])
-    myUnit:setPosition(baseHeight/4, baseHeight/3)
-    entityManager:add(myUnit)
+    -- local myUnit = DecayingUnit:new(EntityStatics.basicDecayMinion, LogicCore.players[1])
+    -- myUnit:setPosition(baseHeight/4, baseHeight/3)
+    -- entityManager:add(myUnit)
 
-    local hisUnit = DecayingUnit:new(EntityStatics.basicDecayMinion, LogicCore.players[2])
-    hisUnit:setPosition(baseHeight/3, baseHeight/4)
-    entityManager:add(hisUnit)
+    -- local hisUnit = DecayingUnit:new(EntityStatics.basicDecayMinion, LogicCore.players[2])
+    -- hisUnit:setPosition(baseHeight/3, baseHeight/4)
+    -- entityManager:add(hisUnit)
 
     inputHandler = LogicCore.inputHandler
     -- inputHandler = InputHandler:new(myUnit)

@@ -1,5 +1,6 @@
 local Class = require "shared.middleclass"
 local Unit = require "shared.unit"
+local LogicCore = require "hymn.logiccore"
 
 local DecayingUnit = Class("DecayingUnit", Unit)
 
@@ -17,7 +18,7 @@ local themes = {
 }
 
 function DecayingUnit:setPlayer(player)
-    -- Unit:setPlayer(player)
+    self.player = player
     self.theme = themes[player.playerId] or themes[1]
     self:setAnimation("images/minion/" .. self.theme .. "/walk.png", 0.175)
 end
@@ -33,6 +34,11 @@ function DecayingUnit:update(dt)
 	else
 		self.timeSinceLastDecay = dtLastDecay
 	end
+
+    -- DEATH
+    if self.health <= 0 then
+        LogicCore.entityManager:remove(self.id)
+    end
 end
 
 return DecayingUnit

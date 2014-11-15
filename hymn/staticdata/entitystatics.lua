@@ -6,6 +6,7 @@ local EntityStatics = {}
 -- decayAmount 		-> health
 
 EntityStatics.basicDecayMinion = {
+	classSource = "hymn.decayingunit",
 	health = 10,
 	speed = 300,
 	decayInterval = 1,
@@ -13,7 +14,9 @@ EntityStatics.basicDecayMinion = {
 }
 
 EntityStatics.spawnPortal = {
+	classSource = "hymn.spawnportal",
 	health = 25,
+	spawnEntityStatics = EntityStatics.basicDecayMinion,
 }
 
 return EntityStatics

@@ -1,7 +1,6 @@
 local blocking = require "shared.blocking"
 local GameMath = require "shared.gamemath"
 local Entity = require "shared.entity"
-local LogicCore = require "hymn.logiccore"
 local Unit = Entity:subclass("Unit")
 
 -- speed: pixels/second
@@ -36,11 +35,6 @@ function Unit:update(dt)
     end
 
     Entity.update(self, dt)
-
-    -- DEATH
-    if self.health <= 0 then
-        LogicCore.entityManager:remove(self.id)
-    end
 end
 
 function Unit:moveTo(x, y, stopRange)

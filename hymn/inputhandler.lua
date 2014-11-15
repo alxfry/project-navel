@@ -1,7 +1,6 @@
 local Class = require "shared.middleclass"
 local GameMath = require "shared.gamemath"
 local InputHandler = Class "InputHandler"
-local SpawnPortal = require "hymn.spawnportal"
 local EntityStatics = require "hymn.staticdata.entitystatics"
 
 
@@ -44,8 +43,8 @@ function InputHandler:mouseReleased(x, y, button)
 
     if button == "l" then
         if self.mode == "build" then
-            local building = SpawnPortal:new(EntityStatics.spawnPortal, logicCore.players[1])
-            self.logicCore.entityManager:add(building)
+            local building = self.logicCore.entityManager:spawnFromEntityStatic(EntityStatics.spawnPortal, logicCore.players[1])
+            -- self.logicCore.entityManager:add(building)
             building:setPosition(position.x, position.y)
             self.mode = false
         else

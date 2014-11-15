@@ -10,11 +10,11 @@ local blocking = require "shared.blocking"
 local LogicCore = Class "LogicCore"
 
 function LogicCore:initialize(eMng, iHndlr)
+	local player1 = Player:new()
+	local player2 = Player:new()
 	self.players = {
-		Player:new(),
-		Player:new(),
-		Player:new(),
-		Player:new(),
+		[player1.playerId] = player1,
+		[player2.playerId] = player2,
 	}
 	self.entityManager = eMng or  EntityManager:new(self)
 	self.inputHandler = iHndlr or InputHandler:new(self)
