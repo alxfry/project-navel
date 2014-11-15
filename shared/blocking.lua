@@ -39,8 +39,8 @@ function blocking.collides(x, y)
         blocking.createFinder()
     end
 
-    gridX = math.floor(x / (map.tilewidth / 2)) + 1
-    gridY = math.floor(y / (map.tileheight / 2)) + 1
+    local gridX = math.floor(x / (map.tilewidth / 2)) + 1
+    local gridY = math.floor(y / (map.tileheight / 2)) + 1
 
     return blocking.gridCollides(gridX, gridY)
 end

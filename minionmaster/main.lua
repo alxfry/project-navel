@@ -47,7 +47,7 @@ local function load()
 
     -- spawn the master
     state.master = MinionMaster:new(EntityStatics.master)
-    state.master:setPosition(baseWidth/4, baseHeight/4)
+    state.master:setPosition(500,500)
     state.entityManager:add(state.master)
 
     spawnMinion(state.master)
@@ -55,7 +55,12 @@ local function load()
     -- spawn initial enemies
     for i=1,enemyCount do
         local enemy = Enemy:new(EntityStatics.enemy, state.master)
-        enemy:setPosition(math.random(baseWidth/2),math.random(baseHeight/2))
+        local sx, sy = state.map:size()
+        local x, y = math.random(sx),math.random(sy)
+        while blocking.collides(x, y) do
+            x,y = math.random(sx),math.random(sy)
+        end
+        enemy:setPosition(x, y)
         state.entityManager:add(enemy)
     end
 
