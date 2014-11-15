@@ -7,7 +7,7 @@ local Unit = Entity:subclass("Unit")
 function Unit:initialize(speed, orientation, startingHealth)
     Entity.initialize(self)
 
-    self.health = startingHealth
+    self.health = startingHealth or 0
 
     self.speed = speed
     self.orientation = orientation
@@ -28,6 +28,11 @@ function Unit:update(dt)
         self.position = self.targetPosition
     end
     Entity.update(self, dt)
+
+    -- DEATH
+    if self.health <= 0 then
+
+    end
 end
 
 function Unit:moveTo(x, y)

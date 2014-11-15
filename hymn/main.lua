@@ -8,14 +8,15 @@ local Building = require "shared.building"
 local BehaviorTree = require "shared.behaviortree"
 local sti = require "libs.sti"
 
-local inputHandler
+local LogicCore = require "hymn.logiccore"
 
+local inputHandler
 local entityManager
 
 local function load()
     love.window.setTitle("Hymn of Snow and Lava")
     love.window.setMode(baseWidth/2, baseHeight/2, { centered = true, resizable = true })
-	entityManager = EntityManager:new()
+	entityManager = LogicCore.entityManager
 
     local myBuilding = Building:new("portal")
     entityManager:add(myBuilding)
@@ -26,9 +27,10 @@ local function load()
     myUnit:setPosition(baseHeight/4, baseHeight/4)
     entityManager:add(myUnit)
 
+    -- TODO: inputHandler = LogicCore.inputHandler
     inputHandler = InputHandler:new(myUnit)
 
-    map = sti.new("testmap")
+    LogicCore:startMap(sti.new("testmap"))
 end
 
 function love.update(dt)
@@ -36,7 +38,7 @@ function love.update(dt)
 end
 
 function love.draw(dt)
-    map:draw()
+    LogicCore.map:draw()
     entityManager:draw(dt)
 end
 
