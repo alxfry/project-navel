@@ -54,7 +54,7 @@ function AttackBehavior:update(dt, context)
     print(self)
     local object = context.object
 
-    local reached, dir, length = object:reachedTarget(dt, object.target.position)
+    local reached, dir, length = object:reachedTarget(object.target.position, object.target.spriteSize)
 
     if length < object.target.spriteSize then
         if not object.attack then
