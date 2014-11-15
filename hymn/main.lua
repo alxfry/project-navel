@@ -18,7 +18,7 @@ local function load()
     love.window.setMode(baseWidth/2, baseHeight/2, { centered = true, resizable = true })
 	entityManager = EntityManager:new()
     myUnit = Unit:new(300, 0)
-    -- myUnit:setAnimation("images/minion/frost/walk.png", 64, 64, 0.175)
+    myUnit:setAnimation("images/minion/frost/walk.png", 64, 64, 0.175)
     inputHandler = InputHandler:new(myUnit)
     entityManager:add(myUnit)
 
