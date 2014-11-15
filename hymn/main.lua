@@ -50,6 +50,7 @@ function love.update(dt)
 end
 
 local cursor = love.graphics.newImage("images/ui/mouseCursor.png")
+local pathFlag = love.graphics.newImage("images/ui/heart.png")
 
 function love.draw(dt)
     LogicCore.map:draw()
@@ -63,6 +64,14 @@ function love.draw(dt)
     local entity = inputHandler.selectedEntityId and entityManager.entities[inputHandler.selectedEntityId]
     if entity then
         love.graphics.draw(cursor, entity.position.x-96, entity.position.y-96)
+        if entity.path then
+            local startPoint = entity.position
+            for _, endPoint in ipairs(entity.path) do
+                love.graphics.line(startPoint.x, startPoint.y, endPoint.x, endPoint.y)
+                love.graphics.draw(pathFlag, endPoint.x-18, endPoint.y-18)
+                startPoint = endPoint
+            end
+        end
     end
 end
 

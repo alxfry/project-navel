@@ -2,33 +2,31 @@ local Unit = require "shared.unit"
 
 local Enemy = Unit:subclass("Enemy")
 
-local enemySpeed = 20
-local enemyHealth = 100
+local content = require "minionmaster.content"
+local state = require "minionmaster.state"
 
 -- speed: pixels/second
-function Enemy:initialize(target, deadFunc)
-    Unit.initialize(self, enemySpeed)
+function Enemy:initialize(entityStatics, target)
+    Unit.initialize(self, entityStatics, state.player)
     self.type = "enemy"
     self.target = target
-    self.maxHealth = enemyHealth
-    self.health = enemyHealth
-    self.radius = 25
-    self.deadFunc = deadFunc
+    self.maxHealth = self.health
+
+    self:setAnimation("images/minion/lava/walk.png", 0.175 * 0.33)
+    self.attackAnim = self.animation
+    self:setAnimation("images/minion/lava/walk.png", 0.175)
+    self.walkAnim = self.animation
 end
 
 function Enemy:update(dt)
     if self.health <= 0 then
-        self.deadFunc(self)
+        state.entityManager:remove(self.id)
+        state.dna = state.dna + self.dna
+        return
     end
 
     self:moveTo(self.target.position.x, self.target.position.y)
     Unit.update(self, dt)
-end
-
-function Enemy:draw(dt)
-    local x, y = self.position.x, self.position.y
-    love.graphics.setColor(self.health/self.maxHealth * 255, 0, 0, 255)
-    love.graphics.circle("fill", x, y, self.radius, self.radius)
 end
 
 return Enemy

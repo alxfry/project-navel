@@ -3,7 +3,6 @@ local GameMath = require "shared.gamemath"
 local InputHandler = Class "InputHandler"
 local EntityStatics = require "hymn.staticdata.entitystatics"
 
-
 function InputHandler:initialize(logicCore)
     self.logicCore = logicCore
     self.translate = GameMath.Vector2:new(0, 0)
@@ -38,35 +37,50 @@ function InputHandler:mousePressed(x, y, button)
 end
 
 function InputHandler:mouseReleased(x, y, button)
-    local position = GameMath.Vector2:new(x, y) + self.translate
+    local position = GameMath.Vector2:new(x, y) - self.translate
+    local entityManager = self.logicCore.entityManager
     local logicCore = self.logicCore
 
     if button == "l" then
         if self.mode == "build" then
             local building = self.logicCore.entityManager:spawnFromEntityStatic(EntityStatics.spawnPortal, logicCore.players[1])
-            -- self.logicCore.entityManager:add(building)
             building:setPosition(position.x, position.y)
             self.mode = false
+        elseif self.mode == "path" then
+            local entity = entityManager:entity(self.selectedEntityId)
+            entity:addPathPoint(position)
         else
             -- selection
-            local entities = self.logicCore.entityManager.entities 
+            local entities = entityManager.entities 
             local closestDist = 10000000
             local closestEntity
-            for id, entity in ipairs(entities) do
+            for id, entity in pairs(entities) do
                 local dist = GameMath.Vector2.distance(entity.position, position)
-                if dist < closestDist then
+                if entity.selectable and dist < closestDist then
                     closestEntity = entity
                     closestDist = dist
                 end
             end
             self:selectEntity(closestDist < 40 and closestEntity.id)
         end
+    elseif button == "r" then
+        self:selectEntity(false)
     end
 end
 
 function InputHandler:keyPressed(key, unicode)
+    local entityManager = self.logicCore.entityManager
+
     if key == "b" then
         self.mode = "build"
+    elseif key == "p" then
+        if self.mode == "path" then
+            self.mode = false
+        elseif self.selectedEntityId then
+            local entity = entityManager:entity(self.selectedEntityId)
+            self.mode = "path"
+            entity:clearPath()
+        end
     else
         self.mode = false
     end

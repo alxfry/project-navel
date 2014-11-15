@@ -37,8 +37,14 @@ function EntityManager:add(entity)
 end
 
 function EntityManager:remove(id)
-    self.entities[id]:delete()
-    self.entities[id] = nil
+    if self.entities[id] then
+        self.entities[id]:delete()
+        self.entities[id] = nil
+    end
+end
+
+function EntityManager:entity(id)
+    return self.entities[id]
 end
 
 return EntityManager

@@ -15,6 +15,7 @@ function Entity:initialize(entityStatics, player)
     self.orientation = 0
     self.id = 0
     self.animation = false
+    self.radius = 10
     self:setPlayer(player)
 end
 
@@ -45,7 +46,7 @@ function Entity:draw(dt)
     if self.animation then
         self.animation:draw(self.image, x, y, self.orientation, 1, 1, self.spriteSize/2, self.spriteSize/2)
     else
-        love.graphics.circle("fill", x, y, 10, 10)
+        love.graphics.circle("fill", x, y, self.radius, self.radius)
     end
 end
 
