@@ -19,11 +19,34 @@ function SearchEnemy:update(dt, context)
 
 	self.status = STATUS.FAILURE
 
-	if entity and distance > 40 then
-		object:moveTo(entity.position.x, entity.position.y)
-		self.status = STATUS.SUCCESS
+	if entity then
+		if distance > 40 then
+			object:moveTo(entity.position.x, entity.position.y)
+			self.status = STATUS.SUCCESS
+		else
+			object.attackTarget = entity.id
+			self.status = STATUS.SUCCESS
+		end
 	end
 
+	dbgprint("SearchEnemy", self.status)
+	return self.status
+end
+
+local AttackEnemy = Class("AttackEnemy", Behavior)
+
+function AttackEnemy:update(dt, context)
+	local targetId = context.object.attackTarget
+	local entity = LogicCore.entityManager:entity(targetId)
+	self.status = STATUS.FAILURE
+	if entity then
+		entity:takeDamage(1)
+		self.status = STATUS.RUNNING
+	else
+		self.attackTarget = false
+	end
+
+	dbgprint("AttackEnemy", self.status)
 	return self.status
 end
 
@@ -95,4 +118,5 @@ return
 	MoveTo = MoveTo,
 	RandomMovement = RandomMovement,
 	SearchEnemy = SearchEnemy,
+	AttackEnemy = AttackEnemy,
 }

@@ -21,6 +21,7 @@ local function createDecayUnitBT()
     local root = BehaviorTree.Sequence:new()
     root:addChild(findTarget)
     root:addChild(Behaviors.MoveTo:new())
+    root:addChild(Behaviors.AttackEnemy:new())
     -- root:addChild(Behaviors.RandomMovement:new())
 
 	-- local root = BehaviorTree.Sequence:new()
