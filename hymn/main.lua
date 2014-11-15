@@ -5,6 +5,7 @@ local Entity = require "shared.entity"
 local EntityManager = require "shared.entitymanager"
 local Unit = require "shared.unit"
 local BehaviorTree = require "shared.behaviortree"
+local sti = require "libs.sti"
 
 local myUnit
 local inputHandler
@@ -17,16 +18,19 @@ local function load()
     love.window.setMode(baseWidth/2, baseHeight/2, { centered = true, resizable = true })
 	entityManager = EntityManager:new()
     myUnit = Unit:new(300, 0)
-    myUnit:setAnimation("images/minion/frost/walk.png", 64, 64, 0.175)
+    -- myUnit:setAnimation("images/minion/frost/walk.png", 64, 64, 0.175)
     inputHandler = InputHandler:new(myUnit)
     entityManager:add(myUnit)
+
+    map = sti.new("testmap")
 end
 
 function love.update(dt)
-	entityManager:update(dt)
+    entityManager:update(dt)
 end
 
 function love.draw(dt)
+    map:draw()
     entityManager:draw(dt)
 end
 
