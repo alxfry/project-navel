@@ -1,4 +1,4 @@
-require "dbginit"
+require "shared.dbginit"
 
 local games = {
     "hymn",
