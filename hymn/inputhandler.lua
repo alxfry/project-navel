@@ -1,10 +1,11 @@
 local Class = require "shared.middleclass"
 local GameMath = require "shared.gamemath"
 local InputHandler = Class "InputHandler"
+local SpawnPortal = require "hymn.spawnportal"
+
 
 function InputHandler:initialize(logicCore)
     self.logicCore = logicCore
-
     self.translate = GameMath.Vector2:new(0, 0)
 end
 
@@ -32,22 +33,47 @@ function InputHandler:update(dt)
     self.translate.y = GameMath.clamp(self.translate.y, -h + height, 0)
 end
 
--- function InputHandler:setMap(map)
---     self.map = map
--- end
-
 function InputHandler:mousePressed(x, y, button)
     -- print("mousePressed", x, y, button)
 end
 
 function InputHandler:mouseReleased(x, y, button)
-    -- print("mouseReleased", x, y, button)
+    local position = GameMath.Vector2:new(x, y) + self.translate
+
+    if button == "l" then
+        if self.mode == "build" then
+            local building = SpawnPortal:new()
+            self.logicCore.entityManager:add(building)
+            building:setPosition(position.x, position.y)
+            self.mode = false
+        else
+            -- selection
+            local entities = self.logicCore.entityManager.entities 
+            local closestDist = 10000000
+            local closestEntity
+            for id, entity in ipairs(entities) do
+                local dist = GameMath.Vector2.distance(entity.position, position)
+                if dist < closestDist then
+                    closestEntity = entity
+                    closestDist = dist
+                end
+            end
+            self:selectEntity(closestEntity.id)
+        end
+    end
 end
 
 function InputHandler:keyPressed(key, unicode)
-    -- print("keyPressed", key, unicode)
+    if key == "b" then
+        self.mode = "build"
+    else
+        self.mode = false
+    end
 end
 
+function InputHandler:selectEntity(entityId)
+    self.selectedEntityId = entityId
+end
 
 -- local SubClass =  Class("Subclass", InputHandler)
 -- local InputHandler = Handler:subclass("InputHandler")

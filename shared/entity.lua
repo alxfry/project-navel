@@ -11,6 +11,7 @@ function Entity:initialize()
     self.orientation = 0
     self.id = 0
     self.animation = false
+    self.playerId = 1
 end
 
 function Entity:setPlayer(player)

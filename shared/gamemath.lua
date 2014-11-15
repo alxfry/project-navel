@@ -82,6 +82,10 @@ function Vector2.dot(v1, v2)
 	return v1.x * v2.x + v1.y * v2.y
 end
 
+function Vector2.distance(v1, v2)
+    return Vector2.length(v1 - v2)
+end
+
 ----------------------------------------------------------------------
 
 local Vector3 = {}
