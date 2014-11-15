@@ -39,16 +39,20 @@ end
 
 function InputHandler:mouseReleased(x, y, button)
     local position = GameMath.Vector2:new(x, y) + self.translate
+    local entityManager = self.logicCore.entityManager
 
     if button == "l" then
         if self.mode == "build" then
             local building = SpawnPortal:new()
-            self.logicCore.entityManager:add(building)
+            entityManager:add(building)
             building:setPosition(position.x, position.y)
             self.mode = false
+        elseif self.mode == "path" then
+            local entity = entityManager:entity(self.selectedEntityId)
+            entity:addPathPoint(position)
         else
             -- selection
-            local entities = self.logicCore.entityManager.entities 
+            local entities = entityManager.entities 
             local closestDist = 10000000
             local closestEntity
             for id, entity in ipairs(entities) do
@@ -64,8 +68,14 @@ function InputHandler:mouseReleased(x, y, button)
 end
 
 function InputHandler:keyPressed(key, unicode)
+    local entityManager = self.logicCore.entityManager
+
     if key == "b" then
         self.mode = "build"
+    elseif self.selectedEntityId and key == "p" then
+        local entity = entityManager:entity(self.selectedEntityId)
+        self.mode = "path"
+        entity:clearPath()
     else
         self.mode = false
     end

@@ -33,4 +33,8 @@ function EntityManager:remove(id)
     self.entities[id] = nil
 end
 
+function EntityManager:entity(id)
+    return self.entities[id]
+end
+
 return EntityManager
