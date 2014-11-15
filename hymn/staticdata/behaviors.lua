@@ -16,10 +16,9 @@ local FindWaypoint = Class("FindWaypoint", Behavior)
 function FindWaypoint:update(dt, context)
 	local object = context.object
 	local userPath = object.userPath
-	context.waypointIdx = context.waypointIdx or 1
-	wpIdx = wpIdx
-
-	if object.position:add(-userPath[wpIdx]):sqLength() <= 4 then
+	context.waypointIdx = context.waypointIdx or 0
+	wpIdx = context.waypointIdx
+	if wpIdx == 0 or object.position:add(-userPath[wpIdx]):sqLength() <= 4 then
 		wpIdx = wpIdx + 1
 		local nextWp = userPath[wpIdx]
 		if nextWp then
@@ -40,7 +39,7 @@ local MoveTo = Class("MoveTo", Behavior)
 
 function MoveTo:update(dt, context)
 	local object = context.object
-
+	dbgprint("move")
 	local finished = object:updateMove(dt)
 	self.status = finished and STATUS.FAILURE or STATUS.SUCCESS
 	return self.status
