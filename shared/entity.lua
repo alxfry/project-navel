@@ -1,5 +1,6 @@
 local anim8 = require "libs.anim8"
 
+-- local blocking = require "shared.blocking"
 local Class = require "shared.middleclass"
 local GameMath = require "shared.gamemath"
 
@@ -9,7 +10,7 @@ function Entity:initialize(entityStatics, player)
     for key, value in pairs(entityStatics) do
         self[key] = value
     end
-    
+
 	self.health = self.health or 0
     self.maxHealth = self.health
 	self.position = GameMath.Vector2:new(0, 0)
@@ -18,6 +19,8 @@ function Entity:initialize(entityStatics, player)
     self.animation = false
     self.radius = 10
     self:setPlayer(player)
+
+    -- blocking.addDynamicBlock(self.position.x, self.position.y)
 end
 
 function Entity:setPlayer(player)
@@ -53,11 +56,17 @@ function Entity:draw(dt)
 end
 
 function Entity:delete()
+    -- blocking.removeDynamicBlock(self.position.x, self.position.y)
 end
 
 function Entity:setPosition(x, y)
+    -- local oldX = self.position.x
+    -- local oldY = self.position.y
+
 	self.position.x = x
 	self.position.y = y
+
+    -- blocking.updateDynamicBlock(oldX, oldY, x, y)
 end
 
 return Entity

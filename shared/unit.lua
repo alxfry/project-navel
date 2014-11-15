@@ -54,12 +54,12 @@ function Unit:updateMove(dt)
 
         if #waypoints > 1 or length > self.stopRange then
             if reached then
-                self.position.x = target.x
-                self.position.y = target.y
+                self:setPosition(target.x, target.y)
                 table.remove(waypoints, 1)
             else
                 direction:normalize()
-                self.position = self.position + direction * step / length
+                local newPosition = self.position + direction * step / length
+                self:setPosition(newPosition.x, newPosition.y)
             end
             return true
         else

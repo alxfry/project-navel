@@ -1,6 +1,8 @@
 local Grid = require "libs.jumper.grid"
 local Pathfinder = require "libs.jumper.pathfinder"
 
+local floor = math.floor
+
 local WALKABLE = 0
 local BLOCKED = 1
 
@@ -10,12 +12,24 @@ local blocking = {
 }
 
 function blocking.setMap(map)
-    if self.map == map then
+    assert(type(map) == "table", "a map please")
+
+    if blocking.map == map then
         return
     end
 
-    self.map = map
-    self.grid = false
+    blocking.map = map
+    blocking.grid = false
+
+    blocking.cellwidth = map.tilewidth / 2
+    blocking.cellheight = map.tileheight / 2
+
+    blocking.createFinder()
+end
+
+function blocking.toGrid(x, y)
+    return floor(x / blocking.cellwidth) + 1,
+           floor(y / blocking.cellheight) + 1
 end
 
 local function contains(map, x, y)
@@ -33,24 +47,15 @@ function blocking.gridCollides(gridX, gridY)
 end
 
 function blocking.collides(x, y)
-    local map = assert(blocking.map, "no map specified")
-
-    if not blocking.finder then
-        blocking.createFinder()
-    end
-
-    local gridX = math.floor(x / (map.tilewidth / 2)) + 1
-    local gridY = math.floor(y / (map.tileheight / 2)) + 1
-
-    return blocking.gridCollides(gridX, gridY)
+    return blocking.gridCollides(blocking.toGrid(x,  y))
 end
 
 local function raytrace(x0, y0, x1, y1, visit)
     local dx = math.abs(x1 - x0)
     local dy = math.abs(y1 - y0)
 
-    local x = math.floor(x0)
-    local y = math.floor(y0)
+    local x = floor(x0)
+    local y = floor(y0)
 
     local n = 1
     local x_inc, y_inc
@@ -61,12 +66,12 @@ local function raytrace(x0, y0, x1, y1, visit)
         err = math.huge
     elseif x1 > x0 then
         x_inc = 1
-        n = n + (math.floor(x1) - x)
-        err = (math.floor(x0) + 1 - x0) * dy
+        n = n + (floor(x1) - x)
+        err = (floor(x0) + 1 - x0) * dy
     else
         x_inc = -1
-        n = n + (x - math.floor(x1))
-        err = (x0 - math.floor(x0)) * dy
+        n = n + (x - floor(x1))
+        err = (x0 - floor(x0)) * dy
     end
 
     if dy == 0 then
@@ -74,12 +79,12 @@ local function raytrace(x0, y0, x1, y1, visit)
         err = err - math.huge
     elseif y1 > y0 then
         y_inc = 1
-        n = n + (math.floor(y1) - y)
-        err = err - (math.floor(y0) + 1 - y0) * dx
+        n = n + (floor(y1) - y)
+        err = err - (floor(y0) + 1 - y0) * dx
     else
         y_inc = -1
-        n = n + (y - math.floor(y1))
-        err = err - (y0 - math.floor(y0)) * dx;
+        n = n + (y - floor(y1))
+        err = err - (y0 - floor(y0)) * dx;
     end
 
     for i = n, 1, -1 do
@@ -103,16 +108,10 @@ local function lineOfSight(x0, y0, x1, y1)
     return raytrace(x0, y0, x1, y1, blocking.gridCollides)
 end
 
-local function getPath(startX, startY, endX, endY)
-    if not blocking.finder then
-        blocking.createFinder()
-    end
-
+local function getPath(startX, startY, endX, endY, clearance)
     local map = assert(blocking.map, "no map specified")
-    local startGridX = math.floor(startX / (map.tilewidth / 2)) + 1
-    local startGridY = math.floor(startY / (map.tileheight / 2)) + 1
-    local endGridX = math.floor(endX / (map.tilewidth / 2)) + 1
-    local endGridY = math.floor(endY / (map.tileheight / 2)) + 1
+    local startGridX, startGridY = blocking.toGrid(startX, startY)
+    local endGridX, endGridY = blocking.toGrid(endX, endY)
 
     -- Can't find paths when either of the locations is invalid
     if not contains(map, startGridX, startGridY) or
@@ -120,7 +119,7 @@ local function getPath(startX, startY, endX, endY)
         return
     end
 
-    return blocking.finder:getPath(startGridX, startGridY, endGridX, endGridY)
+    return blocking.finder:getPath(startGridX, startGridY, endGridX, endGridY, clearance)
 end
 
 function blocking.pathExists(startX, startY, endX, endY)
@@ -157,8 +156,8 @@ function blocking.findPath(startX, startY, endX, endY)
                 if lineOfSight(lastRequiredGridX, lastRequiredGridY, gridX, gridY) then
                     previousGridX, previousGridY = gridX, gridY
                 else
-                    local x = (previousGridX-1) * (map.tilewidth / 2)
-                    local y = (previousGridY-1) * (map.tileheight / 2)
+                    local x = (previousGridX-1) * (blocking.cellwidth)
+                    local y = (previousGridY-1) * (blocking.cellheight)
                     x = x + map.tilewidth / 4
                     y = y + map.tileheight / 4
                     waypoints[#waypoints + 1] = { x = x, y = y }
@@ -226,5 +225,32 @@ function blocking.createFinder()
     blocking.grid = grid
     blocking.finder = Pathfinder(Grid(grid), 'JPS', WALKABLE)
 end
+
+--[[
+function blocking.updateDynamicBlock(oldX, oldY, x, y)
+    local previousGridX, previousGridY = blocking.toGrid(oldX, oldY)
+    local newGridX, newGridY = blocking.toGrid(x, y)
+
+    print(newGridX, newGridY)
+    local grid = blocking.grid
+
+    if previousGridX ~= newGridX or previousGridY ~= newGridY then
+        grid[previousGridY][previousGridX] = grid[previousGridY][previousGridX] - 1
+        grid[newGridY][newGridX] = grid[newGridY][newGridX] + 1
+    end
+end
+
+function blocking.addDynamicBlock(x, y)
+    local gridX, gridY = blocking.toGrid(x, y)
+    local grid = blocking.grid
+    grid[gridY][gridX] = grid[gridY][gridX] + 1
+end
+
+function blocking.removeDynamicBlock(x, y)
+    local gridX, gridY = blocking.toGrid(x, y)
+    local grid = blocking.grid
+    grid[gridY][gridX] = grid[gridY][gridX] - 1
+end
+--]]
 
 return blocking
