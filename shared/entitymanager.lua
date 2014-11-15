@@ -2,7 +2,8 @@ local Class = require "shared.middleclass"
 
 local EntityManager = Class "EntityManager"
 
-function EntityManager:initialize()
+function EntityManager:initialize(logicCore)
+    self.logicCore = logicCore
     self.nextId = 1
     self.entities = {}
 end

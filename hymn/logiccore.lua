@@ -7,14 +7,13 @@ local InputHandler 	= require "hymn.inputhandler"
 local LogicCore = Class "LogicCore"
 
 function LogicCore:initialize(eMng, iHdnlr)
-	self.entityManager = eMng or  EntityManager:new()
-	self.inputHandler = iHndlr or InputHandler:new()
+	self.entityManager = eMng or  EntityManager:new(self)
+	self.inputHandler = iHndlr or InputHandler:new(self)
 	self.map = false
 end
 
 function LogicCore:startMap(map)
 	self.map = map
-    self.inputHandler:setMap(map)
 end
 
 function LogicCore:reset()

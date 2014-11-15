@@ -2,8 +2,8 @@ local Class = require "shared.middleclass"
 local GameMath = require "shared.gamemath"
 local InputHandler = Class "InputHandler"
 
-function InputHandler:initialize(unit)
-    self.unit = unit
+function InputHandler:initialize(logicCore)
+    self.logicCore = logicCore
 
     self.translate = GameMath.Vector2:new(0, 0)
 end
@@ -27,14 +27,14 @@ function InputHandler:update(dt)
         self.translate.y = self.translate.y - scrollSpeed * dt
     end
 
-    local w, h = self.map:size()
+    local w, h = self.logicCore.map:size()
     self.translate.x = GameMath.clamp(self.translate.x, -w + width, 0)
     self.translate.y = GameMath.clamp(self.translate.y, -h + height, 0)
 end
 
-function InputHandler:setMap(map)
-    self.map = map
-end
+-- function InputHandler:setMap(map)
+--     self.map = map
+-- end
 
 function InputHandler:mousePressed(x, y, button)
     -- print("mousePressed", x, y, button)
