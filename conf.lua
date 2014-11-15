@@ -1,4 +1,4 @@
-require "cupid"
+-- require "cupid"
 
 -- Documentation:
 -- https://love2d.org/wiki/Config_Files
