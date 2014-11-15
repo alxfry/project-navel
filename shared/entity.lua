@@ -29,10 +29,11 @@ function Entity:update(dt)
 end
 
 function Entity:draw(dt)
+    local x, y = self.position.x, self.position.y
     if self.animation then
-        self.animation:draw(self.position.x, self.position.y, self.orientation, 1, 1, 32, 32)
+        self.animation:draw(x, y, self.orientation, 1, 1, 32, 32)
     else
-        love.graphics.circle("fill", self.position.x, self.position.y, 10, 10)
+        love.graphics.circle("fill", x, y, 10, 10)
     end
 end
 

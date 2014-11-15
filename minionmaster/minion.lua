@@ -44,8 +44,9 @@ function Minion:update(dt)
 end
 
 function Minion:draw(dt)
+    local x, y = self.position.x, self.position.y
     love.graphics.setColor(255, 255, 0, 255)
-    love.graphics.circle("fill", self.position.x, self.position.y, 10, 10)
+    love.graphics.circle("fill", x, y, 10, 10)
 end
 
 return Minion

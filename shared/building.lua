@@ -3,13 +3,8 @@ local AnAL = require "libs.AnAL"
 local Entity = require "shared.entity"
 local Building = Entity:subclass("Building")
 
--- speed: pixels/second
--- direction: radians
-function Building:initialize(gfx)
+function Building:initialize()
     Entity.initialize(self)
-
-    local img = love.graphics.newImage("images/buildings/frost/" .. gfx .. ".png")
-    self.animation = AnAL.newAnimation(img, 126, 126, 0.1, 0)
 end
 
 function Building:update(dt)
