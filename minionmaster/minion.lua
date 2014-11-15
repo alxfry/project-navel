@@ -29,7 +29,7 @@ function Minion:initialize(entityStatics, master)
     self.master = master
     -- self:setAnimation("images/minion/frost/attack.png", 0.175)
     -- self.attackAnim = self.animation:clone()
-    -- self:setAnimation("images/minion/frost/walk.png", 0.175)
+    self:setAnimation("images/minion/frost/walk.png", 0.175)
     -- self.walkAnim = self.animation:clone()
     self.attack = false
 end
@@ -45,9 +45,9 @@ function Minion:update(dt)
     local direction = (self.targetPosition - self.position)
     local length = direction:length()
     if length < self.target.spriteSize then
-        self.attack = true
         if not self.attack then
             self:setAnimation("images/minion/frost/attack.png", 0.175)
+            self.attack = true
         end
         self.target.health = self.target.health - 1
     elseif self.attack then
