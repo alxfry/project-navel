@@ -65,8 +65,11 @@ function love.draw(dt)
     if entity then
         love.graphics.draw(cursor, entity.position.x-96, entity.position.y-96)
         if entity.path then
-            for _, point in ipairs(entity.path) do
-                love.graphics.draw(pathFlag, point.x, point.y)
+            local startPoint = entity.position
+            for _, endPoint in ipairs(entity.path) do
+                love.graphics.draw(pathFlag, endPoint.x-18, endPoint.y-18)
+                love.graphics.line(startPoint.x, startPoint.y, endPoint.x, endPoint.y)
+                startPoint = endPoint
             end
         end
     end
