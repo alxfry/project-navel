@@ -53,39 +53,62 @@ function blocking.collides(x, y)
     return blocking.tileCollides(map:convertScreenToTile(x, y))
 end
 
-local function trace(x, y, x2, y2)
-    local w = x2 - x
-    local h = y2 - y
-    local dx1, dy1, dx2, dy2 = 0, 0, 0, 0
-    if w < 0 then dx1 = -1 elseif w > 0 then dx1 = 1 end
-    if h < 0 then dy1 = -1 elseif h > 0 then dy1 = 1 end
-    if w < 0 then dx2 = -1 elseif w > 0 then dx2 = 1 end
-    local longest = math.abs(w)
-    local shortest = math.abs(h)
-    if not (longest > shortest) then
-        longest = math.abs(h)
-        shortest = math.abs(w)
-        if (h < 0) then dy2 = -1 elseif h > 0 then dy2 = 1 end
-        dx2 = 0
+local function raytrace(x0, y0, x1, y1, visit)
+    local dx = math.abs(x1 - x0)
+    local dy = math.abs(y1 - y0)
+
+    local x = math.floor(x0)
+    local y = math.floor(y0)
+
+    local n = 1
+    local x_inc, y_inc
+    local err
+
+    if dx == 0 then
+        x_inc = 0
+        err = math.huge
+    elseif x1 > x0 then
+        x_inc = 1
+        n = n + (math.floor(x1) - x)
+        err = (math.floor(x0) + 1 - x0) * dy
+    else
+        x_inc = -1
+        n = n + (x - math.floor(x1))
+        err = (x0 - math.floor(x0)) * dy
     end
-    local numerator = math.floor(longest/2)
-    local lx, ly = x, y
-    for i = 0, longest do
-        if blocking.tileCollides(x,y) then
-            return lx, ly, true
+
+    if dy == 0 then
+        y_inc = 0
+        err = err - math.huge
+    elseif y1 > y0 then
+        y_inc = 1
+        n = n + (math.floor(y1) - y)
+        err = err - (math.floor(y0) + 1 - y0) * dx
+    else
+        y_inc = -1
+        n = n + (y - math.floor(y1))
+        err = err - (y0 - math.floor(y0)) * dx;
+    end
+
+    for i = n, 1, -1 do
+        if visit(x, y) then
+            return false
         end
-        lx, ly = x, y
-        numerator = numerator + shortest
-        if not (numerator < longest) then
-            numerator = numerator - longest
-            x = x + dx1
-            y = y + dy1
+
+        if err > 0 then
+            y = y + y_inc
+            err = err - dx
         else
-            x = x + dx2
-            y = y + dy2
+            x = x + x_inc
+            err = err + dy
         end
     end
-    return x2, y2, false
+
+    return true
+end
+
+local function lineOfSight(x0, y0, x1, y1)
+    return raytrace(x0, y0, x1, y1, blocking.tileCollides)
 end
 
 function blocking.findPath(startX, startY, endX, endY)
@@ -150,16 +173,15 @@ function blocking.findPath(startX, startY, endX, endY)
             local tileX, tileY = node:getX(), node:getY()
 
             if previousTileX then
-                -- local hitX, hitY, hit = trace(lastRequiredTileX, lastRequiredTileY, tileX, tileY)
-                -- if not hit then
-                --     previousTileX, previousTileY = tileX, tileY
-                -- else
+                if lineOfSight(lastRequiredTileX, lastRequiredTileY, tileX, tileY) then
+                    previousTileX, previousTileY = tileX, tileY
+                else
                     local x, y = map:convertTileToScreen(previousTileX-1, previousTileY-1)
                     x = x + map.tilewidth / 2
                     y = y + map.tileheight / 2
                     waypoints[#waypoints + 1] = { x = x, y = y }
                     lastRequiredTileX, lastRequiredTileY = previousTileX, previousTileY
-                -- end
+                end
             else
                 lastRequiredTileX, lastRequiredTileY = tileX, tileY
             end
