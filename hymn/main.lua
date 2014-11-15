@@ -66,10 +66,16 @@ function love.draw(dt)
 end
 
 function love.keypressed(key, unicode)
-	if key == "escape" then
+    local altPressed = love.keyboard.isDown('lalt') or love.keyboard.isDown('ralt')
+    if key == "escape" then
         -- sends quit event
         love.event.quit()
     end
+    if key == 'return' and altPressed then
+       fullscreen = not fullscreen
+       love.window.setFullscreen(fullscreen, "desktop")
+    end
+    
     inputHandler:keyPressed(key, unicode)
 end
 
