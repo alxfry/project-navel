@@ -4,7 +4,7 @@ local baseWidth, baseHeight = 1920, 1080
 local mouseCursor
 local fullscreen = false
 
-local sti = require "sti"
+local sti = require "libs.sti"
 
 -- local Entity = require "shared.entity"
 local EntityManager = require "shared.entitymanager"

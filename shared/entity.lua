@@ -18,7 +18,9 @@ function Entity:setAnimation(image, frameWidth, frameHeight, delay)
 end
 
 function Entity:update(dt)
-    self.animation:update(dt)
+    if self.animation then
+        self.animation:update(dt)
+    end
 end
 
 function Entity:draw(dt)
