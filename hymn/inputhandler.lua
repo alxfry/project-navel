@@ -50,6 +50,7 @@ function InputHandler:mouseReleased(x, y, button)
         if self.mode == "build" then
             local building = self.logicCore.entityManager:spawnFromEntityStatic(EntityStatics.spawnPortal, logicCore.players[1])
             building:setPosition(position.x, position.y)
+            self:selectEntity(building.id)
             self.mode = false
         elseif self.mode == "path" then
             local entity = entityManager:entity(self.selection)
