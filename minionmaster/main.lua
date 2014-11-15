@@ -52,20 +52,21 @@ function love.update(dt)
 end
 
 function love.draw(dt)
-    state.entityManager:draw(dt)
+    local width, height = love.graphics.getDimensions()
+    width = width / zoom
+    height = height / zoom
 
-    local translateX = love.mouse.getX()
-    local translateY = love.mouse.getY()
-    -- print(translateX, translateY)
-    local width = love.graphics.getWidth()
-    local height = love.graphics.getHeight()
-
-    love.graphics.translate(translateX, translateY)
+    local translateX = -state.master.position.x + width / 2
+    local translateY = -state.master.position.y + height / 2
 
     state.map:setDrawRange(translateX, translateY, width, height)
-    -- map:draw(zoom,zoom)
+    love.graphics.scale(zoom, zoom)
+    love.graphics.translate(translateX, translateY)
+    state.map:draw()
+    state.entityManager:draw(dt)
+    love.graphics.translate(-translateX, -translateY)
 
-    love.graphics.translate(0, 0)
+    -- TODO: Draw on-screen elements here
 end
 
 function love.keypressed(key, unicode)
@@ -102,6 +103,7 @@ end
 
 function love.resize(w, h)
     -- GUI.resize(w, h)
+    state.map:resize(w, h)
 end
 
 return load
