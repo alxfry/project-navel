@@ -70,4 +70,14 @@ function EntityManager:findClosestEntity(position, filter)
     return closestEntity, closestDist
 end
 
+function EntityManager:findAllEntities(filter)
+    local entities = {}
+    for id, entity in pairs(self.entities) do
+        if filter(entity) then
+            table.insert(entity)
+        end
+    end
+    return entites
+end
+
 return EntityManager
