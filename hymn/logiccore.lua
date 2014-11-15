@@ -1,7 +1,7 @@
 local Class = require "shared.middleclass"
 
 local EntityManager = require "shared.entitymanager"
-local InputHandler 	= require "hymn.inputHandler"
+local InputHandler 	= require "hymn.inputhandler"
 
 -- LogicCore Class
 local LogicCore = Class "LogicCore"
