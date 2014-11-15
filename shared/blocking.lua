@@ -103,19 +103,16 @@ local function lineOfSight(x0, y0, x1, y1)
     return raytrace(x0, y0, x1, y1, blocking.gridCollides)
 end
 
-function blocking.findPath(startX, startY, endX, endY)
-    local map = assert(blocking.map, "no map specified")
-
+local function getPath(startX, startY, endX, endY)
     if not blocking.finder then
         blocking.createFinder()
     end
 
-    local startGridX, startGridY, endGridX, endGridY
-
-    startGridX = math.floor(startX / (map.tilewidth / 2)) + 1
-    startGridY = math.floor(startY / (map.tileheight / 2)) + 1
-    endGridX = math.floor(endX / (map.tilewidth / 2)) + 1
-    endGridY = math.floor(endY / (map.tileheight / 2)) + 1
+    local map = assert(blocking.map, "no map specified")
+    local startGridX = math.floor(startX / (map.tilewidth / 2)) + 1
+    local startGridY = math.floor(startY / (map.tileheight / 2)) + 1
+    local endGridX = math.floor(endX / (map.tilewidth / 2)) + 1
+    local endGridY = math.floor(endY / (map.tileheight / 2)) + 1
 
     -- Can't find paths when either of the locations is invalid
     if not contains(map, startGridX, startGridY) or
@@ -123,7 +120,15 @@ function blocking.findPath(startX, startY, endX, endY)
         return
     end
 
-    local path = blocking.finder:getPath(startGridX, startGridY, endGridX, endGridY)
+    return blocking.finder:getPath(startGridX, startGridY, endGridX, endGridY)
+end
+
+function blocking.pathExists(startX, startY, endX, endY)
+    return getPath(startX, startY, endX, endY) and true or false
+end
+
+function blocking.findPath(startX, startY, endX, endY)
+    local path = getPath(startX, startY, endX, endY)
     if not path then
         return
     end
@@ -139,6 +144,7 @@ function blocking.findPath(startX, startY, endX, endY)
     end
     --]]
 
+    local map = blocking.map
     local waypoints = {}
     local lastRequiredGridX, lastRequiredGridY
     local previousGridX, previousGridY
