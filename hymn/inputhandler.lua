@@ -4,7 +4,6 @@ local InputHandler = Class "InputHandler"
 local SpawnPortal = require "hymn.spawnportal"
 local EntityStatics = require "hymn.staticdata.entitystatics"
 
-
 function InputHandler:initialize(logicCore)
     self.logicCore = logicCore
     self.translate = GameMath.Vector2:new(0, 0)
@@ -57,7 +56,7 @@ function InputHandler:mouseReleased(x, y, button)
             local entities = entityManager.entities 
             local closestDist = 10000000
             local closestEntity
-            for id, entity in ipairs(entities) do
+            for id, entity in pairs(entities) do
                 local dist = GameMath.Vector2.distance(entity.position, position)
                 if dist < closestDist then
                     closestEntity = entity
