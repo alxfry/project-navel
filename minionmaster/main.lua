@@ -10,6 +10,8 @@ setmetatable(_G, {
   end,
 })
 
+-- require "shared.controllerbindings"
+
 local sti           = require "libs.sti"
 
 local state         = require "minionmaster.state"
@@ -31,6 +33,12 @@ local zoomSpeed = 0.1
 
 local function enemyDied(enemy)
     state.entityManager:remove(enemy.id)
+end
+
+local function spawnMinion(master)
+    local minion = Minion:new(master)
+    minion:setPosition(master.position.x, master.position.y)
+    state.entityManager:add(minion)
 end
 
 local function load()
@@ -84,9 +92,7 @@ function love.keypressed(key, unicode)
     end
 
     if key == "m" then
-        local minion = Minion:new(state.master)
-        minion:setPosition(state.master.position.x, state.master.position.y)
-        state.entityManager:add(minion)
+        spawnMinion(state.master)
     end
 end
 
@@ -100,6 +106,12 @@ end
 
 function love.mousereleased(x, y, button)
     -- screen.mousereleased(x,y, button)
+end
+
+function love.gamepadpressed(joystick, button)
+    if button == "a" then
+        spawnMinion(state.master)
+    end
 end
 
 function love.focus(focussed)
