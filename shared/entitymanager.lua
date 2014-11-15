@@ -61,7 +61,6 @@ function EntityManager:findClosestEntity(position, filter)
     for id, entity in pairs(entities) do
         if filter(entity) then
             local d = GameMath.Vector2.distance(entity.position, position)
-            dbgprint(entity.id, d)
             if d < closestDist then
                 closestEntity = entity
                 closestDist = d

@@ -10,11 +10,21 @@ local SearchEnemy = Class("SearchEnemy", Behavior)
 
 function SearchEnemy:update(dt, context)
 	local object = context.object
-	local entity = LogicCore.entityManager:findClosestEntity(object.position, object.playerId)
-	if entity then
-		-- do something
+
+	local function isEnemy(entity)
+		return entity.player ~= object.player
 	end
-	return STATUS.FAILURE
+
+	local entity, distance = LogicCore.entityManager:findClosestEntity(object.position, isEnemy)
+
+	self.status = STATUS.FAILURE
+
+	if entity and distance > 40 then
+		object:moveTo(entity.position.x, entity.position.y)
+		self.status = STATUS.SUCCESS
+	end
+
+	return self.status
 end
 
 local FindWaypoint = Class("FindWaypoint", Behavior)
