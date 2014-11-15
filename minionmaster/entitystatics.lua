@@ -6,30 +6,31 @@ local EntityStatics =
     {
         health = 100,
         damage = 1,
-        speed = 100,
-        radius = 20,
+        speed = 200,
     },
 
     minion = 
     {
         health = 10,
         damage = 1,
-        speed = 150,
-        radius = 10,
+        speed = 250,
+        cost = 1,
+        attackRange = 300,
     },
 
     enemy = 
     {
         health = 100,
         damage = 1,
-        speed = 20,
-        radius = 25,
+        speed = 100,
+        dna = 10,
     },
 
     building = 
     {
-        health = 100,
-        radius = 40
+        health = 1000,
+        radius = 40,
+        dna = 100,
     },
 }
 

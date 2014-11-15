@@ -33,9 +33,12 @@ local zoom = 1
 local zoomSpeed = 0.1
 
 local function spawnMinion(master)
-    local minion = Minion:new(EntityStatics.minion, master)
-    minion:setPosition(master.position.x, master.position.y)
-    state.entityManager:add(minion)
+    if state.dna > EntityStatics.minion.cost then
+        state.dna = state.dna - EntityStatics.minion.cost
+        local minion = Minion:new(EntityStatics.minion, master)
+        minion:setPosition(master.position.x, master.position.y)
+        state.entityManager:add(minion)
+    end
 end
 
 local function load()

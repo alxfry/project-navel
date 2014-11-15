@@ -7,9 +7,9 @@ local state = require "minionmaster.state"
 
 local Minion = Unit:subclass("Minion")
 
-local function findNearestEnemy(position)
+local function findNearestEnemy(position, range)
     local nearest
-    local minDist = math.huge
+    local minDist = range * range
     for id, entity in pairs(state.entityManager.entities) do
         if entity.type == "enemy" then
             local dist = (entity.position - position):sqLength()
@@ -27,15 +27,15 @@ end
 function Minion:initialize(entityStatics, master)
     Unit.initialize(self, entityStatics, state.player)
     self.master = master
-    
-    self.image = content.minion.image
-    self.animation = content.minion.walk
+    self:setAnimation("images/minion/frost/walk.png", 0.175 * 0.33)
+    self.attackAnim = self.animation
     self:setAnimation("images/minion/frost/walk.png", 0.175)
+    self.walkAnim = self.animation
 end
 
 function Minion:update(dt)
-    if not self.target or self.target.health <= 0 then
-        self.target = findNearestEnemy(self.position) or self.master
+    if not self.target or self.target == self.master or self.target.health <= 0 then
+        self.target = findNearestEnemy(self.position, self.attackRange) or self.master
     end
 
     self:moveTo(self.target.position.x, self.target.position.y, self.target.radius)
@@ -44,10 +44,10 @@ function Minion:update(dt)
     local direction = (self.targetPosition - self.position)
     local length = direction:length()
     if length < self.target.radius then
-        self.animation = content.minion.attack
+        self.animation = self.attackAnim
         self.target.health = self.target.health - 1
     else
-        self.animation = content.minion.walk
+        self.animation = self.walkAnim
     end
 end
 
