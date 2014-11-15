@@ -11,6 +11,8 @@ local state = {}
 function state.initialize()
 	state.entityManager = EntityManager:new()
 
+    state.dna = 100
+
     -- load the map
     state.map = sti.new("testmap")
 end

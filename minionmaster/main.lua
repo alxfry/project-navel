@@ -1,4 +1,4 @@
-require "libs.cupid"
+-- require "libs.cupid"
 
 -- lock down the globals table for performance and error detection
 setmetatable(_G, {
@@ -13,13 +13,13 @@ setmetatable(_G, {
 local sti           = require "libs.sti"
 
 local state         = require "minionmaster.state"
+local ui            = require "minionmaster.ui"
 
 local Enemy         = require "minionmaster.enemy"
 local Minion        = require "minionmaster.minion"
 local MinionMaster  = require "minionmaster.minionmaster"
 
 local baseWidth, baseHeight = 1920, 1080
-local mouseCursor
 
 local enemyCount = 10
 
@@ -31,7 +31,6 @@ local function enemyDied(enemy)
 end
 
 local function load()
-    mouseCursor = love.graphics.newImage("images/ui/mouseCursor.png")
     state.initialize()
 
     -- spawn the master
@@ -45,10 +44,14 @@ local function load()
         enemy:setPosition(math.random(baseWidth/2),math.random(baseHeight/2))
         state.entityManager:add(enemy)
     end
+
+    ui.load()
 end
 
 function love.update(dt)
     state.entityManager:update(dt)
+    state.map:update(dt)
+    ui.update(dt)
 end
 
 function love.draw(dt)
@@ -60,13 +63,14 @@ function love.draw(dt)
     local translateY = -state.master.position.y + height / 2
 
     state.map:setDrawRange(translateX, translateY, width, height)
+    love.graphics.push()
     love.graphics.scale(zoom, zoom)
     love.graphics.translate(translateX, translateY)
     state.map:draw()
     state.entityManager:draw(dt)
-    love.graphics.translate(-translateX, -translateY)
+    love.graphics.pop()
 
-    -- TODO: Draw on-screen elements here
+    ui.draw()
 end
 
 function love.keypressed(key, unicode)
