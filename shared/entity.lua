@@ -12,6 +12,10 @@ function Entity:initialize()
     self.animation = false
 end
 
+function Entity:setPlayer(player)
+    self.playerId = player.playerId
+end
+
 function Entity:setAnimation(image, frameWidth, frameHeight, delay)
     local img = love.graphics.newImage(image)
     self.animation = newAnimation(img, frameWidth, frameHeight, delay or 0.1, 0)
