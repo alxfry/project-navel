@@ -22,8 +22,6 @@ function ui.load()
     quickie.group.default.size[2] = 25
     quickie.group.default.spacing = 5
 
-    -- quickie.mouse.disable()
-
     inputHandler = LogicCore.inputHandler
     entityManager = LogicCore.entityManager
 
@@ -68,7 +66,7 @@ function ui.draw()
 end
 
 function ui.drawHealthBar(entity)
-    local width = 50
+    local width = 40
     local height = 5
     local x = entity.position.x - width/2
     local y = entity.position.y - 30
@@ -77,7 +75,6 @@ function ui.drawHealthBar(entity)
     love.graphics.setColor(0, 128, 0, 255)
     love.graphics.rectangle("fill", x, y, width*entity.health/entity.maxHealth, height )
     love.graphics.setColor(255, 255, 255, 255)
-
 end
 
 function ui.resize(w, h)

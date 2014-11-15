@@ -20,7 +20,7 @@ local themes = {
 function DecayingUnit:setPlayer(player)
     self.player = player
     self.theme = themes[player.playerId] or themes[1]
-    self:setAnimation("images/minion/" .. self.theme .. "/walk.png", 0.175)
+    self:setAnimation("images/minion/" .. self.theme .. "/walk.png", 0.175, 0.7)
 end
 
 function DecayingUnit:update(dt)

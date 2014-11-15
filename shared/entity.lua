@@ -24,13 +24,14 @@ function Entity:setPlayer(player)
     self.playerId = player.playerId
 end
 
-function Entity:setAnimation(imagePath, delay)
+function Entity:setAnimation(imagePath, delay, scale)
     local image = love.graphics.newImage(imagePath)
     local imageWidth, imageHeight = image:getDimensions()
     local frameWidth, frameHeight = imageHeight, imageHeight
     local grid = anim8.newGrid(frameWidth, frameHeight, imageWidth, imageHeight)
     local frames = imageWidth / frameWidth
 
+    self.scale = scale or 1
     self.spriteSize = imageHeight
     self.image = image
     self.animation = anim8.newAnimation(grid('1-' .. frames,1), delay)
@@ -45,7 +46,7 @@ end
 function Entity:draw(dt)
     local x, y = self.position.x, self.position.y
     if self.animation then
-        self.animation:draw(self.image, x, y, self.orientation, 1, 1, self.spriteSize/2, self.spriteSize/2)
+        self.animation:draw(self.image, x, y, self.orientation, self.scale, self.scale, self.spriteSize/2, self.spriteSize/2)
     else
         love.graphics.circle("fill", x, y, self.radius, self.radius)
     end
