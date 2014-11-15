@@ -12,7 +12,7 @@ local inputHandler
 local entityManager
 
 local function load()
-    print("starting project HYMN")
+    love.window.setTitle("Hymn of Snow and Magma")
     -- mouseCursor = love.graphics.newImage("images/ui/mouseCursor.png")
     love.window.setMode(baseWidth/2, baseHeight/2, { centered = true, resizable = true })
 	entityManager = EntityManager:new()
