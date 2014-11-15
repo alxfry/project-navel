@@ -27,10 +27,14 @@ local function load()
     myBuilding:setPlayer(player1)
 
     local myUnit = Unit:new(300, 0)
-    myUnit:setAnimation("images/minion/frost/walk.png", 64, 64, 0.175)
     myUnit:setPosition(baseHeight/4, baseHeight/4)
     entityManager:add(myUnit)
-    myBuilding:setPlayer(player2)
+    myUnit:setPlayer(player1)
+
+    local hisUnit = Unit:new(300, 0)
+    hisUnit:setPosition(baseHeight/4, baseHeight/4)
+    entityManager:add(hisUnit)
+    hisUnit:setPlayer(player2)
 
     inputHandler = InputHandler:new(myUnit)
 

@@ -1,7 +1,7 @@
 local Class = require "shared.middleclass"
 local Player = Class "Player"
 
-Player.count = 0
+Player.count = 1
 
 function Player:initialize()
     self.playerId = Player.count
