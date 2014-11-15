@@ -1,3 +1,5 @@
+require "dbginit"
+
 local games = {
     "hymn",
     "minionmaster",
