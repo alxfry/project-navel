@@ -58,7 +58,7 @@ function InputHandler:mouseReleased(x, y, button)
                     closestDist = dist
                 end
             end
-            self:selectEntity(closestEntity.id)
+            self:selectEntity(closestDist < 40 and closestEntity.id)
         end
     end
 end
