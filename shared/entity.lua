@@ -1,4 +1,4 @@
-require("libs.AnAL")
+require "libs.AnAL"
 
 local Class = require "shared.middleclass"
 local GameMath = require "shared.gamemath"
@@ -9,6 +9,7 @@ function Entity:initialize()
 	self.position = GameMath.Vector2:new(0, 0)
     self.orientation = 0
     self.id = 0
+    self.animation = false
 end
 
 function Entity:setAnimation(image, frameWidth, frameHeight, delay)

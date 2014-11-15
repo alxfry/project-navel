@@ -1,4 +1,4 @@
-
+require "libs.cupid"
 
 local baseWidth, baseHeight = 1920, 1080
 local mouseCursor
@@ -102,7 +102,7 @@ function love.keypressed(key, unicode)
     end
 
     if key == "m" then
-        
+
         local minion = Minion:new(minionSpeed, findEnemy())
         minion:setPosition(master.position.x, master.position.y)
         entityManager:add(minion)

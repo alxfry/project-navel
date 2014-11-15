@@ -1,5 +1,3 @@
-require "cupid"
-
 local lg = love.graphics
 
 local SplashScreen = require "screens/splash"
