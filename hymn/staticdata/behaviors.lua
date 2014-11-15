@@ -1,5 +1,6 @@
 local Class = require "shared.middleclass"
 local GameMath = require "shared.gamemath"
+local LogicCore = require "hymn.logiccore"
 
 local BehaviorTree = require "shared.behaviortree"
 local Behavior = BehaviorTree.Behavior
@@ -8,6 +9,11 @@ local STATUS = Behavior.static.STATUS
 local SearchEnemy = Class("SearchEnemy", Behavior)
 
 function SearchEnemy:update(dt, context)
+	local object = context.object
+	local entity = LogicCore.entityManager:findClosestEntity(object.position, object.playerId)
+	if entity then
+		-- do something
+	end
 	return STATUS.FAILURE
 end
 
@@ -32,6 +38,7 @@ function FindWaypoint:update(dt, context)
 		self.status = STATUS.SUCCESS
 	end
 
+	dbgprint("FindWaypoint", self.status)
 	return self.status
 end
 
@@ -41,6 +48,7 @@ function MoveTo:update(dt, context)
 	local object = context.object
 	local finished = object:updateMove(dt)
 	self.status = finished and STATUS.FAILURE or STATUS.SUCCESS
+	dbgprint("MoveTo", self.status)
 	return self.status
 end
 
@@ -61,6 +69,7 @@ function RandomMovement:update(dt, context)
 
 	object:moveTo(newPosition.x, newPosition.y)
 	local finished = object:updateMove(dt)
+	dbgprint("RandomMovement")
 	return STATUS.RUNNING
 end
 
@@ -75,4 +84,5 @@ return
 	FindWaypoint = FindWaypoint,
 	MoveTo = MoveTo,
 	RandomMovement = RandomMovement,
+	SearchEnemy = SearchEnemy,
 }

@@ -46,4 +46,10 @@ function EntityManager:entity(id)
     return self.entities[id]
 end
 
+-- position: vector2
+-- playerId: [optional] filter for player
+function EntityManager:findClosestEntity(position, playerId)
+    return false
+end
+
 return EntityManager
