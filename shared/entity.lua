@@ -9,7 +9,7 @@ function Entity:initialize(entityStatics, player)
     for key, value in pairs(entityStatics) do
         self[key] = value
     end
-    dbgprint(player)
+    
 	self.health = self.health or 0
 	self.position = GameMath.Vector2:new(0, 0)
     self.orientation = 0
