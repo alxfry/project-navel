@@ -2,7 +2,6 @@ local Building = require "shared.building"
 local SpawnPortal = Building:subclass("SpawnPortal")
 
 function SpawnPortal:initialize(entityStatic, player)
-	dbgprint(player)
     Building.initialize(self, entityStatic, player)
     self:setPlayer(player)
     self.path = {}

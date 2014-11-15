@@ -2,7 +2,6 @@ local Entity = require "shared.entity"
 local Building = Entity:subclass("Building")
 
 function Building:initialize(entityStatic, player)
-	dbgprint(player)
     Entity.initialize(self, entityStatic, player)
 end
 
