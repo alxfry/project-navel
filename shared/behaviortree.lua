@@ -135,7 +135,6 @@ function Sequence:update()
 
 		-- IF CHILD NO SUCCESS -> SEQUENCE NO SUCCESS
 		if not (status == STATUS.SUCCESS) then
-			print(status)
 			return status
 		end
 	end
