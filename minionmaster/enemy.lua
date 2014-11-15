@@ -1,12 +1,17 @@
 local Unit = require "shared.unit"
+
 local Enemy = Unit:subclass("Enemy")
 
+local enemySpeed = 20
+local enemyHealth = 100
+
 -- speed: pixels/second
-function Enemy:initialize(speed, target, health, deadFunc)
-    Unit.initialize(self, speed)
+function Enemy:initialize(target, deadFunc)
+    Unit.initialize(self, enemySpeed)
+    self.type = "enemy"
     self.target = target
-    self.maxHealth = health
-    self.health = health
+    self.maxHealth = enemyHealth
+    self.health = enemyHealth
     self.radius = 25
     self.deadFunc = deadFunc
 end

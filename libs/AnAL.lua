@@ -34,7 +34,7 @@ animation.__index = animation
 -- @param delay The delay between two frames
 -- @param frames The number of frames, 0 for autodetect
 -- @return The created animation
-function newAnimation(image, fw, fh, delay, frames)
+local function newAnimation(image, fw, fh, delay, frames)
 	local a = {}
 	a.img = image
 	a.frames = {}
@@ -189,16 +189,6 @@ function animation:setMode(mode)
 	end
 end
 
---- Animations_legacy_support
--- @usage Add legacy support, basically set love.graphics.newAnimation again, and allow you to use love.graphics.draw
-if Animations_legacy_support then
-	love.graphics.newAnimation = newAnimation
-	local oldLGDraw = love.graphics.draw
-	function love.graphics.draw(item, ...)
-		if type(item) == "table" and item.draw then
-			return item:draw(...)
-		else
-			return oldLGDraw(item, ...)
-		end
-	end
-end
+return {
+	newAnimation = newAnimation,
+}

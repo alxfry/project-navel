@@ -4,8 +4,10 @@ local Unit = Entity:subclass("Unit")
 
 -- speed: pixels/second
 -- direction: radians
-function Unit:initialize(speed, orientation)
+function Unit:initialize(speed, orientation, startingHealth)
     Entity.initialize(self)
+
+    self.health = startingHealth
 
     self.speed = speed
     self.orientation = orientation
@@ -29,7 +31,8 @@ function Unit:update(dt)
 end
 
 function Unit:moveTo(x, y)
-    self.targetPosition = GameMath.Vector2:new(x, y)
+    self.targetPosition.x = x
+    self.targetPosition.y = y
 end
 
 function Unit:setPosition(x, y)

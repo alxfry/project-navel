@@ -20,9 +20,11 @@ function EntityManager:draw(dt)
 end
 
 function EntityManager:add(entity)
-    self.entities[self.nextId] = entity
-    entity.id = self.nextId
-    self.nextId = self.nextId + 1
+    local id = self.nextId
+    self.nextId = id + 1
+
+    entity.id = id
+    self.entities[id] = entity
 end
 
 function EntityManager:remove(id)
