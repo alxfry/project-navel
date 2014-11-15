@@ -8,18 +8,18 @@ function Unit:initialize(speed)
     Entity.initialize(self)
 
     self.speed = speed
-    self.targetPosition = GameMath.Vector2.new(self.position.x, self.position.y)
+    self.targetPosition = GameMath.Vector2:new(self.position.x, self.position.y)
 end
 
 function Unit:update(dt)
-    print(self.position.x, self.position.y)
+    -- print(self.position.x, self.position.y)
     local direction = self.targetPosition - self.position
-    direction:normalize()
+    -- direction:normalize()
     self.position = self.position + direction * dt * self.speed
 end
 
 function Unit:moveTo(x, y)
-    self.targetPosition = GameMath.Vector2.new(x, y)
+    self.targetPosition = GameMath.Vector2:new(x, y)
 end
 
 return Unit

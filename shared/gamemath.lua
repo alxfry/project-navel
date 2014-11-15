@@ -1,53 +1,44 @@
-local Vector2 = {}
+local Class = require "shared.middleclass"
 
-local vector2Ops = 
-{ 	
-	__index = function(t, k) 
-		if k == "x" then
-			return t[1] 
-		elseif k == "y" then
-			return t[2] 
-		end
-	end,
+local Vector2 = Class "Vector2"
 
-	__add = function(t, o)
-		return Vector2.add(t, o)
-	end,
+function Vector2:initialize(x, y)
+	self.x = x
+	self.y = y
+end
 
-	__mul = function(t, o)
-		if type(t) == "number" then
-			t, o = o, t
-		end
-		if type(o) == "number" then
-			return Vector2.new(o * t.x, o * t.y)
-		elseif type(o) == "table" then
-			return Vector2.dot(t, o)
-		end
-	end,
+Vector2.__add = function(t, o)
+	return Vector2.add(t, o)
+end
 
-    __div = function(t, o)
-        if type(t) == "number" then
-            t, o = o, t
-        end
-        if type(o) == "number" then
-            return Vector2.new(t.x / o, t.y / o)
-        elseif type(o) == "table" then
-            assert(false, "no division defined on vectors")
-        end
-    end,
-
-	__sub = function(t, o)
-		return Vector2.add(t, -1 * o)
-	end,
-
-	__unm = function(t)
-		return -1 * t
+Vector2.__mul = function(t, o)
+	if type(t) == "number" then
+		t, o = o, t
 	end
-}
-function Vector2.new(x, y)
-	local v = { x, y }
-	setmetatable(v, vector2Ops)
-	return v
+	if type(o) == "number" then
+		return Vector2:new(o * t.x, o * t.y)
+	elseif type(o) == "table" then
+		return Vector2.dot(t, o)
+	end
+end
+
+Vector2.__div = function(t, o)
+    if type(t) == "number" then
+        t, o = o, t
+    end
+    if type(o) == "number" then
+        return Vector2:new(t.x / o, t.y / o)
+    elseif type(o) == "table" then
+        assert(false, "no division defined on vectors")
+    end
+end
+
+Vector2.__sub = function(t, o)
+	return Vector2.add(t, -1 * o)
+end
+
+Vector2.__unm = function(t)
+	return -1 * t
 end
 
 function Vector2.sqLength(v)
@@ -69,7 +60,7 @@ function Vector2.add(v1, v2, result)
 		result.x = v1.x + v2.x
 		result.y = v1.y + v2.y
 	else
-		return Vector2.new(v1.x + v2.x, v1.y + v2.y)
+		return Vector2:new(v1.x + v2.x, v1.y + v2.y)
 	end
 end
 
@@ -158,9 +149,9 @@ OBB2D.__index = OBB2D
 
 function OBB2D.new(x, y, width, height, rotAngle)
     local obb = {}
-    local center = Vector2.new(x, y)
-    local xDir = Vector2.new(math.cos(rotAngle), math.sin(rotAngle))
-    local yDir = Vector2.new(-math.sin(rotAngle), math.cos(rotAngle))
+    local center = Vector2:new(x, y)
+    local xDir = Vector2:new(math.cos(rotAngle), math.sin(rotAngle))
+    local yDir = Vector2:new(-math.sin(rotAngle), math.cos(rotAngle))
 
     xDir = xDir * (width/2)
     yDir = yDir * (height/2)
