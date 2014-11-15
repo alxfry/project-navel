@@ -50,6 +50,8 @@ local function load()
     state.master:setPosition(baseWidth/4, baseHeight/4)
     state.entityManager:add(state.master)
 
+    spawnMinion(state.master)
+
     -- spawn initial enemies
     for i=1,enemyCount do
         local enemy = Enemy:new(EntityStatics.enemy, state.master)

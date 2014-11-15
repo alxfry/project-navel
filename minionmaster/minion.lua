@@ -10,7 +10,7 @@ local BehaviorTree = require "shared.behaviortree"
 
 local Minion = Unit:subclass("Minion")
 
-local function findNearestEnemy(position, range)
+function Minion:findNearestEnemy(position, range)
     local nearest
     local minDist = range * range
     for id, entity in pairs(state.entityManager.entities) do
@@ -30,7 +30,8 @@ end
 function Minion:initialize(entityStatics, master)
     Unit.initialize(self, entityStatics, state.player)
     self.master = master
-    self.behavior = BehaviorTree:new(self, MinionBehaviorTree)
+    self.behavior = BehaviorTree.BehaviorTree:new(self, MinionBehaviorTree)
+    self.behavior:start()
 
     -- self:setAnimation("images/minion/frost/attack.png", 0.175)
     -- self.attackAnim = self.animation:clone()
@@ -42,25 +43,25 @@ end
 function Minion:update(dt)
     self.behavior:update(dt, self)
 
-    if not self.target or self.target == self.master or self.target.health <= 0 then
-        self.target = findNearestEnemy(self.position, self.attackRange) or self.master
-    end
+    -- if not self.target or self.target == self.master or self.target.health <= 0 then
+    --     self.target = self:findNearestEnemy(self.position, self.attackRange) or self.master
+    -- end
 
-    self:moveTo(self.target.position.x, self.target.position.y, self.target.spriteSize)
-    Unit.update(self, dt)
+    -- self:moveTo(self.target.position.x, self.target.position.y, self.target.spriteSize)
+    -- Unit.update(self, dt)
 
-    local direction = (self.targetPosition - self.position)
-    local length = direction:length()
-    if length < self.target.spriteSize then
-        if not self.attack then
-            self:setAnimation("images/minion/frost/attack.png", 0.175)
-            self.attack = true
-        end
-        self.target.health = self.target.health - 1
-    elseif self.attack then
-        self.attack = false
-        self:setAnimation("images/minion/frost/walk.png", 0.175)
-    end
+    -- local direction = (self.targetPosition - self.position)
+    -- local length = direction:length()
+    -- if length < self.target.spriteSize then
+    --     if not self.attack then
+    --         self:setAnimation("images/minion/frost/attack.png", 0.175)
+    --         self.attack = true
+    --     end
+    --     self.target.health = self.target.health - 1
+    -- elseif self.attack then
+    --     self.attack = false
+    --     self:setAnimation("images/minion/frost/walk.png", 0.175)
+    -- end
 end
 
 function Minion:draw(dt)
