@@ -16,8 +16,11 @@ local root = BehaviorTree.Sequence:new()
 
 -- root:addChild(engageCombat)
 -- root:addChild(walkToWaypoint)
-root:addChild(Behaviors.FindWaypoint:new())
-root:addChild(Behaviors.MoveTo:new())
+
+
+root:addChild(Behaviors.RandomMovement:new())
+-- root:addChild(Behaviors.FindWaypoint:new())
+-- root:addChild(Behaviors.MoveTo:new())
 	-- engageCombat:addChild(Behaviors.FindWaypoint:new())
 	-- engageCombat:addChild(Behaviors.MoveTo:new())
 

@@ -144,7 +144,6 @@ end
 function Sequence:update(dt, context)
 	for i = self.currentIdx, #self.children do
 		local current = self.children[i]
-		dbgprint(current)
 		local status = current:tick(dt, context)
 		-- IF CHILD NO SUCCESS -> SEQUENCE NO SUCCESS
 		if not (status == STATUS.SUCCESS) then

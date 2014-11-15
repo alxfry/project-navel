@@ -54,12 +54,12 @@ end
 function RandomMovement:update(dt, context)
 	local object = context.object
 	local length = 5
-	local alpha = object.orientation
+	local alpha = self.orientation
 	local direction = GameMath.Vector2:new(math.cos(alpha) * length, math.sin(alpha) * length)
 	local newPosition = object.position + direction
 
 	object:moveTo(newPosition.x, newPosition.y)
-	object.orientation = self.orientation
+	local finished = object:updateMove(dt)
 	return STATUS.SUCCESS
 end
 
