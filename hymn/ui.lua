@@ -42,6 +42,12 @@ end
 function ui.draw()
     love.graphics.translate(inputHandler.translate.x, inputHandler.translate.y)
 
+    for id, entity in pairs(entityManager.entities) do
+        if entity.health then
+            ui.drawHealthBar(entity)
+        end
+    end
+
     -- draw selection
     local entity = inputHandler.selection and entityManager.entities[inputHandler.selection]
     if entity then
@@ -59,6 +65,19 @@ function ui.draw()
     love.graphics.translate(-inputHandler.translate.x, -inputHandler.translate.y)
     love.graphics.rectangle("fill", 0, ui.windowHeight - 50, ui.windowWidth, 50)
     quickie.core.draw()
+end
+
+function ui.drawHealthBar(entity)
+    local width = 50
+    local height = 5
+    local x = entity.position.x - width/2
+    local y = entity.position.y - 30
+    love.graphics.setColor(0, 16, 0, 255)
+    love.graphics.rectangle("fill", x-1, y-1, width+2, height+2 )
+    love.graphics.setColor(0, 128, 0, 255)
+    love.graphics.rectangle("fill", x, y, width*entity.health/entity.maxHealth, height )
+    love.graphics.setColor(255, 255, 255, 255)
+
 end
 
 function ui.resize(w, h)

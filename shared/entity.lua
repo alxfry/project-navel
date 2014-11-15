@@ -11,6 +11,7 @@ function Entity:initialize(entityStatics, player)
     end
     
 	self.health = self.health or 0
+    self.maxHealth = self.health
 	self.position = GameMath.Vector2:new(0, 0)
     self.orientation = 0
     self.id = 0
