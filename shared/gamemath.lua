@@ -55,6 +55,10 @@ Vector2.__tostring = function(t)
     return "(" .. t.x .. "," .. t.y .. ")"
 end
 
+function Vector2.copy(v)
+    return Vector2:new(v.x, v.y)
+end
+
 function Vector2.sqLength(v)
 	return v.x * v.x + v.y * v.y
 end
