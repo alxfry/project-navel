@@ -11,6 +11,8 @@ local LogicCore = require "hymn.logiccore"
 local DecayingUnit = require "hymn.decayingunit"
 local SpawnPortal = require "hymn.spawnportal"
 
+local EntityStatics = require "hymn.staticdata.entitystatics"
+
 local inputHandler
 local entityManager
 
@@ -19,29 +21,21 @@ local function load()
     love.window.setMode(baseWidth/2, baseHeight/2, { centered = true, resizable = true })
 	entityManager = LogicCore.entityManager
 
-    Player.entityManager = entityManager
-    local player1 = Player:new()
-    local player2 = Player:new()
-
-    local myBuilding = SpawnPortal:new()
+    local myBuilding = SpawnPortal:new(EntityStatics.spawnPortal, LogicCore.players[1])
     entityManager:add(myBuilding)
     myBuilding:setPosition(170, 209)
-    myBuilding:setPlayer(player1)
 
-    local hisBuilding = SpawnPortal:new()
+    local hisBuilding = SpawnPortal:new(EntityStatics.spawnPortal, LogicCore.players[2])
     entityManager:add(hisBuilding)
     hisBuilding:setPosition(700, 109)
-    hisBuilding:setPlayer(player2)
 
-    local myUnit = DecayingUnit:new(300, 0)
+    local myUnit = DecayingUnit:new(EntityStatics.basicDecayMinion, LogicCore.players[1])
     myUnit:setPosition(baseHeight/4, baseHeight/3)
     entityManager:add(myUnit)
-    myUnit:setPlayer(player1)
 
-    local hisUnit = DecayingUnit:new(300, 0)
+    local hisUnit = DecayingUnit:new(EntityStatics.basicDecayMinion, LogicCore.players[2])
     hisUnit:setPosition(baseHeight/3, baseHeight/4)
     entityManager:add(hisUnit)
-    hisUnit:setPlayer(player2)
 
     inputHandler = LogicCore.inputHandler
     -- inputHandler = InputHandler:new(myUnit)

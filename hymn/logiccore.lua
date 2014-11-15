@@ -1,7 +1,8 @@
 local Class = require "shared.middleclass"
 
 local EntityManager = require "shared.entitymanager"
-local InputHandler  = require "hymn.inputhandler"
+local InputHandler 	= require "hymn.inputhandler"
+local Player 		= require "shared.player"
 
 local blocking = require "shared.blocking"
 
@@ -9,9 +10,15 @@ local blocking = require "shared.blocking"
 local LogicCore = Class "LogicCore"
 
 function LogicCore:initialize(eMng, iHdnlr)
-    self.entityManager = eMng or  EntityManager:new(self)
-    self.inputHandler = iHndlr or InputHandler:new(self)
-    self.map = false
+	self.players = {
+		Player:new(),
+		Player:new(),
+		Player:new(),
+		Player:new(),
+	}
+	self.entityManager = eMng or  EntityManager:new(self)
+	self.inputHandler = iHndlr or InputHandler:new(self)
+	self.map = false
 end
 
 function LogicCore:startMap(map)

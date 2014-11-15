@@ -1,8 +1,10 @@
 local Building = require "shared.building"
 local SpawnPortal = Building:subclass("SpawnPortal")
 
-function SpawnPortal:initialize()
-    Building.initialize(self)
+function SpawnPortal:initialize(entityStatic, player)
+	dbgprint(player)
+    Building.initialize(self, entityStatic, player)
+    self:setPlayer(player)
     self.path = {}
 end
 
@@ -12,7 +14,6 @@ local themes = {
 }
 
 function SpawnPortal:setPlayer(player)
-    Building:setPlayer(player)
     self.theme = themes[player.playerId] or themes[1]
     self:setAnimation("images/buildings/" .. self.theme .. "/portal.png", 0.1)
 end
