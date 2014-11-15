@@ -55,6 +55,27 @@ function Unit:moveTo(x, y, stopRange)
                                        self.targetPosition.x, self.targetPosition.y)
 end
 
+function Unit:drawPath()
+    if self.waypoints and #self.waypoints > 0 then
+        local waypoints = self.waypoints
+
+        -- Draw the path to the destination
+        love.graphics.setColor(255,0,0,64)
+        love.graphics.setPointSize(5)
+        local px, py = self.position.x, self.position.y
+        for i, waypoint in ipairs(waypoints) do
+            local x, y = waypoint.x, waypoint.y
+            if px then
+                love.graphics.line(px, py, x, y)
+            else
+                love.graphics.point(x, y)
+            end
+            px, py = x, y
+        end
+        love.graphics.point(px, py)
+    end
+end
+
 function Unit:setPosition(x, y)
     self.targetPosition.x = x
     self.targetPosition.y = y

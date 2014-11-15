@@ -66,6 +66,14 @@ function love.draw(dt)
 
     -- draw entities
     entityManager:draw(dt)
+
+    -- debug printing the entity paths
+    for id, entity in pairs(entityManager.entities) do
+        if entity.drawPath then
+            entity:drawPath()
+        end
+    end
+
     love.graphics.translate(-inputHandler.translate.x, -inputHandler.translate.y)
 
     -- draw UI
@@ -82,7 +90,7 @@ function love.keypressed(key, unicode)
        fullscreen = not fullscreen
        love.window.setFullscreen(fullscreen, "desktop")
     end
-    
+
     inputHandler:keyPressed(key, unicode)
 end
 
