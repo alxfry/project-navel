@@ -27,6 +27,20 @@ function SearchMasterBehavior:update(dt, context)
     return self.status
 end
 
+local SearchNearestBehavior = Class("SearchNearestBehavior", Behavior)
+
+function SearchNearestBehavior:update(dt, context)
+    local object = context.object
+
+    object.target = state.entityManager:findClosestEntity(object.position, 
+        function(entity) 
+            return entity.type == "master" or entity.type == "minion" 
+        end
+        )
+    self.status = object.target and STATUS.SUCCESS or STATUS.FAILURE
+    return self.status
+end
+
 local FindPathBehavior = Class("FindPathBehavior", Behavior)
 
 function FindPathBehavior:update(dt, context)
@@ -56,9 +70,7 @@ function AttackBehavior:update(dt, context)
     if length < object.target.spriteSize / 2 then
         object.attack = true
 
-        if self.target then
-            self.target:takeDamage(self.damage)
-        end
+        object.target:takeDamage(object.damage)
 
         if object.target.health <= 0 then
             object.attack = false
@@ -79,6 +91,7 @@ end
 return {
     SearchEnemyBehavior = SearchEnemyBehavior,
     SearchMasterBehavior = SearchMasterBehavior,
+    SearchNearestBehavior = SearchNearestBehavior,
     FindPathBehavior = FindPathBehavior,
     GotoBehavior = GotoBehavior,
     AttackBehavior = AttackBehavior,

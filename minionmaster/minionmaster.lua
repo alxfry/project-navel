@@ -48,9 +48,4 @@ function MinionMaster:update(dt)
     Unit.update(self, dt)
 end
 
-function MinionMaster:takeDamage(dmg)
-    -- print("masterdmg")
-    self.health = self.health - dmg
-end
-
 return MinionMaster

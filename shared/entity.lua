@@ -69,4 +69,8 @@ function Entity:setPosition(x, y)
     -- blocking.updateDynamicBlock(oldX, oldY, x, y)
 end
 
+function Entity:takeDamage(dmg)
+    self.health = self.health - dmg
+end
+
 return Entity

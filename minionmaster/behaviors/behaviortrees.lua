@@ -25,19 +25,13 @@ end
 
 function BehaviorTrees:createEnemyTree()
     local root = BehaviorTree.Selector:new()
-    local searchAttackMaster = BehaviorTree.Sequence:new()
-    local searchAttackMinion = BehaviorTree.Sequence:new()
-
-    root:addChild(searchAttackMaster)
-        searchAttackEnemy:addChild(Behaviors.SearchMasterBehavior:new())
-        searchAttackEnemy:addChild(Behaviors.FindPathBehavior:new())
-        searchAttackEnemy:addChild(Behaviors.GotoBehavior:new())
-        searchAttackEnemy:addChild(Behaviors.AttackBehavior:new())
-    root:addChild(searchAttackMinion)
-        searchAttackMaster:addChild(Behaviors.SearchMinionBehavior:new())
-        searchAttackMaster:addChild(Behaviors.FindPathBehavior:new())
-        searchAttackMaster:addChild(Behaviors.GotoBehavior:new())
-        searchAttackMaster:addChild(Behaviors.AttackBehavior:new())
+    local searchAttackNearest = BehaviorTree.Sequence:new()
+    
+    root:addChild(searchAttackNearest)
+        searchAttackNearest:addChild(Behaviors.SearchNearestBehavior:new())
+        searchAttackNearest:addChild(Behaviors.FindPathBehavior:new())
+        searchAttackNearest:addChild(Behaviors.GotoBehavior:new())
+        searchAttackNearest:addChild(Behaviors.AttackBehavior:new())
 
     return root
 end

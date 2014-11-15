@@ -32,10 +32,7 @@ function Minion:initialize(entityStatics, master)
     self.master = master
     self.behavior = BehaviorTree.BehaviorTree:new(self, BehaviorTrees:createMinionTree())
 
-    -- self:setAnimation("images/minion/frost/attack.png", 0.175)
-    -- self.attackAnim = self.animation:clone()
     self:setAnimation("images/minion/frost/walk.png", 0.175)
-    -- self.walkAnim = self.animation:clone()
     self.attack = false
 end
 
@@ -60,16 +57,6 @@ function Minion:update(dt)
 
     self.wasAttacking = self.attack
     self.behavior:tick(dt)
-end
-
-function Minion:draw(dt)
-    love.graphics.setColor(255, 255, 255, 255)
-    Entity.draw(self, dt)
-end
-
-function Minion:takeDamage(dmg)
-    -- print("miniondmg")
-    self.health = self.health - dmg
 end
 
 return Minion
