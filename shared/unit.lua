@@ -12,6 +12,7 @@ function Unit:initialize(speed, orientation, startingHealth)
     self.speed = speed
     self.orientation = orientation
     self.targetPosition = GameMath.Vector2:new(self.position.x, self.position.y)
+    self.stopRange = 1
 end
 
 function Unit:update(dt)
@@ -22,9 +23,9 @@ function Unit:update(dt)
     end
 
     local factor = dt * self.speed / length
-    if length > 1 and factor < 1 then
+    if length > self.stopRange and factor < 1 then
         self.position = self.position + direction * dt * self.speed / length
-    else
+    elseif self.stopRange <= 1 then
         self.position.x = self.targetPosition.x
         self.position.y = self.targetPosition.y
     end
@@ -36,9 +37,10 @@ function Unit:update(dt)
     end
 end
 
-function Unit:moveTo(x, y)
+function Unit:moveTo(x, y, stopRange)
     self.targetPosition.x = x
     self.targetPosition.y = y
+    self.stopRange = stopRange or self.stopRange
 end
 
 function Unit:setPosition(x, y)
