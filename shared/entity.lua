@@ -7,6 +7,7 @@ local Entity = Class "Entity"
 
 function Entity:initialize()
 	self.position = GameMath.Vector2:new(0, 0)
+    self.orientation = 0
 end
 
 function Entity:setAnimation(image, frameWidth, frameHeight, delay)
@@ -20,7 +21,7 @@ function Entity:update(dt)
 end
 
 function Entity:draw(dt)
-    self.animation:draw(self.position.x - 128, self.position.y - 128)
+    self.animation:draw(self.position.x, self.position.y, self.orientation, 0.4, 0.4, 128, 128)
 end
 
 function Entity:delete()

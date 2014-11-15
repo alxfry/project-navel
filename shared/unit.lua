@@ -16,6 +16,9 @@ end
 function Unit:update(dt)
     local direction = (self.targetPosition - self.position)
     local length = direction:length()
+    if length > 0 then
+        self.orientation = math.atan2(direction.y, direction.x)
+    end
 
     local factor = dt * self.speed / length
     if length > 1 and factor < 1 then
