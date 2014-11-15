@@ -38,7 +38,7 @@ function DecayingUnit:update(dt)
 		self.timeSinceLastDecay = dtLastDecay
 	end
 
-	dbgprint(self.behaviorTree:tick(dt))
+	self.behaviorTree:tick(dt)
 
     -- DEATH
     if self.health <= 0 then
