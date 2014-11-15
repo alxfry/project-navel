@@ -21,6 +21,7 @@ end
 
 function EntityManager:add(entity)
     self.entities[self.nextId] = entity
+    entity.id = self.nextId
     self.nextId = self.nextId + 1
 end
 

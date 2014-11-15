@@ -8,6 +8,7 @@ local Entity = Class "Entity"
 function Entity:initialize()
 	self.position = GameMath.Vector2:new(0, 0)
     self.orientation = 0
+    self.id = 0
 end
 
 function Entity:setAnimation(image, frameWidth, frameHeight, delay)
