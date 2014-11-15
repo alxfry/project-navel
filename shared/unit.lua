@@ -25,7 +25,8 @@ function Unit:update(dt)
     if length > 1 and factor < 1 then
         self.position = self.position + direction * dt * self.speed / length
     else
-        self.position = self.targetPosition
+        self.position.x = self.targetPosition.x
+        self.position.y = self.targetPosition.y
     end
     Entity.update(self, dt)
 
@@ -36,7 +37,8 @@ function Unit:update(dt)
 end
 
 function Unit:moveTo(x, y)
-    self.targetPosition = GameMath.Vector2:new(x, y)
+    self.targetPosition.x = x
+    self.targetPosition.y = y
 end
 
 function Unit:setPosition(x, y)
