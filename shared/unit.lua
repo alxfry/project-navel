@@ -23,6 +23,7 @@ function Unit:update(dt)
     else
         self.position = self.targetPosition
     end
+    Entity.update(self, dt)
 end
 
 function Unit:moveTo(x, y)
