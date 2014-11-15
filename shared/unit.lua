@@ -4,8 +4,10 @@ local Unit = Entity:subclass("Unit")
 
 -- speed: pixels/second
 -- direction: radians
-function Unit:initialize(speed, orientation)
+function Unit:initialize(speed, orientation, startingHealth)
     Entity.initialize(self)
+
+    self.health = startingHealth
 
     self.speed = speed
     self.orientation = orientation

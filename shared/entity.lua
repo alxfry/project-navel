@@ -6,6 +6,7 @@ local GameMath = require "shared.gamemath"
 local Entity = Class "Entity"
 
 function Entity:initialize()
+	self.health = 0
 	self.position = GameMath.Vector2:new(0, 0)
     self.orientation = 0
     self.id = 0
