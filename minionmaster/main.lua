@@ -57,7 +57,6 @@ end
 local function load(arg)
     print("local load "..tostring(arg))
     mouseCursor = love.graphics.newImage("images/ui/mouseCursor.png")
-    love.window.setMode(baseWidth/2, baseHeight/2, { centered = true, resizable = true })
 
     map = sti.new("testmap")
 

@@ -15,7 +15,7 @@ local entityManager
 local function load()
     love.window.setTitle("Hymn of Snow and Magma")
     -- mouseCursor = love.graphics.newImage("images/ui/mouseCursor.png")
-    love.window.setMode(baseWidth/2, baseHeight/2, { centered = true, resizable = true })
+
 	entityManager = EntityManager:new()
     myUnit = Unit:new(300, 0)
     myUnit:setAnimation("images/minion/frost/walk.png", 64, 64, 0.175)
