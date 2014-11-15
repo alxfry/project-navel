@@ -53,20 +53,22 @@ function AttackBehavior:update(dt, context)
 
     local reached, dir, length = object:reachedTarget(object.target.position, dt * object.speed)
 
-    if length < object.target.spriteSize then
+    if length < object.target.spriteSize / 2 then
         object.attack = true
 
-        -- print(object.target.type)
+        if self.target then
+            self.target:takeDamage(self.damage)
+        end
 
         if object.target.health <= 0 then
             object.attack = false
             self.status = STATUS.SUCCESS
-            -- print("dead")
+            print("dead")
             return self.status
         end
         self.status = STATUS.RUNNING
     else
-        -- print("stop attacking")
+        print("stop attacking")
         object.attack = false
         self.status = STATUS.FAILURE
     end

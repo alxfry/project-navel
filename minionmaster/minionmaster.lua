@@ -17,6 +17,12 @@ function MinionMaster:initialize(entityStatics)
 end
 
 function MinionMaster:update(dt)
+    if self.health <= 0 then
+        state.entityManager:remove(self.id)
+        state.status = "game over"
+        return
+    end
+
     local move = GameMath.Vector2:new(0,0)
     move.x = (love.keyboard.isDown("d") and 1 or 0) - (love.keyboard.isDown("a") and 1 or 0)
     move.y = (love.keyboard.isDown("s") and 1 or 0) - (love.keyboard.isDown("w") and 1 or 0) 

@@ -5,7 +5,7 @@ local state = require "minionmaster.state"
 local content = require "minionmaster.content"
 local state = require "minionmaster.state"
 
-local BehaviorTrees = require "minionmaster.behaviors.minionbehaviortree"
+local BehaviorTrees = require "minionmaster.behaviors.behaviortrees"
 local BehaviorTree = require "shared.behaviortree"
 
 local Minion = Unit:subclass("Minion")
@@ -30,7 +30,7 @@ end
 function Minion:initialize(entityStatics, master)
     Unit.initialize(self, entityStatics, state.player)
     self.master = master
-    self.behavior = BehaviorTree.BehaviorTree:new(self, BehaviorTrees:createTree())
+    self.behavior = BehaviorTree.BehaviorTree:new(self, BehaviorTrees:createMinionTree())
 
     -- self:setAnimation("images/minion/frost/attack.png", 0.175)
     -- self.attackAnim = self.animation:clone()
@@ -40,31 +40,26 @@ function Minion:initialize(entityStatics, master)
 end
 
 function Minion:update(dt)
-    local wasAttacking = self.attack
 
-    self.behavior:tick(dt)
+    if self.health <= 0 then
+        state.entityManager:remove(self.id)
+        return
+    end
 
-    -- if not self.target or self.target == self.master or self.target.health <= 0 then
-    --     self.target = self:findNearestEnemy(self.position, self.attackRange) or self.master
-    -- end
-
-    -- self:moveTo(self.target.position.x, self.target.position.y, self.target.spriteSize)
     Unit.update(self, dt)
 
-    -- print(self.attack, wasAttacking)
-
     if self.attack then
-        if not wasAttacking then
+        if not self.wasAttacking then
             self:setAnimation("images/minion/frost/attack.png", 0.175)
             -- print("attackAnim")
         end
-        if self.target then
-            self.target:takeDamage(self.damage)
-        end
-    elseif wasAttacking then
+    elseif self.wasAttacking then
         self:setAnimation("images/minion/frost/walk.png", 0.175)
         -- print("walkAnim")
     end
+
+    self.wasAttacking = self.attack
+    self.behavior:tick(dt)
 end
 
 function Minion:draw(dt)
@@ -74,7 +69,7 @@ end
 
 function Minion:takeDamage(dmg)
     -- print("miniondmg")
-    -- self.health = self.health - dmg
+    self.health = self.health - dmg
 end
 
 return Minion

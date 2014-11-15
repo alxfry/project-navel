@@ -4,6 +4,7 @@ local EntityStatics =
 {
     master = 
     {
+        type = "master",
         health = 1000,
         damage = 1,
         speed = 200,
@@ -11,6 +12,7 @@ local EntityStatics =
 
     minion = 
     {
+        type = "minion",
         health = 10,
         damage = 1,
         speed = 250,
@@ -20,6 +22,7 @@ local EntityStatics =
 
     enemy = 
     {
+        type = "enemy",
         health = 100,
         damage = 1,
         speed = 100,
