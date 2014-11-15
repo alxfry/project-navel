@@ -1,4 +1,3 @@
-local Class = require "shared.middleclass"
 local GameMath = require "shared.gamemath"
 local Entity = require "shared.entity"
 local Unit = Entity:subclass("Unit")
@@ -31,6 +30,12 @@ end
 
 function Unit:moveTo(x, y)
     self.targetPosition = GameMath.Vector2:new(x, y)
+end
+
+function Unit:setPosition(x, y)
+    self.targetPosition.x = x
+    self.targetPosition.y = y
+    Entity.setPosition(self, x, y)
 end
 
 return Unit
