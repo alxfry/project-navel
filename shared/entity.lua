@@ -1,4 +1,4 @@
-local AnAL = require "libs.AnAL"
+local anim8 = require "libs.anim8"
 
 local Class = require "shared.middleclass"
 local GameMath = require "shared.gamemath"
@@ -17,9 +17,15 @@ function Entity:setPlayer(player)
     self.playerId = player.playerId
 end
 
-function Entity:setAnimation(image, frameWidth, frameHeight, delay)
-    local img = love.graphics.newImage(image)
-    self.animation = AnAL.newAnimation(img, frameWidth, frameHeight, delay or 0.1, 0)
+function Entity:setAnimation(imagePath, frameWidth, frameHeight, delay)
+    local image = love.graphics.newImage(imagePath)
+    local imageWidth, imageHeight = image:getDimensions()
+    local grid = anim8.newGrid(frameWidth, frameHeight, imageWidth, imageHeight)
+
+    local frames = imageWidth / frameWidth
+
+    self.image = image
+    self.animation = anim8.newAnimation(grid('1-' .. frames,1), 0.1)
 end
 
 function Entity:update(dt)
@@ -31,7 +37,7 @@ end
 function Entity:draw(dt)
     local x, y = self.position.x, self.position.y
     if self.animation then
-        self.animation:draw(x, y, self.orientation, 1, 1, 32, 32)
+        self.animation:draw(self.image, x, y, self.orientation, 1, 1, 32, 32)
     else
         love.graphics.circle("fill", x, y, 10, 10)
     end

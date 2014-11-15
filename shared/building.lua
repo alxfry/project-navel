@@ -1,5 +1,3 @@
-local AnAL = require "libs.AnAL"
-
 local Entity = require "shared.entity"
 local Building = Entity:subclass("Building")
 
