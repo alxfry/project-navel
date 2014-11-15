@@ -43,19 +43,18 @@ function SpawnPortal:update(dt)
 	local entityManager = LogicCore.entityManager
 	local dtLastSpawn = self.timeSinceLastSpawn
 	dtLastSpawn = dtLastSpawn + dt
-	dtLastSpawn = dtLastSpawn + 2
+	
 	if dtLastSpawn >= 2 then
 		-- SPAWN
-		dbgprint("spawn")
 		local spawn = entityManager:spawnFromEntityStatic(self.spawnEntityStatics, self.player)
 		spawn:setPosition(self.position.x, self.position.y)
 		spawn.userPath = {}
 		for k, v in pairs(self.path) do
 			spawn.userPath[k] = v:copy()
 		end
-		self.timeSinceLastSpawn = dtLastSpawn - 3
+		self.timeSinceLastSpawn = dtLastSpawn - 2
 	else
-		--self.timeSinceLastSpawn = dtLastSpawn
+		self.timeSinceLastSpawn = dtLastSpawn
 	end
 end	
 
