@@ -1,5 +1,7 @@
 local Class = require "shared.middleclass"
 
+local BTClasses = {}
+
 local Behavior = Class "Behavior"
 
 STATUS = {
@@ -18,12 +20,12 @@ end
 function Behavior:start()
 end
 
-function Behavior:tick()
+function Behavior:tick(dt, context)
 	if self.status ~= STATUS.RUNNING then
 		self:start()
 	end
 
-	self.status = self:update()
+	self.status = self:update(dt, context)
 
 	if self.status ~= STATUS.RUNNING then
 		self:onTerminate(self.status)
@@ -32,7 +34,7 @@ function Behavior:tick()
 	return self.status
 end
 
-function Behavior:update()
+function Behavior:update(dt, context)
 
 end
 
@@ -139,11 +141,11 @@ function Sequence:initialize()
 	Composite.initialize(self)
 end
 
-function Sequence:update()
+function Sequence:update(dt, context)
 	for i = self.currentIdx, #self.children do
 		local current = self.children[i]
 
-		local status = current:tick()
+		local status = current:tick(dt, context)
 
 		-- IF CHILD NO SUCCESS -> SEQUENCE NO SUCCESS
 		if not (status == STATUS.SUCCESS) then
@@ -200,11 +202,11 @@ function Selector:initialize()
 	Composite.initialize(self)
 end
 
-function Selector:update()
+function Selector:update(dt, context)
 	for i = self.currentIdx, #self.children do
 		local current = self.children[i]
 
-		local status = current:tick()
+		local status = current:tick(dt, context)
 
 		-- IF CHILD NO FAILURE -> SEQUENCE NO FAILURE
 		if not (status == STATUS.FAILURE) then
@@ -251,3 +253,29 @@ for i = 1, 2 do
 	assert(TEST_INSTANCE:tick() == STATUS_TBL[i], "Test failed")
 	assert(TEST_INSTANCE:child(1).onTerminateCalled == 1, "Test failed")
 end
+
+local BehaviorTree = Class("RootNode", Behavior)
+
+function BehaviorTree:initialize(object, behavior)
+	Behavior.initialize(self)
+	self.behavior = behavior
+	self.object = object
+end
+
+function BehaviorTree:start()
+	Behavior.start(self)
+	self.context = { object = self.object }
+end
+
+function BehaviorTree:update(dt)
+	return self.behavior:tick(dt, self.context)
+end
+
+BTClasses.Behavior 		= Behavior
+BTClasses.Composite  	= Composite
+BTClasses.Sequence 		= Sequence
+BTClasses.Selector 		= Selector
+BTClasses.STATUS 		= STATUS
+BTClasses.BehaviorTree	= BehaviorTree
+
+return BTClasses
