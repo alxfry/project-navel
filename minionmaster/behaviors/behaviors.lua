@@ -27,6 +27,9 @@ function SearchMinionBehavior:update(dt, context)
         end,
         object.attackRange
         )
+
+    object.moving = object.target
+
     self.status = object.target and STATUS.SUCCESS or STATUS.FAILURE
     return self.status
 end
@@ -35,6 +38,7 @@ local SearchMasterBehavior = Class("SearchMasterBehavior", Behavior)
 
 function SearchMasterBehavior:update(dt, context)
     local object = context.object
+
     if object.type == "minion" or (state.master.position - object.position):sqLength() < object.attackRange * object.attackRange then
         object.target = state.master
         self.status = STATUS.SUCCESS
@@ -67,6 +71,7 @@ function GotoTargetBehavior:update(dt, context)
     if not object.waypoints or #object.waypoints < 1 then
         self.status = STATUS.FAILURE
     else
+        object.moving = true
         self.status = object:updateMove(dt) and STATUS.SUCCESS or STATUS.RUNNING
     end
     return self.status

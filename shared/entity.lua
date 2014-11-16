@@ -43,7 +43,7 @@ function Entity:addAnimation(animationKey, imagePath, delay, onLoop)
 end
 
 function Entity:setAnimation(imagePath, delay, onLoop)
-    if delay == nil and scale == nil and onLoop == nil then
+    if delay == nil and onLoop == nil then
         self.animation = self.animations[imagePath]
         self.image = self.images[imagePath]
     else

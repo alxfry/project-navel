@@ -44,8 +44,8 @@ function Minion:initialize(entityStatics, master)
 end
 
 function Minion:update(dt)
+    Unit.update(self, dt)
     if self.dead then
-        Unit.update(self, dt)
         return
     end
 
@@ -60,7 +60,6 @@ function Minion:update(dt)
 
     local wasAttacking = self.attack
 
-    Unit.update(self, dt)
     self.behavior:tick(dt)
 
     if self.attack then

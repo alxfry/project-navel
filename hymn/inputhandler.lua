@@ -109,7 +109,9 @@ function InputHandler:setMode(mode)
     local entityManager = self.logicCore.entityManager
     if mode == "path" then
         local entity = entityManager:entity(self.selection)
-        entity:clearPath()
+        if entity then
+            entity:clearPath()
+        end
     end
 
     self.mode = mode

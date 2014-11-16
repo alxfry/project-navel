@@ -245,6 +245,10 @@ function ClaimDeposit:update(dt, context)
 	if not target then
 		return STATUS.FAILURE
 	end
+	if target.owner == context.object.player and target.claims[target.owner.playerId] >= 100 then
+		return STATUS.FAILURE
+	end
+
 	self.timeWorked = self.timeWorked + dt
 
 	if self.timeWorked >= self.workTime then
