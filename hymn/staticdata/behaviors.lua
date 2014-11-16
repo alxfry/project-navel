@@ -42,12 +42,20 @@ end
 
 local AttackEnemy = Class("AttackEnemy", Behavior)
 
+function AttackEnemy:start()
+	self.attackTick = 0
+end
+
 function AttackEnemy:update(dt, context)
 	local targetId = context.object.attackTarget
 	local entity = LogicCore.entityManager:entity(targetId)
 	self.status = STATUS.FAILURE
 	if entity then
-		entity:takeDamage(dt * 0.2)
+		self.attackTick = self.attackTick + dt
+		if self.attackTick > 1 then
+			entity:takeDamage(1)
+			self.attackTick = self.attackTick - 1
+		end
 		self.status = STATUS.RUNNING
 	else
 		self.attackTarget = false
