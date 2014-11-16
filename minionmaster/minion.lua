@@ -14,7 +14,7 @@ function Minion:findNearestEnemy(position, range)
     local nearest
     local minDist = range * range
     for id, entity in pairs(state.entityManager.entities) do
-        if entity.type == "enemy" then
+        if not entity.dead and entity.type == "enemy" then
             local dist = (entity.position - position):sqLength()
             if dist < minDist then
                 minDist = dist
@@ -33,12 +33,26 @@ function Minion:initialize(entityStatics, master)
     self.behavior = BehaviorTree.BehaviorTree:new(self, BehaviorTrees:createMinionTree())
 
     self:setAnimation("images/minion/frost/walk.png", 0.175)
+    self:setRandomStartAnimationTime()
     self.attack = false
 end
 
+function Minion:died()
+    state.entityManager:remove(self.entity.id)
+end
+
+
 function Minion:update(dt)
+    if self.dead then
+        Unit.update(self, dt)
+        return
+    end
+
     if self.health <= 0 then
-        state.entityManager:remove(self.id)
+        self.dead = true
+        self:setAnimation("images/minion/frost/die.png", 0.175)
+        self.animation.onLoop = self.died
+        self.animation.entity = self
         return
     end
 
@@ -50,9 +64,11 @@ function Minion:update(dt)
     if self.attack then
         if not wasAttacking then
             self:setAnimation("images/minion/frost/attack.png", 0.175)
+            self:setRandomStartAnimationTime()
         end
     elseif wasAttacking then
         self:setAnimation("images/minion/frost/walk.png", 0.175)
+        self:setRandomStartAnimationTime()
     end
 end
 

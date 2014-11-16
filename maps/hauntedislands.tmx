@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="150" height="150" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" source="../shared/resources/terrain.tsx"/>
+ <layer name="ground" width="150" height="150">
+  <data encoding="base64" compression="zlib">
+   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
+  </data>
+ </layer>
+ <objectgroup name="objects">
+  <object type="playerStart" x="1694" y="1748"/>
+  <object type="enemy" x="2242" y="2182"/>
+  <object type="enemy" x="2334" y="2252"/>
+  <object type="enemy" x="2192" y="1772"/>
+  <object type="enemy" x="2306" y="1904"/>
+  <object type="enemy" x="1854" y="2120"/>
+  <object type="enemy" x="1812" y="2238"/>
+  <object type="enemy" x="1860" y="2348"/>
+  <object type="enemy" x="1830" y="2620"/>
+  <object type="enemy" x="2008" y="2666"/>
+  <object type="enemy" x="2058" y="2648"/>
+  <object type="enemy" x="2506" y="2588"/>
+  <object type="enemy" x="2570" y="2520"/>
+  <object type="enemy" x="2556" y="2428"/>
+  <object type="enemy" x="2490" y="2486"/>
+  <object type="enemy" x="2598" y="2478"/>
+  <object type="enemy" x="2930" y="2704"/>
+  <object type="enemy" x="2840" y="2710"/>
+  <object type="enemy" x="2906" y="2756"/>
+  <object type="enemy" x="2874" y="2270"/>
+  <object type="enemy" x="2940" y="2288"/>
+  <object type="enemy" x="2786" y="1786"/>
+  <object type="enemy" x="2830" y="1756"/>
+  <object type="enemy" x="2684" y="2108"/>
+  <object type="enemy" x="2680" y="2164"/>
+  <object type="enemy" x="2576" y="2174"/>
+  <object type="enemy" x="2652" y="2234"/>
+  <object type="enemy" x="2242" y="2818"/>
+  <object type="enemy" x="2046" y="2864"/>
+  <object type="enemy" x="2134" y="2782"/>
+  <object type="enemy" x="1978" y="2850"/>
+  <object type="enemy" x="2580" y="1896"/>
+  <object type="enemy" x="2560" y="1950"/>
+  <object type="enemy" x="2524" y="1904"/>
+  <object type="enemy" x="1868" y="2578"/>
+  <object type="enemy" x="2738" y="2940"/>
+ </objectgroup>
+</map>

@@ -30,8 +30,6 @@ local baseWidth, baseHeight = 1920, 1080
 
 local EntityStatics
 
-local enemyCount = 10
-
 local zoom = 1
 local zoomSpeed = 0.1
 
@@ -49,29 +47,31 @@ local function spawnMinion(master)
     end
 end
 
+local function spawnEntities()
+    local objectLayer = state.map.layers.objects
+    for i, object in ipairs(objectLayer.objects) do
+        if object.type == "playerStart" then
+            state.master = MinionMaster:new(EntityStatics.master)
+            state.master:setPosition(object.x, object.y)
+            state.entityManager:add(state.master)
+        elseif object.type == "enemy" then
+            local enemy = Enemy:new(EntityStatics.enemy)
+            enemy:setPosition(object.x, object.y)
+            enemy.orientation = math.random() * math.pi * 2
+            state.entityManager:add(enemy)
+        end
+    end
+end
+
 local function start()
     state.entityManager:clear()
 
     EntityStatics = state.entityStatics
 
-    -- spawn the master
-    state.master = MinionMaster:new(EntityStatics.master)
-    state.master:setPosition(500,500)
-    state.entityManager:add(state.master)
+    spawnEntities()
+    assert(state.master, "no playerStart object found")
 
     -- spawnMinion(state.master)
-
-    -- spawn initial enemies
-    for i=1,enemyCount do
-        local enemy = Enemy:new(EntityStatics.enemy, state.master)
-        local sx, sy = state.map:size()
-        local x, y = math.random(sx),math.random(sy)
-        while blocking.collides(x, y) do
-            x,y = math.random(sx),math.random(sy)
-        end
-        enemy:setPosition(x, y)
-        state.entityManager:add(enemy)
-    end
 end
 
 local function load()

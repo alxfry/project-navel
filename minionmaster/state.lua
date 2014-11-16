@@ -21,7 +21,8 @@ function state.initialize()
     state.status = "playing"
 
     -- load the map
-    state.map = sti.new("maps/testmap")
+    state.map = sti.new("maps/hauntedislands")
+    state.map.layers.objects.draw = function() end
     blocking.setMap(state.map)
 end
 
