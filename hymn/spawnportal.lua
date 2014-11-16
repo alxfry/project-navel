@@ -39,7 +39,7 @@ function SpawnPortal:update(dt)
 		local dtLastSpawn = self.timeSinceLastSpawn
 		dtLastSpawn = dtLastSpawn + dt
 		
-		if not self.hasSpawned and dtLastSpawn >= 2 then
+		if dtLastSpawn >= 2 then--not self.hasSpawned and
 			-- SPAWN
 			local spawn = entityManager:spawnFromEntityStatic(self.spawnEntityStatics, self.player)
 			spawn:setPosition(self.position.x, self.position.y)

@@ -53,7 +53,8 @@ end
 
 -- position: vector2
 -- filter: [optional] filter function(entity)
-function EntityManager:findClosestEntity(position, filter)
+function EntityManager:findClosestEntity(position, filter, radius)
+    radius = radius or math.huge
     filter = filter or noOp
     local entities = self.entities
     local closestDist = math.huge
@@ -61,7 +62,7 @@ function EntityManager:findClosestEntity(position, filter)
     for id, entity in pairs(entities) do
         if filter(entity) then
             local d = GameMath.Vector2.distance(entity.position, position)
-            if d < closestDist then
+            if d < closestDist and d < radius then
                 closestEntity = entity
                 closestDist = d
             end
