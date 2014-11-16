@@ -121,6 +121,10 @@ local function getPath(startX, startY, endX, endY, clearance)
         return
     end
 
+    if blocking.gridCollides(endGridX, endGridY) then
+        return
+    end
+
     return blocking.finder:getPath(startGridX, startGridY, endGridX, endGridY, clearance)
 end
 
