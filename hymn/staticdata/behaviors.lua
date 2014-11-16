@@ -177,6 +177,38 @@ function WorkConstruction:update(dt, context)
 	end
 end
 
+local FindDeposit = Class("FindDeposit", Behavior)
+
+function FindDeposit:update(dt, context)
+	local Deposit = require "hymn.deposit"
+	local object = context.object
+	local player = object.player
+	
+	local function isClaimableDeposit(entity)
+		return entity:isInstanceOf(Deposit) and entity.claims[player.playerId] < 100
+	end
+
+	local target, distance = LogicCore.entityManager:findClosestEntity(object.position, isClaimableDeposit)
+
+	if target then
+		object:moveTo(target.position.x, target.position.y)
+		context.closestDeposit = target
+		self.status = STATUS.SUCCESS
+	else
+		self.status = STATUS.FAILURE
+	end
+
+	return self.status
+end
+
+local ClaimDeposit = Class("ClaimDeposit", Behavior)
+
+function ClaimDeposit:update(dt, context)
+	return STATUS.FAILURE
+end
+
+
+
 return 
 {
 	FindWaypoint 		= FindWaypoint,
@@ -187,4 +219,6 @@ return
 	WorkConstruction	= WorkConstruction,
 	SearchEnemy = SearchEnemy,
 	AttackEnemy = AttackEnemy,
+	FindDeposit = FindDeposit,
+	ClaimDeposit = ClaimDeposit,
 }

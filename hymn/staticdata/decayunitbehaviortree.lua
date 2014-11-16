@@ -42,4 +42,13 @@ local function createDecayUnitBT()
 	return root
 end
 
-return createDecayUnitBT
+local function depositDebuggingBT()
+    local root = BehaviorTree.Sequence:new()
+    root:addChild(Behaviors.FindDeposit:new())
+    root:addChild(Behaviors.MoveTo:new())
+
+    return root
+end
+
+return depositDebuggingBT
+-- return createDecayUnitBT
