@@ -15,16 +15,23 @@ function SearchEnemy:update(dt, context)
 		return entity.player ~= object.player
 	end
 
-	local entity, distance = LogicCore.entityManager:findClosestEntity(object.position, isEnemy)
+	local target = object.attackTarget and LogicCore.entityManager:entity(object.attackTarget)
+	local distance
 
 	self.status = STATUS.FAILURE
 
-	if entity then
+	if target then
+		distance = 42
+	else
+		target, distance = LogicCore.entityManager:findClosestEntity(object.position, isEnemy)
+	end
+
+	if target then
 		if distance > 40 then
-			object:moveTo(entity.position.x, entity.position.y)
+			object:moveTo(target.position.x, target.position.y)
 			self.status = STATUS.SUCCESS
 		else
-			object.attackTarget = entity.id
+			object.attackTarget = target.id
 			self.status = STATUS.SUCCESS
 		end
 	end
@@ -40,7 +47,7 @@ function AttackEnemy:update(dt, context)
 	local entity = LogicCore.entityManager:entity(targetId)
 	self.status = STATUS.FAILURE
 	if entity then
-		entity:takeDamage(1)
+		entity:takeDamage(dt * 0.2)
 		self.status = STATUS.RUNNING
 	else
 		self.attackTarget = false
