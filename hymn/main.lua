@@ -19,7 +19,7 @@ local ui = require "hymn.ui"
 local inputHandler = LogicCore.inputHandler
 local entityManager
 
-local function simpleLevel()
+local function simpleMap()
     local myBuilding = SpawnPortal:new(EntityStatics.spawnPortal, LogicCore.players[1])
     entityManager:add(myBuilding)
     myBuilding:setPosition(170, 209)
@@ -35,6 +35,29 @@ local function simpleLevel()
     -- local theDeposit = Deposit:new(EntityStatics.deposit)
     -- entityManager:add(theDeposit)
     -- theDeposit:setPosition(790, 209)
+
+
+    LogicCore:startMap(sti.new("maps/testmap"))
+end
+
+local function lostTempleMap()
+    local myBuilding = SpawnPortal:new(EntityStatics.spawnPortal, LogicCore.players[1])
+    entityManager:add(myBuilding)
+    myBuilding:setPosition(2570, 209)
+    myBuilding:addPathPoint(GameMath.Vector2:new(1766, 975))
+    myBuilding:instantBuild()
+
+    local hisBuilding = SpawnPortal:new(EntityStatics.spawnPortal, LogicCore.players[2])
+    entityManager:add(hisBuilding)
+    hisBuilding:setPosition(790, 920)
+    hisBuilding:addPathPoint(GameMath.Vector2:new(257, 204))
+    hisBuilding:instantBuild()
+
+    local theDeposit = Deposit:new(EntityStatics.deposit)
+    entityManager:add(theDeposit)
+    theDeposit:setPosition(790, 209)
+
+    LogicCore:startMap(sti.new("maps/losttemple"))
 end
 
 local function load()
@@ -42,11 +65,11 @@ local function load()
     love.window.setMode(baseWidth/2, baseHeight/2, { centered = true, resizable = true })
 	entityManager = LogicCore.entityManager
 
-    simpleLevel()
+    -- simpleMap()
+    lostTempleMap()
 
     ui.load()
 
-    LogicCore:startMap(sti.new("maps/testmap"))
 end
 
 function love.update(dt)
