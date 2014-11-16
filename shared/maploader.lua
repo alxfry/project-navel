@@ -18,8 +18,10 @@ function MapLoader:initialize(mapName, spawnFunction)
 
     for k, v in pairs(map.layers.Objects.objects) do
         local tile = map.tiles[v.gid]
-        spawnFunction(tile, v.x + width/2, v.y + height/2)
+        spawnFunction(tile, v.x + tile.width/2, v.y + tile.height/2)
     end
+
+    self.map = map
 end
 
 return MapLoader
