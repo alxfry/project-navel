@@ -21,13 +21,13 @@ function SearchEnemy:update(dt, context)
 	self.status = STATUS.FAILURE
 
 	if target then
-		distance = 42
+		distance = 22
 	else
 		target, distance = LogicCore.entityManager:findClosestEntity(object.position, isEnemy, 400)
 	end
 
 	if target then
-		if distance > 40 then
+		if distance > 20 then
 			object:moveTo(target.position.x, target.position.y)
 			self.status = STATUS.SUCCESS
 		else
@@ -60,7 +60,7 @@ function AttackEnemy:update(dt, context)
 		self.attackTarget = false
 	end
 
-	dbgprint("AttackEnemy", self.status)
+	-- dbgprint("AttackEnemy", self.status)
 	return self.status
 end
 
@@ -159,9 +159,14 @@ end
 function WorkConstruction:update(dt, context)
 	local construction = context.closestEntity
 	if not construction or not construction.constructing then
+		dbgprint(construction)
+		if construction then
+			dbgprint(construction.constructing)
+		end
 		return STATUS.FAILURE
 	end
 	self.timeWorked = self.timeWorked + dt
+	dbgprint(self.timeWorked)
 
 	if self.timeWorked >= self.workTime then
 		self.timeWorked = self.timeWorked - self.workTime
