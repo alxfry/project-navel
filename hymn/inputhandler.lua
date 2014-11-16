@@ -15,6 +15,7 @@ function InputHandler:update(dt)
     local width, height = love.graphics.getDimensions()
     local x, y = love.mouse.getPosition()
 
+    -- border scrolling
     if x < borderWidth then
         self.translate.x = self.translate.x + scrollSpeed * dt
     elseif x > width - borderWidth then
@@ -27,24 +28,41 @@ function InputHandler:update(dt)
         self.translate.y = self.translate.y - scrollSpeed * dt
     end
 
+    -- dragging
+    if self.dragAnchor then
+        -- dbgprint
+        self.translate.x = x - self.dragAnchor.x
+        self.translate.y = y - self.dragAnchor.y
+    end
+
     local w, h = self.logicCore.map:size()
     self.translate.x = GameMath.clamp(self.translate.x, -w + width, 0)
     self.translate.y = GameMath.clamp(self.translate.y, -h + height, 0)
 end
 
+
+-- click-through prevention. sucky, sucky Quickie! ;)
+function InputHandler:isToolBar(x, y)
+    local width, height = love.graphics.getDimensions()
+    return y > height - 50
+end
+
 function InputHandler:mousePressed(x, y, button)
-    -- print("mousePressed", x, y, button)
+    if self:isToolBar(x, y) then
+        return
+    end
+
+    local position = GameMath.Vector2:new(x, y) - self.translate
+    self.dragAnchor = position
 end
 
 function InputHandler:mouseReleased(x, y, button)
-    local function isSelectable(entity)
-        return entity.player == self.logicCore.players[1] and entity.selectable
+    if self:isToolBar(x, y) then
+        return
     end
 
-    local width, height = love.graphics.getDimensions()
-    -- click-through prevention. sucky, sucky Quickie! ;)
-    if y > height - 50 then
-        return
+    local function isSelectable(entity)
+        return entity.player == self.logicCore.players[1] and entity.selectable
     end
 
     local position = GameMath.Vector2:new(x, y) - self.translate
