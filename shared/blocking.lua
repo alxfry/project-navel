@@ -260,12 +260,13 @@ end
 function blocking.draw()
     local grid = blocking.grid
     local w,h = blocking.cellwidth, blocking.cellheight
+    local drawRange = blocking.map.drawRange
 
     love.graphics.setColor(255,0,128,128)
 
-    for y=1,#grid do
+    for y = math.max(1, drawRange.sy*2-1), math.min(#grid, drawRange.ey*2) do
         local row = grid[y]
-        for x=1,#row do
+        for x = math.max(1, drawRange.sx*2-1), math.min(#row, drawRange.ex*2) do
             if row[x] ~= WALKABLE then
                 love.graphics.rectangle("line", (x-1) * w, (y-1) * h, w, h)
                 love.graphics.rectangle("fill", (x-1) * w, (y-1) * h, w, h)
