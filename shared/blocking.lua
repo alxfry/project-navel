@@ -230,32 +230,39 @@ function blocking.refreshGrid()
     blocking.finder = Pathfinder(Grid(grid), 'ASTAR', WALKABLE)
 end
 
---[[
-function blocking.updateDynamicBlock(oldX, oldY, x, y)
-    local previousGridX, previousGridY = blocking.toGrid(oldX, oldY)
-    local newGridX, newGridY = blocking.toGrid(x, y)
+function blocking.blockRectangle(x, y, width, height)
+    width = (width or 1) - 1
+    height = (height or 1) - 1
+    local gridStartX, gridStartY = blocking.toGrid(x, y)
+    local gridEndX, gridEndY = blocking.toGrid(x + width, y + height)
 
-    print(newGridX, newGridY)
+    return math.max(1, gridStartX),
+           math.max(1, gridStartY),
+           math.min(gridEndX, blocking.map.width * 2),
+           math.min(gridEndY, blocking.map.height * 2)
+end
+
+function blocking.addDynamicBlock(x, y, width, height)
+    local gridStartX, gridStartY, gridEndX, gridEndY = blocking.blockRectangle(x, y, width, height)
     local grid = blocking.grid
 
-    if previousGridX ~= newGridX or previousGridY ~= newGridY then
-        grid[previousGridY][previousGridX] = grid[previousGridY][previousGridX] - 1
-        grid[newGridY][newGridX] = grid[newGridY][newGridX] + 1
+    for x = gridStartX, gridEndX do
+        for y = gridStartY, gridEndY do
+            grid[y][x] = grid[y][x] + 1
+        end
     end
 end
 
-function blocking.addDynamicBlock(x, y)
-    local gridX, gridY = blocking.toGrid(x, y)
+function blocking.removeDynamicBlock(x, y, width, height)
+    local gridStartX, gridStartY, gridEndX, gridEndY = blocking.blockRectangle(x, y, width, height)
     local grid = blocking.grid
-    grid[gridY][gridX] = grid[gridY][gridX] + 1
-end
 
-function blocking.removeDynamicBlock(x, y)
-    local gridX, gridY = blocking.toGrid(x, y)
-    local grid = blocking.grid
-    grid[gridY][gridX] = grid[gridY][gridX] - 1
+    for x = gridStartX, gridEndX do
+        for y = gridStartY, gridEndY do
+            grid[y][x] = grid[y][x] - 1
+        end
+    end
 end
---]]
 
 function blocking.draw()
     local grid = blocking.grid
@@ -268,11 +275,14 @@ function blocking.draw()
         local row = grid[y]
         for x = math.max(1, drawRange.sx*2-1), math.min(#row, drawRange.ex*2) do
             if row[x] ~= WALKABLE then
+                love.graphics.setColor(255,0,128,128*row[x])
                 love.graphics.rectangle("line", (x-1) * w, (y-1) * h, w, h)
                 love.graphics.rectangle("fill", (x-1) * w, (y-1) * h, w, h)
             end
         end
     end
+
+    love.graphics.setColor(255,255,255,255)
 end
 
 return blocking

@@ -14,16 +14,12 @@ function Entity:initialize(entityStatics, player)
 
 	self.health = self.health or 0
     self.maxHealth = self.health
-	self.position = GameMath.Vector2:new(0, 0)
     self.orientation = 0
     self.id = 0
     self.animation = false
-    self.radius = 10
+    self.radius = self.radius or 10
     self:setPlayer(player)
-
-    if self.blocking then
-        Blocking.addDynamicBlock(0, 0)
-    end
+	self:initPosition(0,0)
 end
 
 function Entity:setPlayer(player)
@@ -68,6 +64,14 @@ function Entity:delete()
     end
 end
 
+function Entity:initPosition(x, y)
+    self.position = GameMath.Vector2:new(x, y)
+    if self.blocking then
+        local size = self.radius * 2
+        Blocking.addDynamicBlock(x - self.radius, y - self.radius, size, size)
+    end    
+end
+
 function Entity:setPosition(x, y)
     local oldX = self.position.x
     local oldY = self.position.y
@@ -76,7 +80,9 @@ function Entity:setPosition(x, y)
 	self.position.y = y
 
     if self.blocking then
-        Blocking.updateDynamicBlock(oldX, oldY, x, y)
+        local size = self.radius * 2
+        Blocking.addDynamicBlock(x - self.radius, y - self.radius, size, size)
+        Blocking.removeDynamicBlock(oldX - self.radius, oldY - self.radius, size, size)
     end
 end
 
