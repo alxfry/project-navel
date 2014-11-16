@@ -31,6 +31,10 @@ function Deposit:update(dt)
 end
 
 function Deposit:takeOwnership(player)
+    if self.owner == player then
+        return
+    end
+
     if self.owner then
         self.owner = self.owner.resource - 50
     end
