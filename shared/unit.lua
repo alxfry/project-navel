@@ -99,4 +99,8 @@ function Unit:setPosition(x, y)
     Entity.setPosition(self, x, y)
 end
 
+function Unit:getTargetPosition()
+    return self.targetPosition.x, self.targetPosition.y
+end
+
 return Unit

@@ -35,7 +35,7 @@ function SearchEnemy:update(dt, context)
 			self.status = STATUS.SUCCESS
 		end
 	end
-
+	-- dbgprint("SearchEnemy")
 	return self.status
 end
 
@@ -70,21 +70,39 @@ function FindWaypoint:update(dt, context)
 	local object = context.object
 	local userPath = object.userPath
 	object.pathIdx = object.pathIdx or 0
-	wpIdx = object.pathIdx
-	if wpIdx == 0 or object.position:add(-userPath[wpIdx]):sqLength() <= 4 then
-		wpIdx = wpIdx + 1
-		local nextWp = userPath[wpIdx]
+	-- dbgprint("PathIdx", object.pathIdx)
+	local wpIdx = object.pathIdx
+	local currentWp = userPath[wpIdx]
+	-- dbgprint("current: " .. wpIdx)
+	local nextWp = userPath[wpIdx + 1]
+	-- dbgprint("next: " .. wpIdx + 1)
+	local reachedWp = true
+	if currentWp then
+		reachedWp = object.position:add(-userPath[wpIdx]):sqLength() <= 4
+	end
+	if object.pathIdx == 0 or reachedWp then
 		if nextWp then
+			-- dbgprint(nextWp.x .. " / " .. nextWp.y)
+			-- dbgprint(object.position.x .. " / " .. object.position.y)
 			self.status = STATUS.SUCCESS
-			object.pathIdx = wpIdx
 			object:moveTo(nextWp.x, nextWp.y)
+			-- INCREASE PATH TARGET IDX
+			object.pathIdx = object.pathIdx + 1
 		else
 			self.status = STATUS.FAILURE
 		end
 	else
-		self.status = STATUS.SUCCESS
+		-- CORRECT PATH: if target not correctly set update it
+		local targetX, targetY = object:getTargetPosition()
+		if nextWp and ((targetX ~= nextWp.x) or targetY ~= nextWp.y) then
+			object:moveTo(nextWp.x, nextWp.y) 
+			self.status = STATUS.SUCCESS
+		else
+			-- FOUND NO NEXT NODE
+			self.status = STATUS.FAILURE
+		end
 	end
-
+	-- dbgprint("FindWp", self.status, object.pathIdx .. " / " .. #userPath)
 	return self.status
 end
 
@@ -96,6 +114,7 @@ function MoveTo:update(dt, context)
 	--dbgprint(finished)
 	self.status = finished and STATUS.SUCCESS or STATUS.RUNNING
 	-- dbgprint(self.status)
+	-- dbgprint("MoveTo", self.status)
 	return self.status
 end
 
@@ -146,7 +165,7 @@ function FindConstruction:update(dt, context)
 	else
 		self.status = STATUS.FAILURE
 	end
-
+	-- dbgprint("FindConstr", self.status)
 	return self.status
 end
 
@@ -164,6 +183,7 @@ function WorkConstruction:update(dt, context)
 		if construction then
 			dbgprint(construction.constructing)
 		end
+		-- dbgprint("WorkConstruction", STATUS.FAILURE)
 		return STATUS.FAILURE
 	end
 	self.timeWorked = self.timeWorked + dt
@@ -172,11 +192,14 @@ function WorkConstruction:update(dt, context)
 	if self.timeWorked >= self.workTime then
 		self.timeWorked = self.timeWorked - self.workTime
 		construction:addHealth(1)
-		dbgprint(construction.health)
+		-- dbgprint(construction.health)
+		-- dbgprint("WorkConstruction", STATUS.SUCCESS)
 		return STATUS.SUCCESS
 	else
+		-- dbgprint("WorkConstruction", STATUS.RUNNING)
 		return STATUS.RUNNING
 	end
+	-- dbgprint("WorkConstr")
 end
 
 local FindDeposit = Class("FindDeposit", Behavior)

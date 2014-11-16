@@ -24,7 +24,7 @@ function SpawnPortal:addPathPoint(position)
 end
 
 function SpawnPortal:spawnInterval()
-    return 400/self.player.resource
+    return 800/self.player.resource
 end
 
 function SpawnPortal:update(dt)
@@ -34,7 +34,7 @@ function SpawnPortal:update(dt)
 		self.timeSinceLastSpawn = self.timeSinceLastSpawn + dt
         local spawnInterval = self:spawnInterval()
 		
-		if self.timeSinceLastSpawn >= spawnInterval then
+		if self.timeSinceLastSpawn >= spawnInterval then --not self.hasSpawned and 
 			-- SPAWN
 			local spawn = entityManager:spawnFromEntityStatic(self.spawnEntityStatics, self.player)
 			spawn:setPosition(self.position.x, self.position.y)
