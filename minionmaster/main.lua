@@ -143,6 +143,11 @@ function love.gamepadpressed(joystick, button)
     if button == "a" then
         spawnMinion(state.master)
     end
+
+    if key == "start" then
+        state.status = "playing"
+        load()
+    end
 end
 
 function love.focus(focussed)
