@@ -1,7 +1,7 @@
 local state = require "minionmaster.state"
 
-local smallFont = love.graphics.newFont("fonts/Edson_Comics_Bold.ttf", 28)
-local mediumFont = love.graphics.newFont("fonts/Edson_Comics_Bold.ttf", 45)
+local smallFont = love.graphics.newFont("fonts/Exocet1.ttf", 28)
+local mediumFont = love.graphics.newFont("fonts/Exocet1.ttf", 45)
 local GameMath = require "shared.gamemath"
 
 local ui = {}
@@ -24,9 +24,9 @@ function ui.draw()
 
     -- Master Health
     love.graphics.setColor(0, 0, 0)
-    love.graphics.print("Health: " .. state.master.health, 12, height - 55)
+    love.graphics.print("Health: " .. state.master.health, 12, height - 60)
     love.graphics.setColor(255, 100, 100)
-    love.graphics.print("Health: " .. state.master.health, 10, height - 57)
+    love.graphics.print("Health: " .. state.master.health, 10, height - 62)
 
     ui.drawRadar()
 
