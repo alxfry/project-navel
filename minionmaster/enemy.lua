@@ -28,20 +28,23 @@ function Enemy:update(dt)
         return
     end
 
+    local wasAttacking = self.attack
+
     Unit.update(self, dt)
+    self.behavior:tick(dt)
 
     if self.attack then
-        if not self.wasAttacking then
+        if not wasAttacking then
             self:setAnimation("images/minion/lava/attack.png", 0.175)
-            -- print("attackAnim")
         end
-    elseif self.wasAttacking then
+    elseif wasAttacking then
         self:setAnimation("images/minion/lava/walk.png", 0.175)
-        -- print("walkAnim")
     end
+end
 
-    self.wasAttacking = self.attack
-    self.behavior:tick(dt)
+function Enemy:draw(dt)
+    -- love.graphics.circle("line", self.position.x, self.position.y, self.attackRange, 100);
+    Unit.draw(self, dt)
 end
 
 return Enemy

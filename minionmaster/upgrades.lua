@@ -8,6 +8,7 @@ local UpgradeStatics =
         param = "health",
         value = 10,
         cost = 10,
+        name = "healMaster",
     },
 
     minionCostDown =
@@ -16,6 +17,7 @@ local UpgradeStatics =
         param = "cost",
         value = -1,
         cost = 10,
+        name = "minionCostDown",
     },
 
     damageUpMinion =
@@ -24,6 +26,7 @@ local UpgradeStatics =
         param = "damage",
         value = 1,
         cost = 10,
+        name = "damageUpMinion",
     },
 
     healthUpMinion =
@@ -32,6 +35,7 @@ local UpgradeStatics =
         param = "health",
         value = 2,
         cost = 5,
+        name = "healthUpMinion",
     },
 
     damageDownEnemy =
@@ -40,6 +44,7 @@ local UpgradeStatics =
         param = "damage",
         value = -1,
         cost = 10,
+        name = "damageDownEnemy",
     },
 
     healthDownEnemy =
@@ -48,6 +53,7 @@ local UpgradeStatics =
         param = "health",
         value = -5,
         cost = 10,
+        name = "healthDownEnemy",
     },
 
     dnaUpEnemy =
@@ -56,6 +62,7 @@ local UpgradeStatics =
         param = "dna",
         value = 5,
         cost = 10,
+        name = "dnaUpEnemy",
     },
 }
 

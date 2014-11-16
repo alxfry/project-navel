@@ -27,6 +27,7 @@ local EntityStatics =
         damage = 10,
         speed = 100,
         dna = 20,
+        attackRange = 250,
     },
 
     building = 

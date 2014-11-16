@@ -13,7 +13,6 @@ function SearchEnemyBehavior:update(dt, context)
 
     object.target = object:findNearestEnemy(object.position, object.attackRange)
     self.status = object.target and STATUS.SUCCESS or STATUS.FAILURE
-    -- print(object.target)
 	return self.status
 end
 
@@ -22,7 +21,6 @@ local SearchMasterBehavior = Class("SearchMasterBehavior", Behavior)
 function SearchMasterBehavior:update(dt, context)
     local object = context.object
     object.target = state.master
-    -- print("master")
     self.status = STATUS.SUCCESS
     return self.status
 end
@@ -32,31 +30,74 @@ local SearchNearestBehavior = Class("SearchNearestBehavior", Behavior)
 function SearchNearestBehavior:update(dt, context)
     local object = context.object
 
-    object.target = state.entityManager:findClosestEntity(object.position, 
-        function(entity) 
-            return entity.type == "master" or entity.type == "minion" 
-        end
+    object.target = state.entityManager:findClosestEntity(object.position,
+        function(entity)
+            return entity.type == "master" or entity.type == "minion"
+        end,
+        object.attackRange
         )
     self.status = object.target and STATUS.SUCCESS or STATUS.FAILURE
     return self.status
 end
 
-local FindPathBehavior = Class("FindPathBehavior", Behavior)
+local GotoTargetBehavior = Class("GotoTargetBehavior", Behavior)
 
-function FindPathBehavior:update(dt, context)
-	local object = context.object
-
+function GotoTargetBehavior:update(dt, context)
+    local object = context.object
     object:moveTo(object.target.position.x, object.target.position.y, object.target.spriteSize / 2)
-
-    self.status = object.waypoints and #object.waypoints > 0 and STATUS.SUCCESS or STATUS.FAILURE
+    if not object.waypoints or #object.waypoints < 1 then
+        self.status = STATUS.FAILURE
+    else
+        self.status = object:updateMove(dt) and STATUS.SUCCESS or STATUS.RUNNING
+    end
     return self.status
 end
 
-local GotoBehavior = Class("GotoBehavior", Behavior)
+local GotoTargetWithEnemySearchBehavior = Class("GotoTargetWithEnemySearchBehavior", GotoTargetBehavior)
 
-function GotoBehavior:update(dt, context)
+function GotoTargetWithEnemySearchBehavior:update(dt, context)
     local object = context.object
-    self.status = object:updateMove(dt) and STATUS.SUCCESS or STATUS.RUNNING
+
+    if object.target.type ~= "enemy" then
+        local target = object:findNearestEnemy(object.position, object.attackRange)
+        if target then
+            object.target = target
+            self.status = STATUS.FAILURE
+        end
+    end
+    
+    local status = GotoTargetBehavior.update(self, dt, context)
+    
+    if self.status ~= STATUS.FAILURE then
+        self.status = status
+    end
+    return self.status
+end
+
+local GotoTargetWithMinionSearchBehavior = Class("GotoTargetWithMinionSearchBehavior", GotoTargetBehavior)
+
+function GotoTargetWithMinionSearchBehavior:update(dt, context)
+    local object = context.object
+
+    if object.target.type ~= "minion" then
+        local target = state.entityManager:findClosestEntity(object.position,
+            function(entity)
+                return entity.type == "minion"
+            end,
+            object.attackRange
+        )
+
+        if target then
+            object.target = target
+            self.status = STATUS.FAILURE
+        end
+    end
+
+    local status = GotoTargetBehavior.update(self, dt, context)
+
+    if self.status ~= STATUS.FAILURE then
+        self.status = status
+    end
     return self.status
 end
 
@@ -90,7 +131,8 @@ return {
     SearchEnemyBehavior = SearchEnemyBehavior,
     SearchMasterBehavior = SearchMasterBehavior,
     SearchNearestBehavior = SearchNearestBehavior,
-    FindPathBehavior = FindPathBehavior,
-    GotoBehavior = GotoBehavior,
+    GotoTargetBehavior = GotoTargetBehavior,
+    GotoTargetWithEnemySearchBehavior = GotoTargetWithEnemySearchBehavior,
+    GotoTargetWithMinionSearchBehavior = GotoTargetWithMinionSearchBehavior,
     AttackBehavior = AttackBehavior,
 }

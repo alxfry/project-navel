@@ -37,26 +37,28 @@ function Minion:initialize(entityStatics, master)
 end
 
 function Minion:update(dt)
-
     if self.health <= 0 then
         state.entityManager:remove(self.id)
         return
     end
 
+    local wasAttacking = self.attack
+
     Unit.update(self, dt)
+    self.behavior:tick(dt)
 
     if self.attack then
-        if not self.wasAttacking then
+        if not wasAttacking then
             self:setAnimation("images/minion/frost/attack.png", 0.175)
-            -- print("attackAnim")
         end
-    elseif self.wasAttacking then
+    elseif wasAttacking then
         self:setAnimation("images/minion/frost/walk.png", 0.175)
-        -- print("walkAnim")
     end
+end
 
-    self.wasAttacking = self.attack
-    self.behavior:tick(dt)
+function Minion:draw(dt)
+    -- love.graphics.circle("line", self.position.x, self.position.y, self.attackRange, 100);
+    Unit.draw(self, dt)
 end
 
 return Minion
