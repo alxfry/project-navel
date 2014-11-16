@@ -111,6 +111,9 @@ function love.draw(dt)
         end
     end
 
+    -- debug grid drawing
+    blocking.draw()
+
     love.graphics.pop()
 
     ui.draw()

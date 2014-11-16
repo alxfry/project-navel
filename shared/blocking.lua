@@ -24,7 +24,7 @@ function blocking.setMap(map)
     blocking.cellwidth = map.tilewidth / 2
     blocking.cellheight = map.tileheight / 2
 
-    blocking.createFinder()
+    blocking.refreshGrid()
 end
 
 function blocking.toGrid(x, y)
@@ -176,7 +176,7 @@ function blocking.findPath(startX, startY, endX, endY)
     return waypoints
 end
 
-function blocking.createFinder()
+function blocking.refreshGrid()
     local map = assert(blocking.map, "no map specified")
 
     -- Generate grid and finder instances on-demand
@@ -252,5 +252,22 @@ function blocking.removeDynamicBlock(x, y)
     grid[gridY][gridX] = grid[gridY][gridX] - 1
 end
 --]]
+
+function blocking.draw()
+    local grid = blocking.grid
+    local w,h = blocking.cellwidth, blocking.cellheight
+
+    love.graphics.setColor(255,0,0,128)
+
+    for y=1,#grid do
+        local row = grid[y]
+        for x=1,#row do
+            if row[x] ~= WALKABLE then
+                love.graphics.rectangle("line", (x-1) * w, (y-1) * h, w, h)
+                love.graphics.rectangle("fill", (x-1) * w, (y-1) * h, w, h)
+            end
+        end
+    end
+end
 
 return blocking
