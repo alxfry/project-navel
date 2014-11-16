@@ -83,7 +83,7 @@ local function load()
     love.window.setMode(baseWidth/2, baseHeight/2, { centered = true, resizable = true })
 	entityManager = LogicCore.entityManager
 
-    local mapLoader = MapLoader:new("losttemple", spawn)
+    local mapLoader = MapLoader:new("testmap", spawn)
     LogicCore:startMap(mapLoader.map)
 
     -- hauntedIslandsMap()
@@ -110,13 +110,13 @@ end
 
 function love.draw(dt)
     local width, height = love.graphics.getDimensions()
-    LogicCore.map:draw()
 
     -- draw map
     love.graphics.translate(inputHandler.translate.x, inputHandler.translate.y)
     -- Draw Range culls unnecessary tiles
     LogicCore.map:setDrawRange(inputHandler.translate.x, inputHandler.translate.y, width, height)
     LogicCore.map:draw()
+    require "shared.blocking":draw()
 
     -- draw entities
     entityManager:draw(dt)

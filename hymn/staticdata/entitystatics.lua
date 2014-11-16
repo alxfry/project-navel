@@ -26,6 +26,7 @@ EntityStatics.deposit = {
 	classSource = "hymn.depost",
 	health = 100,
     selectable = false,
+    blocking = true,
 }
 
 return EntityStatics
