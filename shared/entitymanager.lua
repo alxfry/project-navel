@@ -61,14 +61,18 @@ function EntityManager:remove(id)
         self.entities[id] = nil
     end
     if entity:isInstanceOf(Building) then
-        for i = 1, #self.drawLayer.buildings do
-            table.remove(self.drawLayer.buildings, i)
-            break
+        for i, entity in pairs(self.drawLayer.buildings) do
+            if entity.id == id then
+                table.remove(self.drawLayer.buildings, i)
+                break
+            end
         end
     elseif entity:isInstanceOf(Unit) then
-        for i = 1, #self.drawLayer.units do
-            table.remove(self.drawLayer.units, i)
-            break
+        for i, entity in pairs(self.drawLayer.units) do
+            if entity.id == id then
+                table.remove(self.drawLayer.units, i)
+                break
+            end
         end
     end
 end
