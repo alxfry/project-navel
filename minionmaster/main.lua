@@ -23,6 +23,7 @@ local Minion        = require "minionmaster.minion"
 local MinionMaster  = require "minionmaster.minionmaster"
 
 local blocking      = require "shared.blocking"
+local sharedui      = require "shared.ui"
 
 local UpgradeStatics = require "minionmaster.upgrades"
 
@@ -30,10 +31,13 @@ local baseWidth, baseHeight = 1920, 1080
 
 local EntityStatics
 
-local enemyCount = 10
-
 local zoom = 1
 local zoomSpeed = 0.1
+
+local movingToMouse = false
+
+local debugDrawPaths = false
+local debugDrawGrid = false
 
 local function spawnMinion(master)
     if state.dna >= EntityStatics.minion.cost then
@@ -44,29 +48,31 @@ local function spawnMinion(master)
     end
 end
 
+local function spawnEntities()
+    local objectLayer = state.map.layers.objects
+    for i, object in ipairs(objectLayer.objects) do
+        if object.type == "playerStart" then
+            state.master = MinionMaster:new(EntityStatics.master)
+            state.master:setPosition(object.x, object.y)
+            state.entityManager:add(state.master)
+        elseif object.type == "enemy" then
+            local enemy = Enemy:new(EntityStatics.enemy)
+            enemy:setPosition(object.x, object.y)
+            enemy.orientation = math.random() * math.pi * 2
+            state.entityManager:add(enemy)
+        end
+    end
+end
+
 local function start()
     state.entityManager:clear()
 
     EntityStatics = state.entityStatics
 
-    -- spawn the master
-    state.master = MinionMaster:new(EntityStatics.master)
-    state.master:setPosition(500,500)
-    state.entityManager:add(state.master)
+    spawnEntities()
+    assert(state.master, "no playerStart object found")
 
     -- spawnMinion(state.master)
-
-    -- spawn initial enemies
-    for i=1,enemyCount do
-        local enemy = Enemy:new(EntityStatics.enemy, state.master)
-        local sx, sy = state.map:size()
-        local x, y = math.random(sx),math.random(sy)
-        while blocking.collides(x, y) do
-            x,y = math.random(sx),math.random(sy)
-        end
-        enemy:setPosition(x, y)
-        state.entityManager:add(enemy)
-    end
 end
 
 local function load()
@@ -79,6 +85,12 @@ end
 function love.update(dt)
     if state.status == "game over" then
         return
+    end
+
+    if movingToMouse then
+        local posX = love.mouse.getX() - state.translateX
+        local posY = love.mouse.getY() - state.translateY
+        state.master:moveTo(posX, posY)
     end
 
     state.entityManager:update(dt)
@@ -104,15 +116,26 @@ function love.draw(dt)
     state.map:draw()
     state.entityManager:draw(dt)
 
-    -- debug printing the entity paths
+    -- Draw health bars
     for id, entity in pairs(state.entityManager.entities) do
-        if entity.drawPath then
-            entity:drawPath()
+        if entity.health and entity.health > 0 then
+            sharedui.drawHealthBar(entity)
+        end
+    end
+
+    -- debug printing the entity paths
+    if debugDrawPaths then
+        for id, entity in pairs(state.entityManager.entities) do
+            if entity.drawPath then
+                entity:drawPath()
+            end
         end
     end
 
     -- debug grid drawing
-    blocking.draw()
+    if debugDrawGrid then
+        blocking.draw()
+    end
 
     love.graphics.pop()
 
@@ -142,6 +165,13 @@ function love.keypressed(key, unicode)
     if key == "u" then
         UpgradeStatics.apply(UpgradeStatics.damageUpMinion, true)
     end
+
+    if key == "f1" then
+        debugDrawGrid = not debugDrawGrid
+    end
+    if key == "f2" then
+        debugDrawPaths = not debugDrawPaths
+    end
 end
 
 function love.mousepressed(x, y, button)
@@ -150,13 +180,21 @@ function love.mousepressed(x, y, button)
     elseif button == "wu" then
         zoom = zoom + zoomSpeed
     elseif button == "l" then
-        state.master.position.x = x - state.translateX
-        state.master.position.y = y - state.translateY
+        if love.keyboard.isDown('rctrl') or love.keyboard.isDown('lctrl') then
+            local posX = x - state.translateX
+            local posY = y - state.translateY
+            state.master:setPosition(posX, posY)
+        else
+            movingToMouse = true
+        end
     end
 end
 
 function love.mousereleased(x, y, button)
     -- screen.mousereleased(x,y, button)
+    if button == "l" then
+        movingToMouse = false
+    end
 end
 
 function love.gamepadpressed(joystick, button)

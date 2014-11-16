@@ -27,10 +27,7 @@ function ui.draw()
     love.graphics.setColor(255, 100, 100)
     love.graphics.print("Health: " .. state.master.health, 10, height - 57)
 
-    love.graphics.push()
-    love.graphics.translate(width - 110, height - 110)
     ui.drawRadar()
-    love.graphics.pop()
 
     if state.status == "game over" then
         love.graphics.setColor(0, 0, 0)
@@ -41,7 +38,12 @@ function ui.draw()
 end
 
 function ui.drawRadar()
-    love.graphics.setColor(0, 0, 0)
+    local width, height = love.graphics.getDimensions()
+
+    love.graphics.push()
+    love.graphics.translate(width - 110, height - 110)
+
+    love.graphics.setColor(0, 0, 0, 200)
     love.graphics.circle("fill", 0, 0, 100, 40)
     local pos = state.master.position
     local range = 1000
@@ -49,10 +51,10 @@ function ui.drawRadar()
     local entitiesInRange = state.entityManager:findAllEntities(
         function(entity)
             return (entity.position - pos):sqLength() <= sqrRange
-        end
-        )
+        end)
 
     love.graphics.setColor(255, 0, 0)
+    love.graphics.setPointSize(8)
     for i, entity in ipairs(entitiesInRange) do
         local radarPos = (entity.position - pos) / range * 100
         if entity.type == "master" then
@@ -62,8 +64,10 @@ function ui.drawRadar()
         else
             love.graphics.setColor(0, 255, 255)
         end
-        love.graphics.circle("fill", radarPos.x, radarPos.y, 5, 8)
+        love.graphics.point(radarPos.x, radarPos.y)
     end
+
+    love.graphics.pop()
 end
 
 return ui

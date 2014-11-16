@@ -13,6 +13,7 @@ function Unit:initialize(entityStatic, player)
     self.targetPosition = GameMath.Vector2:new(self.position.x, self.position.y)
     self.stopRange = 1
     self.waypoints = false
+    self.dead = false
 end
 
 function Unit:update(dt)

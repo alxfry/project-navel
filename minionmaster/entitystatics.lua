@@ -23,7 +23,7 @@ local EntityStatics =
     enemy = 
     {
         type = "enemy",
-        health = 100,
+        health = 50,
         damage = 10,
         speed = 100,
         dna = 20,

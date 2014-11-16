@@ -208,13 +208,11 @@ if (...) then
 				if tunnel then
 					neighbours[#neighbours+1] = n
 				else
-					local skipThisNode = false
 					local n1 = self:getNodeAt(node._x+diagonalOffsets[i].x, node._y)
 					local n2 = self:getNodeAt(node._x, node._y+diagonalOffsets[i].y)
-					if ((n1 and n2) and not self:isWalkableAt(n1._x, n1._y, walkable, clearance) and not self:isWalkableAt(n2._x, n2._y, walkable, clearance)) then
-						skipThisNode = true
+					if n1 and n2 and self:isWalkableAt(n1._x, n1._y, walkable, clearance) and self:isWalkableAt(n2._x, n2._y, walkable, clearance) then
+						neighbours[#neighbours+1] = n
 					end
-					if not skipThisNode then neighbours[#neighbours+1] = n end
 				end
       end
     end

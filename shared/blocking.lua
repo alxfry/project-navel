@@ -88,6 +88,7 @@ local function raytrace(x0, y0, x1, y1, visit)
     end
 
     for i = n, 1, -1 do
+        -- print("  visit", x, y, visit(x, y))
         if visit(x, y) then
             return false
         end
@@ -105,6 +106,7 @@ local function raytrace(x0, y0, x1, y1, visit)
 end
 
 local function lineOfSight(x0, y0, x1, y1)
+    -- print(" lineOfSight", x0, y0, x1, y1)
     return raytrace(x0, y0, x1, y1, blocking.gridCollides)
 end
 
@@ -127,12 +129,13 @@ function blocking.pathExists(startX, startY, endX, endY)
 end
 
 function blocking.findPath(startX, startY, endX, endY)
+    -- print("findPath", startX, startY, endX, endY)
     local path = getPath(startX, startY, endX, endY)
     if not path then
         return
     end
 
-    if #path._nodes > 1 then
+    if blocking.finder:getFinder() == "JPS" and #path._nodes > 1 then
         path:fill()
     end
 
@@ -149,28 +152,29 @@ function blocking.findPath(startX, startY, endX, endY)
     local previousGridX, previousGridY
 
     for node, count in path:nodes() do
-        if count > 1 then
-            local gridX, gridY = node:getX(), node:getY()
+        local gridX, gridY = node:getX(), node:getY()
 
-            if previousGridX then
-                if lineOfSight(lastRequiredGridX, lastRequiredGridY, gridX, gridY) then
-                    previousGridX, previousGridY = gridX, gridY
-                else
-                    local x = (previousGridX-1) * (blocking.cellwidth)
-                    local y = (previousGridY-1) * (blocking.cellheight)
-                    x = x + map.tilewidth / 4
-                    y = y + map.tileheight / 4
-                    waypoints[#waypoints + 1] = { x = x, y = y }
-                    lastRequiredGridX, lastRequiredGridY = previousGridX, previousGridY
-                end
+        if previousGridX then
+            if lineOfSight(lastRequiredGridX + 0.5, lastRequiredGridY + 0.5, gridX + 0.5, gridY + 0.5) then
+                previousGridX, previousGridY = gridX, gridY
             else
-                lastRequiredGridX, lastRequiredGridY = gridX, gridY
+                local x = (previousGridX-1) * (blocking.cellwidth)
+                local y = (previousGridY-1) * (blocking.cellheight)
+                x = x + blocking.cellwidth / 2
+                y = y + blocking.cellheight / 2
+                waypoints[#waypoints + 1] = { x = x, y = y }
+                lastRequiredGridX, lastRequiredGridY = previousGridX, previousGridY
             end
 
             previousGridX, previousGridY = gridX, gridY
+        else
+            lastRequiredGridX, lastRequiredGridY = startX / blocking.cellwidth + 0.5,
+                                                   startY / blocking.cellheight + 0.5
+            previousGridX, previousGridY = lastRequiredGridX, lastRequiredGridY
         end
     end
 
+    -- use the destination as the last waypoint
     waypoints[#waypoints + 1] = { x = endX, y = endY }
 
     return waypoints
@@ -223,7 +227,7 @@ function blocking.refreshGrid()
     --]]
 
     blocking.grid = grid
-    blocking.finder = Pathfinder(Grid(grid), 'JPS', WALKABLE)
+    blocking.finder = Pathfinder(Grid(grid), 'ASTAR', WALKABLE)
 end
 
 --[[
@@ -257,7 +261,7 @@ function blocking.draw()
     local grid = blocking.grid
     local w,h = blocking.cellwidth, blocking.cellheight
 
-    love.graphics.setColor(255,0,0,128)
+    love.graphics.setColor(255,0,128,128)
 
     for y=1,#grid do
         local row = grid[y]

@@ -1,5 +1,8 @@
 local quickie = require "libs.quickie"
 local LogicCore = require "hymn.logiccore"
+
+local sharedui = require "shared.ui"
+
 local ui = {}
 
 local inputHandler
@@ -32,7 +35,7 @@ function ui.update(dt)
     love.graphics.setColor(0, 0, 0, 255)
     quickie.Label { pos = { ui.windowWidth - 200, ui.windowHeight - 40 }, text = "Spice: " .. LogicCore.players[1].resource }
     quickie.Label { pos = { ui.windowWidth - 350, ui.windowHeight - 40 }, text = "rate: " .. 800/LogicCore.players[1].resource }
-    
+
     if quickie.Button { text = "Build", pos = { 10, ui.windowHeight - 40 } } then
         inputHandler:setMode("build")
     end
@@ -46,7 +49,7 @@ function ui.draw()
 
     for id, entity in pairs(entityManager.entities) do
         if entity.health then
-            ui.drawHealthBar(entity)
+            sharedui.drawHealthBar(entity)
         end
     end
 
@@ -67,18 +70,6 @@ function ui.draw()
     love.graphics.translate(-inputHandler.translate.x, -inputHandler.translate.y)
     love.graphics.rectangle("fill", 0, ui.windowHeight - 50, ui.windowWidth, 50)
     quickie.core.draw()
-end
-
-function ui.drawHealthBar(entity)
-    local width = 40
-    local height = 5
-    local x = entity.position.x - width/2
-    local y = entity.position.y - 30
-    love.graphics.setColor(0, 16, 0, 255)
-    love.graphics.rectangle("fill", x-1, y-1, width+2, height+2 )
-    love.graphics.setColor(0, 128, 0, 255)
-    love.graphics.rectangle("fill", x, y, width*entity.health/entity.maxHealth, height )
-    love.graphics.setColor(255, 255, 255, 255)
 end
 
 function ui.resize(w, h)

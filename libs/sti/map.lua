@@ -107,11 +107,14 @@ function Map:init(path, fw)
 	}
 
 	-- Set tiles, images
-	local gid = 1
 	for i, tileset in ipairs(self.tilesets) do
-		local image = formatPath(path .. tileset.image)
-		tileset.image = framework.newImage(image)
-		gid = self:setTiles(i, tileset, gid)
+		if tileset.image then
+			local image = formatPath(path .. tileset.image)
+			tileset.image = framework.newImage(image)
+			self:setTilesFromImage(i, tileset)
+		else
+			self:setTiles(i, tileset)
+		end
 	end
 
 	-- Set layers
@@ -328,7 +331,9 @@ function Map:initWorldCollision(world)
 	return collision
 end
 
-function Map:setTiles(index, tileset, gid)
+function Map:setTilesFromImage(index, tileset)
+	local gid = tileset.firstgid
+
 	local function getTiles(i, t, m, s)
 		i = i - m
 		local n = 0
@@ -375,6 +380,7 @@ function Map:setTiles(index, tileset, gid)
 			end
 
 			local tile = {
+				id 			= gid - tileset.firstgid,
 				gid			= gid,
 				tileset		= index,
 				quad		= quad(qx, qy, tw, th, iw, ih),
@@ -402,8 +408,49 @@ function Map:setTiles(index, tileset, gid)
 			gid = gid + 1
 		end
 	end
+end
 
-	return gid
+function Map:setTiles(index, tileset)
+	local firstgid = tileset.firstgid
+
+	for _, tile in pairs(tileset.tiles) do
+		local gid = tile.id + firstgid
+
+		local terrain
+		if tile.terrain then
+			terrain = {}
+			for i=1,#tile.terrain do
+				terrain[i] = tileset.terrains[tile.terrain[i] + 1]
+			end
+		end
+
+		local tile = {
+			id 			= tile.id,
+			gid			= gid,
+			tileset		= index,
+			-- quad		= quad(qx, qy, tw, th, iw, ih),
+			properties	= tile.properties,
+			terrain     = terrain,
+			animation   = tile.animation,
+			frame       = 1,
+			time        = 0,
+			width		= tile.width,
+			height		= tile.height,
+			sx			= 1,
+			sy			= 1,
+			r			= 0,
+			offset		= {
+				x = tileset.tileoffset.x,
+				y = tileset.tileoffset.y,
+			},
+		}
+
+		if self.orientation == "isometric" then
+			tile.offset.x = -mw / 2
+		end
+
+		self.tiles[gid] = tile
+	end
 end
 
 function Map:setLayer(layer, path)
@@ -659,21 +706,23 @@ function Map:setObjectSpriteBatches(layer)
 			local ts = tile.tileset
 			local image = self.tilesets[tile.tileset].image
 
-			batches[ts] = batches[ts] or newBatch(image, 100)
+			if image then
+				batches[ts] = batches[ts] or newBatch(image, 100)
 
-			local batch = batches[ts]
-			local tx = object.x + tw + tile.offset.x
-			local ty = object.y + tile.offset.y
+				local batch = batches[ts]
+				local tx = object.x + tw + tile.offset.x
+				local ty = object.y + tile.offset.y
 
-			-- Compensation for scale/rotation shift
-			if tile.sx	< 0 then tx = tx + tw end
-			if tile.sy	< 0 then ty = ty + th end
-			if tile.r	> 0 then tx = tx + tw end
-			if tile.r	< 0 then ty = ty + th end
+				-- Compensation for scale/rotation shift
+				if tile.sx	< 0 then tx = tx + tw end
+				if tile.sy	< 0 then ty = ty + th end
+				if tile.r	> 0 then tx = tx + tw end
+				if tile.r	< 0 then ty = ty + th end
 
-			id = batch:add(tile.quad, tx, ty, tile.r, tile.sx, tile.sy)
-			self.tileInstances[tile.gid] = self.tileInstances[tile.gid] or {}
-			table.insert(self.tileInstances[tile.gid], { batch=batch, id=id, gid=tile.gid, x=tx, y=ty })
+				id = batch:add(tile.quad, tx, ty, tile.r, tile.sx, tile.sy)
+				self.tileInstances[tile.gid] = self.tileInstances[tile.gid] or {}
+				table.insert(self.tileInstances[tile.gid], { batch=batch, id=id, gid=tile.gid, x=tx, y=ty })
+			end
 		end
 	end
 
