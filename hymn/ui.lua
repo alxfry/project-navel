@@ -49,7 +49,9 @@ function ui.draw()
     love.graphics.translate(inputHandler.translate.x, inputHandler.translate.y)
 
     for id, entity in pairs(entityManager.entities) do
-        if entity.health then
+        if entity.constructing then
+            sharedui.drawProgress(entity)
+        elseif entity.health then
             sharedui.drawHealthBar(entity)
         end
     end
