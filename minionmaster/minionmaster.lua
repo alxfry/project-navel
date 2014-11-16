@@ -26,7 +26,7 @@ function MinionMaster:update(dt)
 
     local move = GameMath.Vector2:new(0,0)
     move.x = (love.keyboard.isDown("d") and 1 or 0) - (love.keyboard.isDown("a") and 1 or 0)
-    move.y = (love.keyboard.isDown("s") and 1 or 0) - (love.keyboard.isDown("w") and 1 or 0) 
+    move.y = (love.keyboard.isDown("s") and 1 or 0) - (love.keyboard.isDown("w") and 1 or 0)
 
     if self.joystick then
         local x = self.joystick:getGamepadAxis("leftx")
@@ -46,7 +46,7 @@ function MinionMaster:update(dt)
                 self.animation:resume()
             end
         end
-        self.position = newPosition
+        self:setPosition(newPosition.x, newPosition.y)
     end
 
     -- Update orientation

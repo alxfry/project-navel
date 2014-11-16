@@ -35,6 +35,8 @@ local enemyCount = 10
 local zoom = 1
 local zoomSpeed = 0.1
 
+local movingToMouse = false
+
 local function spawnMinion(master)
     if state.dna >= EntityStatics.minion.cost then
         state.dna = state.dna - EntityStatics.minion.cost
@@ -79,6 +81,12 @@ end
 function love.update(dt)
     if state.status == "game over" then
         return
+    end
+
+    if movingToMouse then
+        local posX = love.mouse.getX() - state.translateX
+        local posY = love.mouse.getY() - state.translateY
+        state.master:moveTo(posX, posY)
     end
 
     state.entityManager:update(dt)
@@ -150,13 +158,21 @@ function love.mousepressed(x, y, button)
     elseif button == "wu" then
         zoom = zoom + zoomSpeed
     elseif button == "l" then
-        state.master.position.x = x - state.translateX
-        state.master.position.y = y - state.translateY
+        if love.keyboard.isDown('rctrl') or love.keyboard.isDown('lctrl') then
+            local posX = x - state.translateX
+            local posY = y - state.translateY
+            state.master:setPosition(posX, posY)
+        else
+            movingToMouse = true
+        end
     end
 end
 
 function love.mousereleased(x, y, button)
     -- screen.mousereleased(x,y, button)
+    if button == "l" then
+        movingToMouse = false
+    end
 end
 
 function love.gamepadpressed(joystick, button)
