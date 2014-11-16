@@ -17,7 +17,6 @@ local sti           = require "libs.sti"
 local state         = require "minionmaster.state"
 local ui            = require "minionmaster.ui"
 local content       = require "minionmaster.content"
-local EntityStatics = require "minionmaster.entitystatics"
 
 local Enemy         = require "minionmaster.enemy"
 local Minion        = require "minionmaster.minion"
@@ -25,7 +24,11 @@ local MinionMaster  = require "minionmaster.minionmaster"
 
 local blocking      = require "shared.blocking"
 
+local UpgradeStatics = require "minionmaster.upgrades"
+
 local baseWidth, baseHeight = 1920, 1080
+
+local EntityStatics
 
 local enemyCount = 10
 
@@ -41,9 +44,8 @@ local function spawnMinion(master)
     end
 end
 
-local function load()
-    state.initialize()
-    content.load()
+local function start()
+    state.entityManager:clear()
 
     -- spawn the master
     state.master = MinionMaster:new(EntityStatics.master)
@@ -63,8 +65,14 @@ local function load()
         enemy:setPosition(x, y)
         state.entityManager:add(enemy)
     end
+end
 
+local function load()
+    state.initialize()
+    EntityStatics = state.entityStatics
+    content.load()
     ui.load()
+    start()
 end
 
 function love.update(dt)
@@ -120,7 +128,7 @@ function love.keypressed(key, unicode)
 
     if key == "r" then
         state.status = "playing"
-        load()
+        start()
     end
 end
 
@@ -146,7 +154,7 @@ function love.gamepadpressed(joystick, button)
 
     if key == "start" then
         state.status = "playing"
-        load()
+        start()
     end
 end
 

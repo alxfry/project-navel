@@ -111,4 +111,10 @@ function EntityManager:findAllEntities(filter)
     return entities
 end
 
+function EntityManager:clear()
+    for id, entity in pairs(self.entities) do
+        self:remove(id)
+    end
+end
+
 return EntityManager
