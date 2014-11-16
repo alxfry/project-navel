@@ -380,6 +380,7 @@ function Map:setTilesFromImage(index, tileset)
 			end
 
 			local tile = {
+				id 			= gid - tileset.firstgid,
 				gid			= gid,
 				tileset		= index,
 				quad		= quad(qx, qy, tw, th, iw, ih),
@@ -424,6 +425,7 @@ function Map:setTiles(index, tileset)
 		end
 
 		local tile = {
+			id 			= tile.id,
 			gid			= gid,
 			tileset		= index,
 			-- quad		= quad(qx, qy, tw, th, iw, ih),
