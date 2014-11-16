@@ -33,7 +33,7 @@ local zoom = 1
 local zoomSpeed = 0.1
 
 local function spawnMinion(master)
-    if state.dna > EntityStatics.minion.cost then
+    if state.dna >= EntityStatics.minion.cost then
         state.dna = state.dna - EntityStatics.minion.cost
         local minion = Minion:new(EntityStatics.minion, master)
         minion:setPosition(master.position.x, master.position.y)
@@ -50,7 +50,7 @@ local function load()
     state.master:setPosition(500,500)
     state.entityManager:add(state.master)
 
-    spawnMinion(state.master)
+    -- spawnMinion(state.master)
 
     -- spawn initial enemies
     for i=1,enemyCount do
@@ -68,6 +68,10 @@ local function load()
 end
 
 function love.update(dt)
+    if state.status == "game over" then
+        return
+    end
+
     state.entityManager:update(dt)
     state.map:update(dt)
     ui.update(dt)
@@ -111,6 +115,12 @@ function love.keypressed(key, unicode)
 
     if key == "m" then
         spawnMinion(state.master)
+        state.master:summon()
+    end
+
+    if key == "r" then
+        state.status = "playing"
+        load()
     end
 end
 

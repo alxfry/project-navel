@@ -14,7 +14,8 @@ function state.initialize()
 	state.entityManager = EntityManager:new()
     state.player = Player:new()
 
-    state.dna = 10
+    state.dna = 100
+    state.status = "playing"
 
     -- load the map
     state.map = sti.new("testmap")
