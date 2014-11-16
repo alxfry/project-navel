@@ -74,7 +74,7 @@ function EntityManager:findAllEntities(filter)
     local entities = {}
     for id, entity in pairs(self.entities) do
         if filter(entity) then
-            table.insert(entity)
+            table.insert(entities, entity)
         end
     end
     return entites
