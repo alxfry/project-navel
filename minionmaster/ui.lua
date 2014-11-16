@@ -41,7 +41,7 @@ function ui.draw()
 end
 
 function ui.drawRadar()
-    love.graphics.setColor(0, 0, 0)
+    love.graphics.setColor(0, 0, 0, 200)
     love.graphics.circle("fill", 0, 0, 100, 40)
     local pos = state.master.position
     local range = 1000
@@ -53,6 +53,7 @@ function ui.drawRadar()
         )
 
     love.graphics.setColor(255, 0, 0)
+    love.graphics.setPointSize(8)
     for i, entity in ipairs(entitiesInRange) do
         local radarPos = (entity.position - pos) / range * 100
         if entity.type == "master" then
@@ -62,7 +63,7 @@ function ui.drawRadar()
         else
             love.graphics.setColor(0, 255, 255)
         end
-        love.graphics.circle("fill", radarPos.x, radarPos.y, 5, 8)
+        love.graphics.point(radarPos.x, radarPos.y)
     end
 end
 
