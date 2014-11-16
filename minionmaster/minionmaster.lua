@@ -13,7 +13,8 @@ function MinionMaster:initialize(entityStatics)
 
     self.joystick = love.joystick.getJoysticks()[1]
     self.type = "master"
-    self:setAnimation("images/summoner/summon.png", 0.2)
+    self:setAnimation("images/summoner/walk.png", 0.175)
+    self.summoning = false
 end
 
 function MinionMaster:update(dt)
@@ -37,6 +38,14 @@ function MinionMaster:update(dt)
     move:normalize()
     local newPosition = self.position + move * dt * self.speed
     if not blocking.collides(newPosition.x, newPosition.y) then
+        if not self.summoning then
+            if move.x == 0 and move.y == 0 then
+                self.animation:pauseAtStart()
+            elseif self.animation.status == "paused" then
+                self.animation:gotoFrame(2)
+                self.animation:resume()
+            end
+        end
         self.position = newPosition
     end
 
@@ -46,6 +55,19 @@ function MinionMaster:update(dt)
     end
 
     Unit.update(self, dt)
+end
+
+function MinionMaster:stopSummon()
+    self.entity.summoning = false
+    self.entity:setAnimation("images/summoner/walk.png", 0.175)
+end
+
+function MinionMaster:summon()
+    self.summoning = true
+    self:setAnimation("images/summoner/summon.png", 0.175)
+    self.animation:gotoFrame(2)
+    self.animation.onLoop = self.stopSummon
+    self.animation.entity = self
 end
 
 return MinionMaster
