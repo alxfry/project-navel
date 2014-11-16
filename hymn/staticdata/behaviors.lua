@@ -23,7 +23,7 @@ function SearchEnemy:update(dt, context)
 	if target then
 		distance = 42
 	else
-		target, distance = LogicCore.entityManager:findClosestEntity(object.position, isEnemy)
+		target, distance = LogicCore.entityManager:findClosestEntity(object.position, isEnemy, 400)
 	end
 
 	if target then
