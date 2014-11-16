@@ -21,7 +21,7 @@ function state.initialize()
     state.status = "playing"
 
     -- load the map
-    state.map = sti.new("testmap")
+    state.map = sti.new("maps/testmap")
     blocking.setMap(state.map)
 end
 

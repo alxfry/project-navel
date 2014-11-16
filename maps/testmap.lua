@@ -11,12 +11,12 @@ return {
     {
       name = "terrain",
       firstgid = 1,
-      filename = "shared/resources/terrain.tsx",
+      filename = "../shared/resources/terrain.tsx",
       tilewidth = 32,
       tileheight = 32,
       spacing = 0,
       margin = 0,
-      image = "shared/resources/terrain.png",
+      image = "../shared/resources/terrain.png",
       imagewidth = 512,
       imageheight = 928,
       tileoffset = {

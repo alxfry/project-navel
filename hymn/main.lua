@@ -46,7 +46,7 @@ local function load()
 
     ui.load()
 
-    LogicCore:startMap(sti.new("testmap"))
+    LogicCore:startMap(sti.new("maps/testmap"))
 end
 
 function love.update(dt)
