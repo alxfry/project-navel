@@ -13,8 +13,8 @@ function DecayingUnit:initialize(entityStatic, player)
     self.speed = self.speed + (math.random()-0.5) * 20
 
 	self.behaviorTree = BehaviorTree.BehaviorTree:new(self, DecayUnitBT())
-	self.decayInterval = 1 -- in seconds
-	self.decayAmount = 1 -- in health
+	self.decayInterval = self.decayInterval or 1 -- in seconds
+	self.decayAmount = self.decayAmount or 1 -- in health
 	self.timeSinceLastDecay = 0
 	self.state = "default"
 	self.timeInState = 0
@@ -28,12 +28,16 @@ local themes = {
 function DecayingUnit:setPlayer(player)
     self.player = player
     self.theme = themes[player.playerId] or themes[1]
-    self:setAnimation("images/minion/" .. self.theme .. "/walk.png", 0.175, 0.7)
+    self:addAnimation("walk", "images/minion/" .. self.theme .. "/walk.png", 0.175, 0.7)
+    self:addAnimation("attack", "images/minion/" .. self.theme .. "/attack.png", 0.175, 0.7)
+    self:addAnimation("die", "images/minion/" .. self.theme .. "/die.png", 0.25, 0.7, "pauseAtEnd")
+    self:setAnimation("walk")
 end
 
 function DecayingUnit:update(dt)
+	-- TODO: BETTER STATE HANDLING
+	Unit.update(self, dt)
 	if self.state == "default" then
-		Unit.update(self, dt)
 		self.timeInState = self.timeInState + dt
 		local dtLastDecay = self.timeSinceLastDecay
 		dtLastDecay = dtLastDecay + dt
@@ -49,14 +53,13 @@ function DecayingUnit:update(dt)
 
 	    -- DEATH
 	    if self.health <= 0 then
-	    	self:setAnimation("images/minion/" .. self.theme .. "/die.png", 0.25, 0.7, "pauseAtEnd")
+	    	self:setAnimation("die")
 	        self.state = "dying"
 	        self.timeInState = 0
 	        -- LogicCore.entityManager:remove(self.id)
 	    end
     elseif self.state == "dying" then
 		self.timeInState = self.timeInState + dt
-		dbgprint(self.animation.status)
 		if self.animation.status == "paused" then
 			LogicCore.entityManager:remove(self.id)
 		end

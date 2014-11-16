@@ -1,7 +1,8 @@
 local state = require "minionmaster.state"
 
-local smallFont = love.graphics.newFont("fonts/Edson_Comics_Bold.ttf", 28)
-local mediumFont = love.graphics.newFont("fonts/Edson_Comics_Bold.ttf", 45)
+local smallFont = love.graphics.newFont("fonts/Exocet1.ttf", 28)
+local mediumFont = love.graphics.newFont("fonts/Exocet1.ttf", 45)
+local GameMath = require "shared.gamemath"
 
 local ui = {}
 
@@ -23,9 +24,9 @@ function ui.draw()
 
     -- Master Health
     love.graphics.setColor(0, 0, 0)
-    love.graphics.print("Health: " .. state.master.health, 12, height - 55)
+    love.graphics.print("Health: " .. state.master.health, 12, height - 60)
     love.graphics.setColor(255, 100, 100)
-    love.graphics.print("Health: " .. state.master.health, 10, height - 57)
+    love.graphics.print("Health: " .. state.master.health, 10, height - 62)
 
     ui.drawRadar()
 
@@ -57,12 +58,13 @@ function ui.drawRadar()
     love.graphics.setPointSize(8)
     for i, entity in ipairs(entitiesInRange) do
         local radarPos = (entity.position - pos) / range * 100
+        local alpha = GameMath.clamp(255-radarPos:length()/100*255, 0, 255)
         if entity.type == "master" then
-            love.graphics.setColor(0, 0, 255)
+            love.graphics.setColor(0, 0, 255, alpha)
         elseif entity.type == "enemy" then
-            love.graphics.setColor(255, 0, 0)
+            love.graphics.setColor(255, 0, 0, alpha)
         else
-            love.graphics.setColor(0, 255, 255)
+            love.graphics.setColor(0, 255, 255, alpha)
         end
         love.graphics.point(radarPos.x, radarPos.y)
     end

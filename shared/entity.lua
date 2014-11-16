@@ -12,10 +12,12 @@ function Entity:initialize(entityStatics, player)
         self[key] = value
     end
 
-	self.health = self.health or 0
+    self.health = self.health or 0
     self.maxHealth = self.health
     self.orientation = 0
     self.id = 0
+    self.animations = {}
+    self.images = {}
     self.animation = false
     self.radius = self.radius or 10
     self:setPlayer(player)
@@ -26,7 +28,7 @@ function Entity:setPlayer(player)
     self.playerId = player and player.playerId
 end
 
-function Entity:setAnimation(imagePath, delay, scale, onLoop)
+function Entity:addAnimation(animationKey, imagePath, delay, scale, onLoop)
     local image = love.graphics.newImage(imagePath)
     local imageWidth, imageHeight = image:getDimensions()
     local frameWidth, frameHeight = imageHeight, imageHeight
@@ -35,8 +37,28 @@ function Entity:setAnimation(imagePath, delay, scale, onLoop)
 
     self.scale = scale or 1
     self.spriteSize = imageHeight
-    self.image = image
-    self.animation = anim8.newAnimation(grid('1-' .. frames,1), delay, onLoop)
+    self.images[animationKey] = image
+    self.animations[animationKey] = anim8.newAnimation(grid('1-' .. frames,1), delay, onLoop)
+    dbgprint(animationKey, self.animations[animationKey])
+end
+
+function Entity:setAnimation(imagePath, delay, scale, onLoop)
+    if delay == nil and scale == nil and onLoop == nil then
+        dbgprint(imagePath)
+        self.animation = self.animations[imagePath]
+        self.image = self.images[imagePath]
+    else
+        local image = love.graphics.newImage(imagePath)
+        local imageWidth, imageHeight = image:getDimensions()
+        local frameWidth, frameHeight = imageHeight, imageHeight
+        local grid = anim8.newGrid(frameWidth, frameHeight, imageWidth, imageHeight)
+        local frames = imageWidth / frameWidth
+
+        self.scale = scale or 1
+        self.spriteSize = imageHeight
+        self.image = image
+        self.animation = anim8.newAnimation(grid('1-' .. frames,1), delay, onLoop)
+    end
 end
 
 function Entity:setRandomStartAnimationTime()
@@ -59,9 +81,9 @@ function Entity:draw(dt)
 end
 
 function Entity:delete()
-    if self.blocking then
-        Blocking.removeDynamicBlock(self.position.x, self.position.y)
-    end
+    -- if self.blocking then
+    --     Blocking.removeDynamicBlock(self.position.x, self.position.y)
+    -- end
 end
 
 function Entity:initPosition(x, y)
@@ -76,8 +98,8 @@ function Entity:setPosition(x, y)
     local oldX = self.position.x
     local oldY = self.position.y
 
-	self.position.x = x
-	self.position.y = y
+    self.position.x = x
+    self.position.y = y
 
     if self.blocking then
         local size = self.radius * 2

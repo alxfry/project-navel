@@ -110,7 +110,7 @@ function love.draw(dt)
 
     -- Draw health bars
     for id, entity in pairs(state.entityManager.entities) do
-        if entity.health and entity.health > 0 then
+        if entity.health and entity.health > 0 and entity.health ~= entity.maxHealth then
             sharedui.drawHealthBar(entity)
         end
     end
