@@ -33,12 +33,8 @@ function SpawnPortal:spawnInterval()
 end
 
 function SpawnPortal:update(dt)
-	local wasConstructing = self.constructing
 	Building.update(self, dt)
 	if not self.constructing then
-		if wasConstructing then
-			self:setAnimation("images/buildings/" .. self.theme .. "/portal.png", 0.1)
-		end
 		local entityManager = LogicCore.entityManager
 		self.timeSinceLastSpawn = self.timeSinceLastSpawn + dt
         local spawnInterval = self:spawnInterval()

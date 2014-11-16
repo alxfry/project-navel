@@ -36,7 +36,6 @@ function SearchEnemy:update(dt, context)
 		end
 	end
 
-	dbgprint("SearchEnemy", self.status)
 	return self.status
 end
 
@@ -94,7 +93,8 @@ local MoveTo = Class("MoveTo", Behavior)
 function MoveTo:update(dt, context)
 	local object = context.object
 	local finished = object:updateMove(dt)
-	self.status = finished and STATUS.FAILURE or STATUS.SUCCESS
+	self.status = finished and STATUS.SUCCESS or STATUS.RUNNING
+
 	return self.status
 end
 
@@ -123,7 +123,7 @@ local FindConstruction = Class("FindConstruction", Behavior)
 
 function FindConstruction:update(dt, context)
 	local Building = require "shared.building"
-	local object = context
+	local object = context.object
 	local player = object.player
 	
 	local function predicate(entity)
@@ -137,8 +137,9 @@ function FindConstruction:update(dt, context)
 	end
 
 	local closestEntity, distance = LogicCore.entityManager:findClosestEntity(object.position, predicate)
-	dbgprint("FindConstruction", closestEntity)
+
 	if closestEntity then
+		object:moveTo(closestEntity.position.x, closestEntity.position.y)
 		context.closestEntity = closestEntity
 		self.status = STATUS.SUCCESS
 	else
@@ -156,15 +157,15 @@ function WorkConstruction:start()
 end
 
 function WorkConstruction:update(dt, context)
-	local construction = context.object
-	if not construction.constructing then
-		self.status = STATUS.FAILURE
+	local construction = context.closestEntity
+	if not construction or not construction.constructing then
+		return STATUS.FAILURE
 	end
 	self.timeWorked = self.timeWorked + dt
 
 	if self.timeWorked >= self.workTime then
 		self.timeWorked = self.timeWorked - self.workTime
-		object:addHealth(1)
+		construction:addHealth(1)
 		return STATUS.SUCCESS
 	else
 		return STATUS.RUNNING

@@ -61,9 +61,9 @@ function Unit:updateMove(dt)
                 local newPosition = self.position + direction * step
                 self:setPosition(newPosition.x, newPosition.y)
             end
-            return true
-        else
             return false
+        else
+            return true
         end
     end
 end

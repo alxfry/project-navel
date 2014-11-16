@@ -70,7 +70,7 @@ function Entity:setPosition(x, y)
 end
 
 function Entity:addHealth(amount)
-    self.health = amount
+    self.health = self.health + amount
 end
 
 function Entity:takeDamage(dmg)

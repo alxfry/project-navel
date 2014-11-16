@@ -1,5 +1,7 @@
 local Class = require "shared.middleclass"
 local GameMath = require "shared.gamemath"
+local Building = require "shared.building"
+local Unit     = require "shared.unit"
 
 local EntityManager = Class "EntityManager"
 
@@ -7,6 +9,10 @@ function EntityManager:initialize(logicCore)
     self.logicCore = logicCore
     self.nextId = 1
     self.entities = {}
+    self.drawLayer = {
+        buildings = {},
+        units = {},
+    }
 end
 
 function EntityManager:update(dt)
@@ -16,8 +22,15 @@ function EntityManager:update(dt)
 end
 
 function EntityManager:draw(dt)
-    for id, entity in pairs(self.entities) do
-        entity:draw(dt)
+    local buildings = self.drawLayer.buildings
+    local units = self.drawLayer.units
+    for i = 1, #buildings do
+        local current = buildings[i]
+        current:draw(dt)
+    end
+    for i = 1, #units do
+        local current = units[i]
+        current:draw(dt)
     end
 end
 
@@ -34,12 +47,29 @@ function EntityManager:add(entity)
 
     entity.id = id
     self.entities[id] = entity
+    if entity:isInstanceOf(Building) then
+        table.insert(self.drawLayer.buildings, entity)
+    elseif entity:isInstanceOf(Unit) then
+        table.insert(self.drawLayer.units, entity)
+    end
 end
 
 function EntityManager:remove(id)
+    local entity = self.entities[id]
     if self.entities[id] then
         self.entities[id]:delete()
         self.entities[id] = nil
+    end
+    if entity:isInstanceOf(Building) then
+        for i = 1, #self.drawLayer.buildings do
+            table.remove(self.drawLayer.buildings, i)
+            break
+        end
+    elseif entity:isInstanceOf(Unit) then
+        for i = 1, #self.drawLayer.units do
+            table.remove(self.drawLayer.units, i)
+            break
+        end
     end
 end
 
