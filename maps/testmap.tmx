@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="20" height="14" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" source="../shared/resources/terrain.tsx"/>
+ <tileset firstgid="465" name="objects" tilewidth="126" tileheight="126">
+  <tile id="0">
+   <image width="64" height="64" source="../images/buildings/resourcesrock_neutral.png"/>
+  </tile>
+  <tile id="1">
+   <image width="126" height="126" source="../images/buildings/constructionsite.png"/>
+  </tile>
+  <tile id="2">
+   <image width="126" height="126" source="../images/buildings/constructionsite_blue.png"/>
+  </tile>
+ </tileset>
+ <layer name="Tile Layer 1" width="20" height="14">
+  <data encoding="base64" compression="zlib">
+   eJyNkzEKwkAQRWcNCNpZaOF9LLSzsLDVIidQrBRBb2AhJBA8g6gH8ACCV/EA+hd2YRx+yBav2SWP/2c2mYhkhMKJTBvYgJb8c3fcV+L8GDgQ1x6siO9mfNH/cPVZo6uNu26gE3wsm+aC7841uQbABcbEp7N6T2VcdmbRNwcj4osdfWe2D53Ndx0G3yShL/OxbKwv23FJ9qp9fTBTsL5NGdl7s9jZ6Z0Uam7bmvfGfNrxBZ/ACee7xFw2X+QNeuo+h2sNlolO6/P5nmChHHli1+jT/9ZLuOOa6PsBrNc2zQ==
+  </data>
+ </layer>
+ <objectgroup name="Objects">
+  <object gid="465" x="512" y="144"/>
+  <object gid="466" x="32" y="160"/>
+ </objectgroup>
+</map>
