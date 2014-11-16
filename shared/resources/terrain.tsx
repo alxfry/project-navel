@@ -5,11 +5,7 @@
   <terrain name="Darkdirt" tile="0"/>
   <terrain name="Dirt" tile="1"/>
   <terrain name="Grass" tile="2"/>
-  <terrain name="Lavarock" tile="3">
-   <properties>
-    <property name="block" value="true"/>
-   </properties>
-  </terrain>
+  <terrain name="Lavarock" tile="3"/>
   <terrain name="Water" tile="4">
    <properties>
     <property name="block" value="true"/>
