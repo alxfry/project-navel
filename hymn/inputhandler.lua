@@ -59,12 +59,19 @@ function InputHandler:mousePressed(x, y, button)
 
     if button == "l" then
         local position = GameMath.Vector2:new(x, y) - self.translate
+        self.dragClick = GameMath.Vector2:new(x, y)
         self.dragAnchor = position
     end
 end
 
 function InputHandler:mouseReleased(x, y, button)
-    self.dragAnchor = false
+    if self.dragAnchor then
+        local d = GameMath.Vector2.distance(GameMath.Vector2:new(x,y), self.dragClick)
+        self.dragAnchor = false
+        if d > 5 then
+            return
+        end
+    end
     
     if self:isToolBar(x, y) then
         return
