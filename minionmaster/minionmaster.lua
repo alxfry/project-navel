@@ -30,9 +30,6 @@ function MinionMaster:update(dt)
 
     if self.health <= 0 then
         self.dead = true
-        -- self:setAnimation("images/summoner/die.png", 0.175)
-        -- self.animation.onLoop = self.remove
-        -- self.animation.id = self
         self:remove()
         return
     end
