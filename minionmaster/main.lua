@@ -182,7 +182,6 @@ end
 
 function love.mousereleased(x, y, button)
     -- screen.mousereleased(x,y, button)
-    end
 end
 
 function love.gamepadpressed(joystick, button)
