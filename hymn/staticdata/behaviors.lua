@@ -179,15 +179,15 @@ end
 function WorkConstruction:update(dt, context)
 	local construction = context.closestEntity
 	if not (construction and construction.constructing) then
-		dbgprint(construction)
+		-- dbgprint(construction)
 		if construction then
-			dbgprint(construction.constructing)
+			-- dbgprint(construction.constructing)
 		end
 		-- dbgprint("WorkConstruction", STATUS.FAILURE)
 		return STATUS.FAILURE
 	end
 	self.timeWorked = self.timeWorked + dt
-	dbgprint(self.timeWorked)
+	-- dbgprint(self.timeWorked)
 
 	if self.timeWorked >= self.workTime then
 		self.timeWorked = self.timeWorked - self.workTime

@@ -6,6 +6,8 @@ local BehaviorTree = require "shared.behaviortree"
 
 local DecayingUnit = Class("DecayingUnit", Unit)
 
+-- TODO: Proper STATE HANDLING
+
 function DecayingUnit:initialize(entityStatic, player)
 	Unit.initialize(self, entityStatic, player)
     self.speed = self.speed + (math.random()-0.5) * 20
@@ -14,6 +16,8 @@ function DecayingUnit:initialize(entityStatic, player)
 	self.decayInterval = 1 -- in seconds
 	self.decayAmount = 1 -- in health
 	self.timeSinceLastDecay = 0
+	self.state = "default"
+	self.timeInState = 0
 end
 
 local themes = {
@@ -28,23 +32,34 @@ function DecayingUnit:setPlayer(player)
 end
 
 function DecayingUnit:update(dt)
-	Unit.update(self, dt)
-	local dtLastDecay = self.timeSinceLastDecay
-	dtLastDecay = dtLastDecay + dt
+	if self.state == "default" then
+		Unit.update(self, dt)
+		self.timeInState = self.timeInState + dt
+		local dtLastDecay = self.timeSinceLastDecay
+		dtLastDecay = dtLastDecay + dt
 
-	if dtLastDecay > self.decayInterval then
-		self.health = self.health - self.decayAmount
-		self.timeSinceLastDecay = dtLastDecay - self.decayInterval
-	else
-		self.timeSinceLastDecay = dtLastDecay
+		if dtLastDecay > self.decayInterval then
+			self.health = self.health - self.decayAmount
+			self.timeSinceLastDecay = dtLastDecay - self.decayInterval
+		else
+			self.timeSinceLastDecay = dtLastDecay
+		end
+
+		self.behaviorTree:tick(dt)
+
+	    -- DEATH
+	    if self.health <= 0 then
+	    	self:setAnimation("images/minion/" .. self.theme .. "/die.png", 0.25, 0.7, true)
+	        self.state = "dying"
+	        self.timeInState = 0
+	        -- LogicCore.entityManager:remove(self.id)
+	    end
+    elseif self.state == "dying" then
+		self.timeInState = self.timeInState + dt
+		if self.animation.status == "paused" then
+			LogicCore.entityManager:remove(self.id)
+		end
 	end
-
-	self.behaviorTree:tick(dt)
-
-    -- DEATH
-    if self.health <= 0 then
-        LogicCore.entityManager:remove(self.id)
-    end
 end
 
 return DecayingUnit
