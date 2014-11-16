@@ -23,6 +23,7 @@ local Minion        = require "minionmaster.minion"
 local MinionMaster  = require "minionmaster.minionmaster"
 
 local blocking      = require "shared.blocking"
+local sharedui      = require "shared.ui"
 
 local UpgradeStatics = require "minionmaster.upgrades"
 
@@ -114,6 +115,13 @@ function love.draw(dt)
     love.graphics.translate(translateX, translateY)
     state.map:draw()
     state.entityManager:draw(dt)
+
+    -- Draw health bars
+    for id, entity in pairs(state.entityManager.entities) do
+        if entity.health and entity.health > 0 then
+            sharedui.drawHealthBar(entity)
+        end
+    end
 
     -- debug printing the entity paths
     if debugDrawPaths then
