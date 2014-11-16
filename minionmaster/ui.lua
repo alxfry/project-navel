@@ -23,10 +23,11 @@ function ui.draw()
     love.graphics.print("DNA: " .. state.dna, 10, 10)
 
     -- Master Health
+    local healthStr = string.format("%.0f", state.master.health)
     love.graphics.setColor(0, 0, 0)
-    love.graphics.print("Health: " .. state.master.health, 12, height - 60)
+    love.graphics.print("Health: " .. healthStr, 12, height - 60)
     love.graphics.setColor(255, 100, 100)
-    love.graphics.print("Health: " .. state.master.health, 10, height - 62)
+    love.graphics.print("Health: " .. healthStr, 10, height - 62)
 
     ui.drawRadar()
 
