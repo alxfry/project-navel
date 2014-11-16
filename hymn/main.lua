@@ -19,7 +19,7 @@ local ui = require "hymn.ui"
 local inputHandler = LogicCore.inputHandler
 local entityManager
 
-local function simpleMap()
+local function hauntedIslandsMap()
     local myBuilding = SpawnPortal:new(EntityStatics.spawnPortal, LogicCore.players[1])
     entityManager:add(myBuilding)
     myBuilding:setPosition(170, 209)
@@ -36,8 +36,7 @@ local function simpleMap()
     -- entityManager:add(theDeposit)
     -- theDeposit:setPosition(790, 209)
 
-
-    LogicCore:startMap(sti.new("maps/testmap"))
+    LogicCore:startMap(sti.new("maps/hauntedislands"))
 end
 
 local function lostTempleMap()
@@ -65,7 +64,7 @@ local function load()
     love.window.setMode(baseWidth/2, baseHeight/2, { centered = true, resizable = true })
 	entityManager = LogicCore.entityManager
 
-    -- simpleMap()
+    -- hauntedIslandsMap()
     lostTempleMap()
 
     -- pan to own base

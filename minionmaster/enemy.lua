@@ -9,10 +9,9 @@ local BehaviorTrees = require "minionmaster.behaviors.behaviortrees"
 local BehaviorTree = require "shared.behaviortree"
 
 -- speed: pixels/second
-function Enemy:initialize(entityStatics, target)
+function Enemy:initialize(entityStatics)
     Unit.initialize(self, entityStatics, state.player)
     self.type = "enemy"
-    self.target = target
     self.maxHealth = self.health
 
     self.behavior = BehaviorTree.BehaviorTree:new(self, BehaviorTrees:createEnemyTree())
