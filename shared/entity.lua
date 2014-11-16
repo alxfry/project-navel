@@ -119,9 +119,6 @@ function Entity:addHealth(amount)
 end
 
 function Entity:takeDamage(dmg)
-    if self.timeSinceLastSpawn then
-        dbgprint("dmg 2 bldg")
-    end
     self.health = self.health - dmg
 end
 
