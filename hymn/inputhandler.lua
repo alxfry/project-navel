@@ -52,8 +52,10 @@ function InputHandler:mousePressed(x, y, button)
         return
     end
 
-    local position = GameMath.Vector2:new(x, y) - self.translate
-    self.dragAnchor = position
+    if button == "l" then
+        local position = GameMath.Vector2:new(x, y) - self.translate
+        self.dragAnchor = position
+    end
 end
 
 function InputHandler:mouseReleased(x, y, button)
@@ -76,35 +78,39 @@ function InputHandler:mouseReleased(x, y, button)
             building:setPosition(position.x, position.y)
             self:selectEntity(building.id)
             self.mode = false
-        elseif self.mode == "path" then
-            local entity = entityManager:entity(self.selection)
-            entity:addPathPoint(position)
         else
             local entity, distance = entityManager:findClosestEntity(position, isSelectable)
             self:selectEntity(entity and distance < 40 and entity.id)
         end
     elseif button == "r" then
-        self:selectEntity(false)
-        self.mode = false
+        if self.selection then
+            local entity = entityManager:entity(self.selection)
+            if self.mode ~= "path" then
+                self:setMode("path")
+            end
+            entity:addPathPoint(position)
+        end
     end
 end
 
 function InputHandler:setMode(mode)
     local entityManager = self.logicCore.entityManager
-    if mode == "build" then
-        self.mode = "build"
-    elseif mode == "path" then
+    if mode == "path" then
         local entity = entityManager:entity(self.selection)
         entity:clearPath()
-        self.mode = "path"
     end
+
+    self.mode = mode
 end
 
 function InputHandler:keyPressed(key, unicode)
 end
 
 function InputHandler:selectEntity(entityId)
-    self.selection = entityId
+    if self.selection ~= entityId then
+        self:setMode("selected")
+        self.selection = entityId
+    end
 end
 
 return InputHandler
