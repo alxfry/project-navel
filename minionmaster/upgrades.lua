@@ -1,5 +1,5 @@
 
-UpgradeStatics = 
+local UpgradeStatics = 
 {
     healMaster =
     {
@@ -19,7 +19,7 @@ UpgradeStatics =
 
     damageUpMinion =
     {
-        entityType = "minion"
+        entityType = "minion",
         param = "damage",
         value = 1,
         cost = 10,

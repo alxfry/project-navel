@@ -56,7 +56,7 @@ local GotoBehavior = Class("GotoBehavior", Behavior)
 
 function GotoBehavior:update(dt, context)
     local object = context.object
-    self.status = object:updateMove(dt) and STATUS.RUNNING or STATUS.SUCCESS
+    self.status = object:updateMove(dt) and STATUS.SUCCESS or STATUS.RUNNING
     return self.status
 end
 

@@ -47,6 +47,8 @@ end
 local function start()
     state.entityManager:clear()
 
+    EntityStatics = state.entityStatics
+
     -- spawn the master
     state.master = MinionMaster:new(EntityStatics.master)
     state.master:setPosition(500,500)
@@ -69,7 +71,6 @@ end
 
 local function load()
     state.initialize()
-    EntityStatics = state.entityStatics
     content.load()
     ui.load()
     start()
