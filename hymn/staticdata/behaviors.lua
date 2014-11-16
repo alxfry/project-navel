@@ -86,7 +86,6 @@ function FindWaypoint:update(dt, context)
 		self.status = STATUS.SUCCESS
 	end
 
-	dbgprint("FindWaypoint", self.status)
 	return self.status
 end
 
@@ -96,7 +95,6 @@ function MoveTo:update(dt, context)
 	local object = context.object
 	local finished = object:updateMove(dt)
 	self.status = finished and STATUS.FAILURE or STATUS.SUCCESS
-	dbgprint("MoveTo", self.status)
 	return self.status
 end
 
@@ -117,21 +115,70 @@ function RandomMovement:update(dt, context)
 
 	object:moveTo(newPosition.x, newPosition.y)
 	local finished = object:updateMove(dt)
-	dbgprint("RandomMovement")
+	
 	return STATUS.RUNNING
 end
 
 local FindConstruction = Class("FindConstruction", Behavior)
 
 function FindConstruction:update(dt, context)
+	local Building = require "shared.building"
+	local object = context
+	local player = object.player
 	
+	local function predicate(entity)
+		if entity:isInstanceOf(Building) 
+		   and entity.constructing 
+		   and entity.player == player then
+			return true
+		else
+			return false
+		end
+	end
+
+	local closestEntity, distance = LogicCore.entityManager:findClosestEntity(object.position, predicate)
+	dbgprint("FindConstruction", closestEntity)
+	if closestEntity then
+		context.closestEntity = closestEntity
+		self.status = STATUS.SUCCESS
+	else
+		self.status = STATUS.FAILURE
+	end
+
+	return self.status
+end
+
+local WorkConstruction = Class("WorkConstruction", Behavior)
+
+function WorkConstruction:start()
+	self.timeWorked = 0
+	self.workTime = 0.7
+end
+
+function WorkConstruction:update(dt, context)
+	local construction = context.object
+	if not construction.constructing then
+		self.status = STATUS.FAILURE
+	end
+	self.timeWorked = self.timeWorked + dt
+
+	if self.timeWorked >= self.workTime then
+		self.timeWorked = self.timeWorked - self.workTime
+		object:addHealth(1)
+		return STATUS.SUCCESS
+	else
+		return STATUS.RUNNING
+	end
 end
 
 return 
 {
-	FindWaypoint = FindWaypoint,
-	MoveTo = MoveTo,
-	RandomMovement = RandomMovement,
+	FindWaypoint 		= FindWaypoint,
+	MoveTo 				= MoveTo,
+	RandomMovement 		= RandomMovement,
+	SearchEnemy 		= SearchEnemy,
+	FindConstruction 	= FindConstruction,
+	WorkConstruction	= WorkConstruction,
 	SearchEnemy = SearchEnemy,
 	AttackEnemy = AttackEnemy,
 }
