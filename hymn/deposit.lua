@@ -16,17 +16,12 @@ function Deposit:initialize(entityStatic)
     self:setAnimation("images/buildings/resourcesrock_neutral.png", 1)
 end
 
-local themes = {
-    "frost",
-    "lava",
-}
-
 function Deposit:update(dt)
     Building.update(self, dt)
 
     if somethingInterestingHappens then
         -- change ownership
-        self:setAnimation("images/buildings/" .. self.theme .. "/resourcesrock.png", 0.1)
+        
     end
 end
 
@@ -38,6 +33,8 @@ function Deposit:takeOwnership(player)
     if self.owner then
         self.owner = self.owner.resource - 50
     end
+
+    self:setAnimation("images/buildings/" .. player:theme() .. "/resourcesrock.png", 0.1)
 
     player.resource = player.resource + 50
     self.owner = player
@@ -54,8 +51,6 @@ function Deposit:claim(entity, amount)
             maxClaim = math.max(maxClaim, self.claims[id])
         end
     end
-
-    dbgprint(table.concat(self.claims, ", "))
 
     local ownClaim = self.claims[playerId]
 
