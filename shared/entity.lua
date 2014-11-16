@@ -27,7 +27,15 @@ function Entity:setPlayer(player)
     self.playerId = player and player.playerId
 end
 
-function Entity:setAnimation(imagePath, delay, scale)
+function Entity:pauseAnimation()
+    if self.animation then
+        self.animation:pause()
+    else
+        self:pause()
+    end
+end
+
+function Entity:setAnimation(imagePath, delay, loop, scale)
     local image = love.graphics.newImage(imagePath)
     local imageWidth, imageHeight = image:getDimensions()
     local frameWidth, frameHeight = imageHeight, imageHeight
@@ -37,7 +45,7 @@ function Entity:setAnimation(imagePath, delay, scale)
     self.scale = scale or 1
     self.spriteSize = imageHeight
     self.image = image
-    self.animation = anim8.newAnimation(grid('1-' .. frames,1), delay)
+    self.animation = anim8.newAnimation(grid('1-' .. frames,1), delay, loop and self.pauseAnimation)
 end
 
 function Entity:setRandomStartAnimationTime()
