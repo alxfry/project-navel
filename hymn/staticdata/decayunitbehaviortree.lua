@@ -26,6 +26,7 @@ local function createDecayUnitBT()
     local engageCombat = BehaviorTree.Sequence:new()
     local goToPath = BehaviorTree.Sequence:new()
     local constructionJob = BehaviorTree.Sequence:new()
+    local claimDeposit = BehaviorTree.Sequence:new()
 
 	root:addChild(goToPath)
 		goToPath:addChild(Behaviors.FindWaypoint:new())
@@ -38,6 +39,10 @@ local function createDecayUnitBT()
 	 	constructionJob:addChild(Behaviors.FindConstruction:new())
 	 	constructionJob:addChild(Behaviors.MoveTo:new())
 	 	constructionJob:addChild(Behaviors.WorkConstruction:new())
+    root:addChild(claimDeposit)
+        claimDeposit:addChild(Behaviors.FindDeposit:new())
+        claimDeposit:addChild(Behaviors.MoveTo:new())
+        claimDeposit:addChild(Behaviors.ClaimDeposit:new())
 
 	return root
 end
