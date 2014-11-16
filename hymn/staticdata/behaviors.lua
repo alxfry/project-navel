@@ -12,7 +12,7 @@ function SearchEnemy:update(dt, context)
 	local object = context.object
 
 	local function isEnemy(entity)
-		return entity.player ~= object.player
+		return entity.player and entity.player ~= object.player
 	end
 
 	local target = object.attackTarget and LogicCore.entityManager:entity(object.attackTarget)
