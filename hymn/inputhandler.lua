@@ -9,7 +9,7 @@ function InputHandler:initialize(logicCore)
 end
 
 local borderWidth = 20
-local scrollSpeed = 500
+local scrollSpeed = 2000
 
 function InputHandler:update(dt)
     local width, height = love.graphics.getDimensions()
