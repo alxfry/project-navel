@@ -13,14 +13,9 @@ function SpawnPortal:initialize(entityStatic, player)
     self.path = {}
 end
 
-local themes = {
-    "frost",
-    "lava",
-}
-
 function SpawnPortal:setPlayer(player)
 	self.player = player
-    self.theme = themes[player.playerId] or themes[1]
+    self.theme = player:theme()
     -- self:setAnimation("images/buildings/" .. self.theme .. "/portal.png", 0.1)
 end
 
@@ -29,7 +24,7 @@ function SpawnPortal:addPathPoint(position)
 end
 
 function SpawnPortal:spawnInterval()
-    return self.player.resource / 100
+    return 400/self.player.resource
 end
 
 function SpawnPortal:update(dt)
