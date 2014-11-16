@@ -13,8 +13,8 @@ function DecayingUnit:initialize(entityStatic, player)
     self.speed = self.speed + (math.random()-0.5) * 20
 
 	self.behaviorTree = BehaviorTree.BehaviorTree:new(self, DecayUnitBT())
-	self.decayInterval = 1 -- in seconds
-	self.decayAmount = 1 -- in health
+	self.decayInterval = self.decayInterval or 1 -- in seconds
+	self.decayAmount = self.decayAmount or 1 -- in health
 	self.timeSinceLastDecay = 0
 	self.state = "default"
 	self.timeInState = 0
@@ -32,8 +32,9 @@ function DecayingUnit:setPlayer(player)
 end
 
 function DecayingUnit:update(dt)
+	-- TODO: BETTER STATE HANDLING
+	Unit.update(self, dt)
 	if self.state == "default" then
-		Unit.update(self, dt)
 		self.timeInState = self.timeInState + dt
 		local dtLastDecay = self.timeSinceLastDecay
 		dtLastDecay = dtLastDecay + dt
@@ -56,7 +57,6 @@ function DecayingUnit:update(dt)
 	    end
     elseif self.state == "dying" then
 		self.timeInState = self.timeInState + dt
-		dbgprint(self.animation.status)
 		if self.animation.status == "paused" then
 			LogicCore.entityManager:remove(self.id)
 		end
