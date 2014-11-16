@@ -40,12 +40,10 @@ function Entity:addAnimation(animationKey, imagePath, delay, onLoop)
     self.spriteSize = imageHeight
     self.images[animationKey] = image
     self.animations[animationKey] = anim8.newAnimation(grid('1-' .. frames,1), delay, onLoop)
-    dbgprint(animationKey, self.animations[animationKey])
 end
 
 function Entity:setAnimation(imagePath, delay, onLoop)
     if delay == nil and scale == nil and onLoop == nil then
-        dbgprint(imagePath)
         self.animation = self.animations[imagePath]
         self.image = self.images[imagePath]
     else
