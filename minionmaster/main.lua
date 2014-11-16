@@ -37,6 +37,9 @@ local zoomSpeed = 0.1
 
 local movingToMouse = false
 
+local debugDrawPaths = false
+local debugDrawGrid = false
+
 local function spawnMinion(master)
     if state.dna >= EntityStatics.minion.cost then
         state.dna = state.dna - EntityStatics.minion.cost
@@ -113,14 +116,18 @@ function love.draw(dt)
     state.entityManager:draw(dt)
 
     -- debug printing the entity paths
-    for id, entity in pairs(state.entityManager.entities) do
-        if entity.drawPath then
-            entity:drawPath()
+    if debugDrawPaths then
+        for id, entity in pairs(state.entityManager.entities) do
+            if entity.drawPath then
+                entity:drawPath()
+            end
         end
     end
 
     -- debug grid drawing
-    blocking.draw()
+    if debugDrawGrid then
+        blocking.draw()
+    end
 
     love.graphics.pop()
 
@@ -149,6 +156,13 @@ function love.keypressed(key, unicode)
 
     if key == "u" then
         UpgradeStatics.apply(UpgradeStatics.damageUpMinion, true)
+    end
+
+    if key == "f1" then
+        debugDrawGrid = not debugDrawGrid
+    end
+    if key == "f2" then
+        debugDrawPaths = not debugDrawPaths
     end
 end
 
