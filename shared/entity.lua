@@ -108,6 +108,14 @@ function Entity:setPosition(x, y)
     end
 end
 
+-- find a position outside the entity closest to point
+function Entity:closestPosition(point)
+    local direction = point - self.position
+    local length = self.radius + 5 
+    direction:normalize()
+    return length * direction + self.position
+end
+
 function Entity:addHealth(amount)
     self.health = self.health + amount
 end

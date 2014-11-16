@@ -222,7 +222,8 @@ function FindDeposit:update(dt, context)
 	local target, distance = LogicCore.entityManager:findClosestEntity(object.position, isClaimableDeposit)
 
 	if target then
-		object:moveTo(target.position.x, target.position.y)
+		local targetPosition = target:closestPosition(object.position)
+		object:moveTo(targetPosition.x, targetPosition.y)
 		context.closestDeposit = target
 		self.status = STATUS.SUCCESS
 	else
