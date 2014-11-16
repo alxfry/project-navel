@@ -124,7 +124,7 @@ function love.draw(dt)
     -- debug printing the entity paths
     for id, entity in pairs(entityManager.entities) do
         if entity.drawPath then
-            entity:drawPath()
+            -- entity:drawPath()
         end
     end
 
