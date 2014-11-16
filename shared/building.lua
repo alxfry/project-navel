@@ -4,7 +4,7 @@ local Building = Entity:subclass("Building")
 function Building:initialize(entityStatic, player)
     Entity.initialize(self, entityStatic, player)
     -- self.targetHealth = self.health
-    self.health = 0
+    self.health = 1
     self.constructing = true
 end
 
@@ -16,7 +16,8 @@ function Building:update(dt)
     Entity.update(self, dt)
     if self.constructing and (self.health >= self.maxHealth) then
     	self:finishConstruction()
-    else
+    elseif (self.health <= 0) then
+        self.markedForRemoval = true
     	return
 	end
 end

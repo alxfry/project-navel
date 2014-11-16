@@ -18,6 +18,7 @@ function LogicCore:initialize(eMng, iHndlr)
 	}
 	self.entityManager = eMng or  EntityManager:new(self)
 	self.inputHandler = iHndlr or InputHandler:new(self)
+	self.state = "running"
 	self.map = false
 end
 

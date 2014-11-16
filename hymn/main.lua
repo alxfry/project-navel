@@ -100,11 +100,36 @@ local function load()
 
 end
 
+local function isPlayer1Entity(entity)
+    if entity.player == LogicCore.players[1] then
+        return true
+    else
+        return false
+    end
+end
+
+local function isPlayer2Entity(entity)
+    if entity.player == LogicCore.players[2] then
+        return true
+    else
+        return false
+    end
+end
+
 function love.update(dt)
-    LogicCore.entityManager:update(dt)
-    LogicCore.inputHandler:update(dt, LogicCore.map)
-    LogicCore.map:update(dt)
-    ui.update(dt)
+    if LogicCore.state == "running" then
+        LogicCore.entityManager:update(dt)
+        LogicCore.inputHandler:update(dt, LogicCore.map)
+        LogicCore.map:update(dt)
+
+        local playerEntities = LogicCore.entityManager:findAllEntities(isPlayer2Entity)
+        if #playerEntities == 0 then
+            dbgprint("PLAYER WINS")
+            LogicCore.state = "gameover"
+        end
+        ui.update(dt)
+    elseif LogicCore.state == "gameover" then
+    end
 end
 
 

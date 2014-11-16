@@ -10,7 +10,7 @@ EntityStatics.basicDecayMinion = {
 	health = 10,
 	stopRange = 10,
 	speed = 300,
-	decayInterval = 1.5,
+	decayInterval = 40,
 	decayAmount = 1,
     selectable = false,
 }

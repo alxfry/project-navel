@@ -18,6 +18,9 @@ end
 function EntityManager:update(dt)
     for id, entity in pairs(self.entities) do
         entity:update(dt)
+        if entity.markedForRemoval then
+            self:remove(entity.id)
+        end
     end
 end
 
