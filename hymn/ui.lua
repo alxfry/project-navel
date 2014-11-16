@@ -31,6 +31,7 @@ end
 function ui.update(dt)
     love.graphics.setColor(0, 0, 0, 255)
     quickie.Label { pos = { ui.windowWidth - 200, ui.windowHeight - 40 }, text = "Spice: " .. LogicCore.players[1].resource }
+    quickie.Label { pos = { ui.windowWidth - 350, ui.windowHeight - 40 }, text = "rate: " .. 400/LogicCore.players[1].resource }
     
     if quickie.Button { text = "Build", pos = { 10, ui.windowHeight - 40 } } then
         inputHandler:setMode("build")
