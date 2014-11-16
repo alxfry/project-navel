@@ -86,7 +86,6 @@ local function load()
     local mapLoader = MapLoader:new("losttemple", spawn)
     LogicCore:startMap(mapLoader.map)
 
-    -- simpleMap()
     -- hauntedIslandsMap()
     -- lostTempleMap()
 
