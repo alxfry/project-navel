@@ -51,7 +51,7 @@ function Minion:update(dt)
 
     if self.health <= 0 then
         self.dead = true
-        self:setAnimation("images/minion/frost/die.png", 0.175, 1, true)
+        self:setAnimation("images/minion/frost/die.png", 0.175, 1, "pauseAtEnd")
         return
     end
 

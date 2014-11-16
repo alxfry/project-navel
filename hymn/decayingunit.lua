@@ -49,7 +49,7 @@ function DecayingUnit:update(dt)
 
 	    -- DEATH
 	    if self.health <= 0 then
-	    	self:setAnimation("images/minion/" .. self.theme .. "/die.png", 0.25, 0.7, true)
+	    	self:setAnimation("images/minion/" .. self.theme .. "/die.png", 0.25, 0.7, "pauseAtEnd")
 	        self.state = "dying"
 	        self.timeInState = 0
 	        -- LogicCore.entityManager:remove(self.id)
