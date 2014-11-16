@@ -43,9 +43,7 @@ return {
         {
           name = "Lavarock",
           tile = 3,
-          properties = {
-            ["block"] = "true"
-          }
+          properties = {}
         },
         {
           name = "Water",
