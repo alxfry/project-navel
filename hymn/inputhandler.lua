@@ -57,6 +57,8 @@ function InputHandler:mousePressed(x, y, button)
 end
 
 function InputHandler:mouseReleased(x, y, button)
+    self.dragAnchor = false
+    
     if self:isToolBar(x, y) then
         return
     end
