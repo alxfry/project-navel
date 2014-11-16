@@ -1,3 +1,5 @@
+local flux          = require "libs.flux"
+
 local blocking = require "shared.blocking"
 local GameMath = require "shared.gamemath"
 local Entity = require "shared.entity"
@@ -14,12 +16,6 @@ function Unit:initialize(entityStatic, player)
     self.stopRange = 1
     self.waypoints = false
     self.dead = false
-end
-
-function Unit:update(dt)
-    -- self:updateMove(dt)
-
-    Entity.update(self, dt)
 end
 
 function Unit:moveTo(x, y, stopRange)
@@ -50,7 +46,8 @@ function Unit:updateMove(dt)
 
         -- Update orientation
         if length > 0 then
-            self.orientation = math.atan2(direction.y, direction.x)
+            local newOrientation = math.atan2(direction.y, direction.x)
+            flux.to(self, 0.04, { orientation = newOrientation }):ease("quadinout")
         end
 
         if #waypoints > 1 or length > self.stopRange then

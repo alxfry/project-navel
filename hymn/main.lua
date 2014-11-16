@@ -1,3 +1,5 @@
+local flux          = require "libs.flux"
+
 local InputHandler = require "hymn.inputhandler"
 
 local baseWidth, baseHeight = 1920, 1080
@@ -130,6 +132,7 @@ function love.update(dt)
         ui.update(dt)
     elseif LogicCore.state == "gameover" then
     end
+    flux.update(dt)
 end
 
 
