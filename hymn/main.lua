@@ -26,15 +26,15 @@ local function simpleLevel()
     myBuilding:addPathPoint(GameMath.Vector2:new(766, 975))
     myBuilding:instantBuild()
 
-    -- local hisBuilding = SpawnPortal:new(EntityStatics.spawnPortal, LogicCore.players[2])
-    -- entityManager:add(hisBuilding)
-    -- hisBuilding:setPosition(790, 920)
-    -- hisBuilding:addPathPoint(GameMath.Vector2:new(257, 204))
-    -- hisBuilding:instantBuild()
+    local hisBuilding = SpawnPortal:new(EntityStatics.spawnPortal, LogicCore.players[2])
+    entityManager:add(hisBuilding)
+    hisBuilding:setPosition(790, 920)
+    hisBuilding:addPathPoint(GameMath.Vector2:new(257, 204))
+    hisBuilding:instantBuild()
 
-    local theDeposit = Deposit:new(EntityStatics.deposit)
-    entityManager:add(theDeposit)
-    theDeposit:setPosition(790, 209)
+    -- local theDeposit = Deposit:new(EntityStatics.deposit)
+    -- entityManager:add(theDeposit)
+    -- theDeposit:setPosition(790, 209)
 end
 
 local function load()
