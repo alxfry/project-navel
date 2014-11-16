@@ -61,11 +61,15 @@ function Unit:updateMove(dt)
                 local newPosition = self.position + direction * step
                 self:setPosition(newPosition.x, newPosition.y)
             end
+            -- dbgprint("f")
             return false
         else
+            -- dbgprint("t")
             return true
         end
     end
+    -- dbgprint("t")
+    return true
 end
 
 function Unit:drawPath()

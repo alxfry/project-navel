@@ -93,8 +93,9 @@ local MoveTo = Class("MoveTo", Behavior)
 function MoveTo:update(dt, context)
 	local object = context.object
 	local finished = object:updateMove(dt)
+	--dbgprint(finished)
 	self.status = finished and STATUS.SUCCESS or STATUS.RUNNING
-
+	-- dbgprint(self.status)
 	return self.status
 end
 
@@ -158,7 +159,7 @@ end
 
 function WorkConstruction:update(dt, context)
 	local construction = context.closestEntity
-	if not construction or not construction.constructing then
+	if not (construction and construction.constructing) then
 		dbgprint(construction)
 		if construction then
 			dbgprint(construction.constructing)
@@ -171,6 +172,7 @@ function WorkConstruction:update(dt, context)
 	if self.timeWorked >= self.workTime then
 		self.timeWorked = self.timeWorked - self.workTime
 		construction:addHealth(1)
+		dbgprint(construction.health)
 		return STATUS.SUCCESS
 	else
 		return STATUS.RUNNING

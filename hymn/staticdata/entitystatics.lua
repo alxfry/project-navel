@@ -8,6 +8,7 @@ local EntityStatics = {}
 EntityStatics.basicDecayMinion = {
 	classSource = "hymn.decayingunit",
 	health = 10,
+	stopRange = 10,
 	speed = 300,
 	decayInterval = 0.8,
 	decayAmount = 1,

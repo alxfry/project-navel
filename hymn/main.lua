@@ -23,7 +23,7 @@ local function simpleLevel()
     local myBuilding = SpawnPortal:new(EntityStatics.spawnPortal, LogicCore.players[1])
     entityManager:add(myBuilding)
     myBuilding:setPosition(170, 209)
-    -- myBuilding:addPathPoint(GameMath.Vector2:new(766, 975))
+    myBuilding:addPathPoint(GameMath.Vector2:new(766, 975))
     myBuilding:instantBuild()
 
     -- local hisBuilding = SpawnPortal:new(EntityStatics.spawnPortal, LogicCore.players[2])

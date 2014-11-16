@@ -144,10 +144,12 @@ end
 function Sequence:update(dt, context)
 	for i = self.currentIdx, #self.children do
 		local current = self.children[i]
-		
+
 		local status = current:tick(dt, context)
+		
 		-- IF CHILD NO SUCCESS -> SEQUENCE NO SUCCESS
 		if not (status == STATUS.SUCCESS) then
+			self.currentIdx = i
 			return status
 		end
 	end
@@ -209,6 +211,7 @@ function Selector:update(dt, context)
 
 		-- IF CHILD NO FAILURE -> SEQUENCE NO FAILURE
 		if not (status == STATUS.FAILURE) then
+			self.currentIdx = i
 			return status
 		end
 	end
