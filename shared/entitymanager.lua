@@ -78,7 +78,7 @@ function EntityManager:findAllEntities(filter)
             table.insert(entities, entity)
         end
     end
-    return entites
+    return entities
 end
 
 return EntityManager
