@@ -203,11 +203,26 @@ end
 
 local ClaimDeposit = Class("ClaimDeposit", Behavior)
 
-function ClaimDeposit:update(dt, context)
-	return STATUS.FAILURE
+function ClaimDeposit:start()
+	self.timeWorked = 0
+	self.workTime = 0.2
 end
 
+function ClaimDeposit:update(dt, context)
+	local target = context.closestDeposit
+	if not target then
+		return STATUS.FAILURE
+	end
+	self.timeWorked = self.timeWorked + dt
 
+	if self.timeWorked >= self.workTime then
+		self.timeWorked = self.timeWorked - self.workTime
+		target:claim(context.object, 1)
+		return STATUS.SUCCESS
+	else
+		return STATUS.RUNNING
+	end
+end
 
 return 
 {

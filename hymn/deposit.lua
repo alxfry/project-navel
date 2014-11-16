@@ -32,7 +32,7 @@ end
 
 function Deposit:takeOwnership(player)
     if self.owner then
-        self.owner = self.resource - 50
+        self.owner = self.owner.resource - 50
     end
 
     player.resource = player.resource + 50
@@ -42,13 +42,16 @@ end
 function Deposit:claim(entity, amount)
     local playerId = entity.player.playerId
     local maxClaim = 0
-    for id, amount in pairs(self.claims) do
+
+    for id, current in pairs(self.claims) do
         local diff = (id == playerId) and amount or -amount
-        self.claims[id] = GameMath.clamp(self.claim[id] + diff, 0, 100)
+        self.claims[id] = GameMath.clamp(current + diff, 0, 100)
         if id ~= playerId then
             maxClaim = math.max(maxClaim, self.claims[id])
         end
     end
+
+    dbgprint(table.concat(self.claims, ", "))
 
     local ownClaim = self.claims[playerId]
 

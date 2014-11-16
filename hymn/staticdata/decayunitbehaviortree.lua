@@ -46,6 +46,7 @@ local function depositDebuggingBT()
     local root = BehaviorTree.Sequence:new()
     root:addChild(Behaviors.FindDeposit:new())
     root:addChild(Behaviors.MoveTo:new())
+    root:addChild(Behaviors.ClaimDeposit:new())
 
     return root
 end
