@@ -35,8 +35,12 @@ local SearchMasterBehavior = Class("SearchMasterBehavior", Behavior)
 
 function SearchMasterBehavior:update(dt, context)
     local object = context.object
-    object.target = state.master
-    self.status = STATUS.SUCCESS
+    if object.type == "minion" or (state.master.position - object.position):sqLength() < object.attackRange * object.attackRange then
+        object.target = state.master
+        self.status = STATUS.SUCCESS
+    else
+        self.status = STATUS.FAILURE
+    end
     return self.status
 end
 
