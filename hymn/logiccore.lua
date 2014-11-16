@@ -2,7 +2,7 @@ local Class = require "shared.middleclass"
 
 local EntityManager = require "shared.entitymanager"
 local InputHandler 	= require "hymn.inputhandler"
-local Player 		= require "shared.player"
+local HymnPlayer 	= require "hymn.hymnplayer"
 
 local blocking = require "shared.blocking"
 
@@ -10,8 +10,8 @@ local blocking = require "shared.blocking"
 local LogicCore = Class "LogicCore"
 
 function LogicCore:initialize(eMng, iHndlr)
-	local player1 = Player:new()
-	local player2 = Player:new()
+	local player1 = HymnPlayer:new()
+	local player2 = HymnPlayer:new()
 	self.players = {
 		[player1.playerId] = player1,
 		[player2.playerId] = player2,

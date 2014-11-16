@@ -28,6 +28,10 @@ function SpawnPortal:addPathPoint(position)
     self.path[#self.path + 1] = position
 end
 
+function SpawnPortal:spawnInterval()
+    return self.player.resource / 100
+end
+
 function SpawnPortal:update(dt)
 	local wasConstructing = self.constructing
 	Building.update(self, dt)
@@ -36,10 +40,10 @@ function SpawnPortal:update(dt)
 			self:setAnimation("images/buildings/" .. self.theme .. "/portal.png", 0.1)
 		end
 		local entityManager = LogicCore.entityManager
-		local dtLastSpawn = self.timeSinceLastSpawn
-		dtLastSpawn = dtLastSpawn + dt
+		self.timeSinceLastSpawn = self.timeSinceLastSpawn + dt
+        local spawnInterval = self:spawnInterval()
 		
-		if not self.hasSpawned and dtLastSpawn >= 2 then
+		if self.timeSinceLastSpawn >= spawnInterval then
 			-- SPAWN
 			local spawn = entityManager:spawnFromEntityStatic(self.spawnEntityStatics, self.player)
 			spawn:setPosition(self.position.x, self.position.y)
@@ -47,10 +51,8 @@ function SpawnPortal:update(dt)
 			for k, v in pairs(self.path) do
 				spawn.userPath[k] = v:copy()
 			end
-			self.timeSinceLastSpawn = dtLastSpawn - 2
+			self.timeSinceLastSpawn = self.timeSinceLastSpawn - spawnInterval
 	        self.hasSpawned = true
-		else
-			self.timeSinceLastSpawn = dtLastSpawn
 		end
 	end
 end	
