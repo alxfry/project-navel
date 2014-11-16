@@ -7,6 +7,7 @@ local Player = require "shared.player"
 local BehaviorTree = require "shared.behaviortree"
 local sti = require "libs.sti"
 
+local MapLoader = require "shared.maploader"
 local LogicCore = require "hymn.logiccore"
 local DecayingUnit = require "hymn.decayingunit"
 local SpawnPortal = require "hymn.spawnportal"
@@ -60,10 +61,30 @@ local function lostTempleMap()
     LogicCore:startMap(sti.new("maps/losttemple"))
 end
 
+local function spawn(object, x, y)
+    local entity
+    if object.id == 0 then
+        entity = Deposit:new(EntityStatics.deposit)
+    elseif object.id == 1 then
+        entity = SpawnPortal:new(EntityStatics.spawnPortal, LogicCore.players[1])
+        entity:instantBuild()
+    elseif object.id == 2 then
+        entity = SpawnPortal:new(EntityStatics.spawnPortal, LogicCore.players[2])
+        entity:instantBuild()
+    end
+
+    if entity then
+        entityManager:add(entity)
+        entity:setPosition(x, y)
+    end
+end
+
 local function load()
     love.window.setTitle("Hymn of Snow and Lava")
     love.window.setMode(baseWidth/2, baseHeight/2, { centered = true, resizable = true })
 	entityManager = LogicCore.entityManager
+
+    MapLoader:new("losttemple", spawn)
 
     -- simpleMap()
     lostTempleMap()
