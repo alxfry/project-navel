@@ -26,8 +26,6 @@ function love.load()
     Player.load()
     SplashScreen.load()
     ArenaScreen.load()
-
-    map = sti.new("testmap")
 end
 
 function love.update(dt)
