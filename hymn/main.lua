@@ -10,6 +10,7 @@ local sti = require "libs.sti"
 local LogicCore = require "hymn.logiccore"
 local DecayingUnit = require "hymn.decayingunit"
 local SpawnPortal = require "hymn.spawnportal"
+local Deposit = require "hymn.deposit"
 local GameMath = require "shared.gamemath"
 
 local EntityStatics = require "hymn.staticdata.entitystatics"
@@ -30,6 +31,10 @@ local function simpleLevel()
     hisBuilding:setPosition(790, 920)
     hisBuilding:addPathPoint(GameMath.Vector2:new(257, 204))
     hisBuilding:instantBuild()
+
+    local theDeposit = Deposit:new(EntityStatics.deposit)
+    entityManager:add(theDeposit)
+    theDeposit:setPosition(790, 209)
 end
 
 local function load()
