@@ -1,3 +1,5 @@
+local flux          = require "libs.flux"
+
 local Unit = require "shared.unit"
 local Entity = require "shared.entity"
 
@@ -35,23 +37,24 @@ function Minion:initialize(entityStatics, master)
     self:setAnimation("images/minion/frost/walk.png", 0.175)
     self:setRandomStartAnimationTime()
     self.attack = false
-    self.fadeOutTime = 1
-    self.maxFadeOutTime = 1
+
+    local scale = self.scale
+    self.scale = 0
+    flux.to(self, 0.5, { scale = scale }):ease("cubicout")
 end
 
 function Minion:update(dt)
     if self.dead then
-        self.fadeOutTime = self.fadeOutTime - dt
-        if self.fadeOutTime <= 0 then
-            state.entityManager:remove(self.id)
-        end
         Unit.update(self, dt)
         return
     end
 
     if self.health <= 0 then
         self.dead = true
-        self:setAnimation("images/minion/frost/die.png", 0.175, 1, "pauseAtEnd")
+        flux.to(self, 0.5, { scale = 1.5, alpha = 0 }):ease("quadin"):oncomplete(function()
+            state.entityManager:remove(self.id)
+        end)
+        self:setAnimation("images/minion/frost/die.png", 0.175, "pauseAtEnd")
         return
     end
 
@@ -72,7 +75,7 @@ function Minion:update(dt)
 end
 
 function Minion:draw(dt)
-    love.graphics.setColor(255, 255, 255, self.fadeOutTime/self.maxFadeOutTime * 255)
+    love.graphics.setColor(255, 255, 255, self.alpha)
     -- love.graphics.circle("line", self.position.x, self.position.y, self.attackRange, 100);
     Unit.draw(self, dt)
 end

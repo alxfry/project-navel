@@ -12,6 +12,8 @@ function Entity:initialize(entityStatics, player)
         self[key] = value
     end
 
+    self.alpha = self.alpha or 255
+    self.scale = self.scale or 1
     self.health = self.health or 0
     self.maxHealth = self.health
     self.orientation = 0
@@ -28,21 +30,20 @@ function Entity:setPlayer(player)
     self.playerId = player and player.playerId
 end
 
-function Entity:addAnimation(animationKey, imagePath, delay, scale, onLoop)
+function Entity:addAnimation(animationKey, imagePath, delay, onLoop)
     local image = love.graphics.newImage(imagePath)
     local imageWidth, imageHeight = image:getDimensions()
     local frameWidth, frameHeight = imageHeight, imageHeight
     local grid = anim8.newGrid(frameWidth, frameHeight, imageWidth, imageHeight)
     local frames = imageWidth / frameWidth
 
-    self.scale = scale or 1
     self.spriteSize = imageHeight
     self.images[animationKey] = image
     self.animations[animationKey] = anim8.newAnimation(grid('1-' .. frames,1), delay, onLoop)
     dbgprint(animationKey, self.animations[animationKey])
 end
 
-function Entity:setAnimation(imagePath, delay, scale, onLoop)
+function Entity:setAnimation(imagePath, delay, onLoop)
     if delay == nil and scale == nil and onLoop == nil then
         dbgprint(imagePath)
         self.animation = self.animations[imagePath]
@@ -54,7 +55,6 @@ function Entity:setAnimation(imagePath, delay, scale, onLoop)
         local grid = anim8.newGrid(frameWidth, frameHeight, imageWidth, imageHeight)
         local frames = imageWidth / frameWidth
 
-        self.scale = scale or 1
         self.spriteSize = imageHeight
         self.image = image
         self.animation = anim8.newAnimation(grid('1-' .. frames,1), delay, onLoop)
@@ -91,7 +91,7 @@ function Entity:initPosition(x, y)
     if self.blocking then
         local size = self.radius * 2
         Blocking.addDynamicBlock(x - self.radius, y - self.radius, size, size)
-    end    
+    end
 end
 
 function Entity:setPosition(x, y)

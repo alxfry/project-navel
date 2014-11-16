@@ -13,6 +13,7 @@ setmetatable(_G, {
 -- require "shared.controllerbindings"
 
 local sti           = require "libs.sti"
+local flux          = require "libs.flux"
 
 local state         = require "minionmaster.state"
 local ui            = require "minionmaster.ui"
@@ -88,6 +89,7 @@ function love.update(dt)
     state.entityManager:update(dt)
     state.map:update(dt)
     ui.update(dt)
+    flux.update(dt)
 end
 
 function love.draw(dt)

@@ -28,9 +28,10 @@ local themes = {
 function DecayingUnit:setPlayer(player)
     self.player = player
     self.theme = themes[player.playerId] or themes[1]
-    self:addAnimation("walk", "images/minion/" .. self.theme .. "/walk.png", 0.175, 0.7)
-    self:addAnimation("attack", "images/minion/" .. self.theme .. "/attack.png", 0.175, 0.7)
-    self:addAnimation("die", "images/minion/" .. self.theme .. "/die.png", 0.25, 0.7, "pauseAtEnd")
+    self:addAnimation("walk", "images/minion/" .. self.theme .. "/walk.png", 0.175)
+    self:addAnimation("attack", "images/minion/" .. self.theme .. "/attack.png", 0.175)
+    self:addAnimation("die", "images/minion/" .. self.theme .. "/die.png", 0.25, "pauseAtEnd")
+    self.scale = 0.7
     self:setAnimation("walk")
 end
 
