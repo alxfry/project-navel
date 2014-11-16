@@ -10,38 +10,52 @@
   <object type="playerStart" x="1694" y="1748"/>
   <object type="enemy" x="2242" y="2182"/>
   <object type="enemy" x="2334" y="2252"/>
-  <object type="enemy" x="2192" y="1772"/>
-  <object type="enemy" x="2306" y="1904"/>
-  <object type="enemy" x="1854" y="2120"/>
-  <object type="enemy" x="1812" y="2238"/>
-  <object type="enemy" x="1860" y="2348"/>
+  <object type="weakenemy" x="2192" y="1772"/>
+  <object type="weakenemy" x="2306" y="1904"/>
+  <object type="weakenemy" x="1854" y="2120"/>
+  <object type="weakenemy" x="1812" y="2238"/>
+  <object type="weakenemy" x="1860" y="2348"/>
   <object type="enemy" x="1830" y="2620"/>
   <object type="enemy" x="2008" y="2666"/>
   <object type="enemy" x="2058" y="2648"/>
-  <object type="enemy" x="2506" y="2588"/>
+  <object type="weakenemy" x="2506" y="2588"/>
   <object type="enemy" x="2570" y="2520"/>
-  <object type="enemy" x="2556" y="2428"/>
-  <object type="enemy" x="2490" y="2486"/>
+  <object type="weakenemy" x="2556" y="2428"/>
+  <object type="weakenemy" x="2490" y="2486"/>
   <object type="enemy" x="2598" y="2478"/>
   <object type="enemy" x="2930" y="2704"/>
   <object type="enemy" x="2840" y="2710"/>
   <object type="enemy" x="2906" y="2756"/>
-  <object type="enemy" x="2874" y="2270"/>
-  <object type="enemy" x="2940" y="2288"/>
+  <object type="enemy" x="2886" y="2304.67"/>
+  <object type="enemy" x="2929.33" y="2264"/>
   <object type="enemy" x="2786" y="1786"/>
   <object type="enemy" x="2830" y="1756"/>
-  <object type="enemy" x="2684" y="2108"/>
-  <object type="enemy" x="2680" y="2164"/>
+  <object type="weakenemy" x="2684" y="2108"/>
+  <object type="weakenemy" x="2680" y="2164"/>
   <object type="enemy" x="2576" y="2174"/>
-  <object type="enemy" x="2652" y="2234"/>
+  <object type="weakenemy" x="2652" y="2234"/>
   <object type="enemy" x="2242" y="2818"/>
   <object type="enemy" x="2046" y="2864"/>
   <object type="enemy" x="2134" y="2782"/>
   <object type="enemy" x="1978" y="2850"/>
   <object type="enemy" x="2580" y="1896"/>
-  <object type="enemy" x="2560" y="1950"/>
-  <object type="enemy" x="2524" y="1904"/>
+  <object type="weakenemy" x="2560" y="1950"/>
+  <object type="weakenemy" x="2524" y="1904"/>
   <object type="enemy" x="1868" y="2578"/>
   <object type="enemy" x="2738" y="2940"/>
+  <object type="weakenemy" x="2069.33" y="2602"/>
+  <object type="weakenemy" x="2050.67" y="2564.67"/>
+  <object type="weakenemy" x="2032" y="2609.33"/>
+  <object type="weakenemy" x="1813.33" y="2494"/>
+  <object type="weakenemy" x="1822.67" y="2550.01"/>
+  <object type="weakenemy" x="1872" y="2524"/>
+  <object type="weakenemy" x="1646.67" y="2153.33"/>
+  <object type="weakenemy" x="1604" y="2160"/>
+  <object type="weakenemy" x="1565.33" y="2180"/>
+  <object type="weakenemy" x="1622.67" y="2190.67"/>
+  <object type="weakenemy" x="1676" y="2172"/>
+  <object type="weakenemy" x="1670.67" y="2206.67"/>
+  <object type="weakenemy" x="1646.67" y="2129.33"/>
+  <object type="weakenemy" x="1596" y="2198.67"/>
  </objectgroup>
 </map>

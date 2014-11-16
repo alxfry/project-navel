@@ -23,10 +23,6 @@ function Enemy:initialize(entityStatics)
     self:setRandomStartAnimationTime()
 end
 
-function Enemy:died()
-    state.entityManager:remove(self.entity.id)
-end
-
 function Enemy:update(dt)
     if self.dead then
         Unit.update(self, dt)
@@ -35,7 +31,7 @@ function Enemy:update(dt)
 
     if self.health <= 0 then
         self.dead = true
-        flux.to(self, 0.5, { scale = 1.5, alpha = 0 }):ease("quadin"):oncomplete(function()
+        flux.to(self, 0.7, { scale = 1.5, alpha = 0 }):ease("quadin"):oncomplete(function()
             state.entityManager:remove(self.id)
         end)
         self:setAnimation("images/minion/lava/die.png", 0.175, "pauseAtEnd")

@@ -51,7 +51,7 @@ function Minion:update(dt)
 
     if self.health <= 0 then
         self.dead = true
-        flux.to(self, 0.5, { scale = 1.5, alpha = 0 }):ease("quadin"):oncomplete(function()
+        flux.to(self, 0.7, { scale = 1.5, alpha = 0 }):ease("quadin"):oncomplete(function()
             state.entityManager:remove(self.id)
         end)
         self:setAnimation("images/minion/frost/die.png", 0.175, "pauseAtEnd")

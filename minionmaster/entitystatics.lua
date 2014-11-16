@@ -1,17 +1,14 @@
 -- Static Settings
 
-local EntityStatics =
-{
-    master =
-    {
+local EntityStatics = {
+    master = {
         type = "master",
         health = 100,
         damage = 1,
         speed = 200,
     },
 
-    minion =
-    {
+    minion = {
         type = "minion",
         health = 10,
         damage = 10,
@@ -20,8 +17,7 @@ local EntityStatics =
         attackRange = 300,
     },
 
-    enemy =
-    {
+    enemy = {
         type = "enemy",
         health = 50,
         damage = 10,
@@ -30,8 +26,17 @@ local EntityStatics =
         attackRange = 250,
     },
 
-    building =
-    {
+    weakenemy = {
+        type = "enemy",
+        health = 10,
+        damage = 3,
+        speed = 90,
+        dna = 5,
+        attackRange = 250,
+        scale = 0.6,
+    },
+
+    building = {
         health = 1000,
         dna = 100,
     },

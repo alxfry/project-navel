@@ -54,11 +54,14 @@ local function spawnEntities()
             state.master = MinionMaster:new(EntityStatics.master)
             state.master:setPosition(object.x, object.y)
             state.entityManager:add(state.master)
-        elseif object.type == "enemy" then
-            local enemy = Enemy:new(EntityStatics.enemy)
-            enemy:setPosition(object.x, object.y)
-            enemy.orientation = math.random() * math.pi * 2
-            state.entityManager:add(enemy)
+        elseif EntityStatics[object.type] then
+            local statics = EntityStatics[object.type]
+            if statics.type == "enemy" then
+                local enemy = Enemy:new(statics)
+                enemy:setPosition(object.x, object.y)
+                enemy.orientation = math.random() * math.pi * 2
+                state.entityManager:add(enemy)
+            end
         end
     end
 end
