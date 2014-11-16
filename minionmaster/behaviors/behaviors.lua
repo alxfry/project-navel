@@ -70,17 +70,15 @@ function AttackBehavior:update(dt, context)
     if length < object.target.spriteSize / 2 then
         object.attack = true
 
-        object.target:takeDamage(object.damage)
+        object.target:takeDamage(object.damage * dt)
 
         if object.target.health <= 0 then
             object.attack = false
             self.status = STATUS.SUCCESS
-            print("dead")
             return self.status
         end
         self.status = STATUS.RUNNING
     else
-        print("stop attacking")
         object.attack = false
         self.status = STATUS.FAILURE
     end

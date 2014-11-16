@@ -24,7 +24,7 @@ function Entity:initialize(entityStatics, player)
 end
 
 function Entity:setPlayer(player)
-    self.playerId = player.playerId
+    self.playerId = player and player.playerId
 end
 
 function Entity:setAnimation(imagePath, delay, scale)

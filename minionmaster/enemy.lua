@@ -23,6 +23,7 @@ end
 
 function Enemy:update(dt)
     if self.health <= 0 then
+        state.dna = state.dna + self.dna
         state.entityManager:remove(self.id)
         return
     end

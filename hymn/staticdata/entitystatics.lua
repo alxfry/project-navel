@@ -21,4 +21,10 @@ EntityStatics.spawnPortal = {
     selectable = true,
 }
 
+EntityStatics.deposit = {
+	classSource = "hymn.depost",
+	health = 100,
+    selectable = false,
+}
+
 return EntityStatics
