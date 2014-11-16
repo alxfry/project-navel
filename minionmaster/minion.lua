@@ -35,24 +35,23 @@ function Minion:initialize(entityStatics, master)
     self:setAnimation("images/minion/frost/walk.png", 0.175)
     self:setRandomStartAnimationTime()
     self.attack = false
+    self.fadeOutTime = 1
+    self.maxFadeOutTime = 1
 end
-
-function Minion:died()
-    state.entityManager:remove(self.entity.id)
-end
-
 
 function Minion:update(dt)
     if self.dead then
+        self.fadeOutTime = self.fadeOutTime - dt
+        if self.fadeOutTime <= 0 then
+            state.entityManager:remove(self.id)
+        end
         Unit.update(self, dt)
         return
     end
 
     if self.health <= 0 then
         self.dead = true
-        self:setAnimation("images/minion/frost/die.png", 0.175)
-        self.animation.onLoop = self.died
-        self.animation.entity = self
+        self:setAnimation("images/minion/frost/die.png", 0.175, 1, true)
         return
     end
 
@@ -73,6 +72,7 @@ function Minion:update(dt)
 end
 
 function Minion:draw(dt)
+    love.graphics.setColor(255, 255, 255, self.fadeOutTime/self.maxFadeOutTime * 255)
     -- love.graphics.circle("line", self.position.x, self.position.y, self.attackRange, 100);
     Unit.draw(self, dt)
 end

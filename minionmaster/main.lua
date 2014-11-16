@@ -168,9 +168,9 @@ end
 
 function love.mousepressed(x, y, button)
     if button == "wd" then
-        zoom = zoom - zoomSpeed
+        zoom = math.max(0.8, zoom - zoomSpeed)
     elseif button == "wu" then
-        zoom = zoom + zoomSpeed
+        zoom = math.min(2, zoom + zoomSpeed)
     elseif button == "l" then
         if love.keyboard.isDown('rctrl') or love.keyboard.isDown('lctrl') then
             local posX = x - state.translateX
