@@ -131,6 +131,14 @@ function love.keypressed(key, unicode)
         state.status = "playing"
         start()
     end
+
+    if key == "h" then
+        UpgradeStatics.apply(UpgradeStatics.healMaster, false, state.master)
+    end
+
+    if key == "u" then
+        UpgradeStatics.apply(UpgradeStatics.damageUpMinion, true)
+    end
 end
 
 function love.mousepressed(x, y, button)

@@ -1,3 +1,4 @@
+local state = require "minionmaster.state"
 
 local UpgradeStatics = 
 {
@@ -59,20 +60,24 @@ local UpgradeStatics =
 }
 
 function UpgradeStatics.apply(upgradeStatics, forExisting, entity)
-    if entity then
-        entity[upgradeStatics.param] = entity[upgradeStatics.param] + upgradeStatics.value
-    else
-        state.entityStatics[upgradeStatics.entityType][upgradeStatics.param] = state.entityStatics[upgradeStatics.entityType][upgradeStatics.param] + upgradeStatics.value
+    if state.dna >= upgradeStatics.cost then
+        state.dna = state.dna - upgradeStatics.cost
 
-        if forExisting then
-            local entities = state.entityManager:findAllEntities(
-                function(entity)
-                    return entity.type == upgradeStatics.entityType
+        if entity then
+            entity[upgradeStatics.param] = entity[upgradeStatics.param] + upgradeStatics.value
+        else
+            state.entityStatics[upgradeStatics.entityType][upgradeStatics.param] = state.entityStatics[upgradeStatics.entityType][upgradeStatics.param] + upgradeStatics.value
+
+            if forExisting then
+                local entities = state.entityManager:findAllEntities(
+                    function(entity)
+                        return entity.type == upgradeStatics.entityType
+                    end
+                    )
+
+                for _, entityL in ipairs(entities) do
+                    entityL[upgradeStatics.param] = entityL[upgradeStatics.param] + upgradeStatics.value
                 end
-                )
-
-            for _, entityL in ipairs(entities) do
-                entityL[upgradeStatics.param] = entityL[upgradeStatics.param] + upgradeStatics.value
             end
         end
     end

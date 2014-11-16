@@ -32,7 +32,6 @@ local EntityStatics =
     building = 
     {
         health = 1000,
-        radius = 40,
         dna = 100,
     },
 }
