@@ -34,8 +34,6 @@ local EntityStatics
 local zoom = 1
 local zoomSpeed = 0.1
 
-local movingToMouse = false
-
 local debugDrawPaths = false
 local debugDrawGrid = false
 
@@ -85,12 +83,6 @@ end
 function love.update(dt)
     if state.status == "game over" then
         return
-    end
-
-    if movingToMouse then
-        local posX = love.mouse.getX() - state.translateX
-        local posY = love.mouse.getY() - state.translateY
-        state.master:moveTo(posX, posY)
     end
 
     state.entityManager:update(dt)
@@ -184,16 +176,12 @@ function love.mousepressed(x, y, button)
             local posX = x - state.translateX
             local posY = y - state.translateY
             state.master:setPosition(posX, posY)
-        else
-            movingToMouse = true
         end
     end
 end
 
 function love.mousereleased(x, y, button)
     -- screen.mousereleased(x,y, button)
-    if button == "l" then
-        movingToMouse = false
     end
 end
 

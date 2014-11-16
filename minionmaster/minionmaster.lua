@@ -48,6 +48,11 @@ function MinionMaster:update(dt)
         if math.abs(y) > 0.2 then move.y = move.y + y end
     end
 
+    if move:isNull() and love.mouse.isDown("l") then
+        move.x = love.mouse.getX() - state.translateX - self.position.x
+        move.y = love.mouse.getY() - state.translateY - self.position.y
+    end
+
     move:normalize()
     local newPosition = self.position + move * dt * self.speed
     if not blocking.collides(newPosition.x, newPosition.y) then

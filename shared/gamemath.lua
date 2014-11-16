@@ -90,6 +90,10 @@ function Vector2.distance(v1, v2)
     return Vector2.length(v1 - v2)
 end
 
+function Vector2.isNull(v)
+    return v.x == 0 and v.y == 0
+end
+
 ----------------------------------------------------------------------
 
 local Vector3 = {}
