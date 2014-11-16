@@ -1,4 +1,5 @@
 local Class = require "shared.middleclass"
+local GameMath = require "shared.gamemath"
 
 local EntityManager = Class "EntityManager"
 
@@ -46,10 +47,37 @@ function EntityManager:entity(id)
     return self.entities[id]
 end
 
+local function noOp()
+    return true
+end
+
 -- position: vector2
--- playerId: [optional] filter for player
-function EntityManager:findClosestEntity(position, playerId)
-    return false
+-- filter: [optional] filter function(entity)
+function EntityManager:findClosestEntity(position, filter)
+    filter = filter or noOp
+    local entities = self.entities
+    local closestDist = math.huge
+    local closestEntity
+    for id, entity in pairs(entities) do
+        if filter(entity) then
+            local d = GameMath.Vector2.distance(entity.position, position)
+            if d < closestDist then
+                closestEntity = entity
+                closestDist = d
+            end
+        end
+    end
+    return closestEntity, closestDist
+end
+
+function EntityManager:findAllEntities(filter)
+    local entities = {}
+    for id, entity in pairs(self.entities) do
+        if filter(entity) then
+            table.insert(entity)
+        end
+    end
+    return entites
 end
 
 return EntityManager

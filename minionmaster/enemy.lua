@@ -5,6 +5,9 @@ local Enemy = Unit:subclass("Enemy")
 local content = require "minionmaster.content"
 local state = require "minionmaster.state"
 
+local BehaviorTrees = require "minionmaster.behaviors.behaviortrees"
+local BehaviorTree = require "shared.behaviortree"
+
 -- speed: pixels/second
 function Enemy:initialize(entityStatics, target)
     Unit.initialize(self, entityStatics, state.player)
@@ -12,26 +15,32 @@ function Enemy:initialize(entityStatics, target)
     self.target = target
     self.maxHealth = self.health
 
-    self:setAnimation("images/minion/lava/attack.png", 0.175)
-    self.attackAnim = self.animation
+    self.behavior = BehaviorTree.BehaviorTree:new(self, BehaviorTrees:createEnemyTree())
+
     self:setAnimation("images/minion/lava/walk.png", 0.175)
-    self.walkAnim = self.animation
+    self.attack = false
 end
 
 function Enemy:update(dt)
     if self.health <= 0 then
         state.entityManager:remove(self.id)
-        state.dna = state.dna + self.dna
         return
     end
 
-    self:moveTo(self.target.position.x, self.target.position.y)
     Unit.update(self, dt)
-    self:updateMove(dt)
-end
 
-function Enemy:takeDamage(dmg)
-    self.health = self.health - dmg
+    if self.attack then
+        if not self.wasAttacking then
+            self:setAnimation("images/minion/lava/attack.png", 0.175)
+            -- print("attackAnim")
+        end
+    elseif self.wasAttacking then
+        self:setAnimation("images/minion/lava/walk.png", 0.175)
+        -- print("walkAnim")
+    end
+
+    self.wasAttacking = self.attack
+    self.behavior:tick(dt)
 end
 
 return Enemy

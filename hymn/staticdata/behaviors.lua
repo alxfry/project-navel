@@ -10,11 +10,51 @@ local SearchEnemy = Class("SearchEnemy", Behavior)
 
 function SearchEnemy:update(dt, context)
 	local object = context.object
-	local entity = LogicCore.entityManager:findClosestEntity(object.position, object.playerId)
-	if entity then
-		-- do something
+
+	local function isEnemy(entity)
+		return entity.player ~= object.player
 	end
-	return STATUS.FAILURE
+
+	local target = object.attackTarget and LogicCore.entityManager:entity(object.attackTarget)
+	local distance
+
+	self.status = STATUS.FAILURE
+
+	if target then
+		distance = 42
+	else
+		target, distance = LogicCore.entityManager:findClosestEntity(object.position, isEnemy)
+	end
+
+	if target then
+		if distance > 40 then
+			object:moveTo(target.position.x, target.position.y)
+			self.status = STATUS.SUCCESS
+		else
+			object.attackTarget = target.id
+			self.status = STATUS.SUCCESS
+		end
+	end
+
+	dbgprint("SearchEnemy", self.status)
+	return self.status
+end
+
+local AttackEnemy = Class("AttackEnemy", Behavior)
+
+function AttackEnemy:update(dt, context)
+	local targetId = context.object.attackTarget
+	local entity = LogicCore.entityManager:entity(targetId)
+	self.status = STATUS.FAILURE
+	if entity then
+		entity:takeDamage(dt * 0.2)
+		self.status = STATUS.RUNNING
+	else
+		self.attackTarget = false
+	end
+
+	dbgprint("AttackEnemy", self.status)
+	return self.status
 end
 
 local FindWaypoint = Class("FindWaypoint", Behavior)
@@ -131,4 +171,6 @@ return
 	SearchEnemy 		= SearchEnemy,
 	FindConstruction 	= FindConstruction,
 	WorkConstruction	= WorkConstruction,
+	SearchEnemy = SearchEnemy,
+	AttackEnemy = AttackEnemy,
 }
