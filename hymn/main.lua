@@ -68,6 +68,13 @@ local function load()
     -- simpleMap()
     lostTempleMap()
 
+    -- pan to own base
+    for id, entity in pairs(entityManager.entities) do
+        if entity.selectable and entity.player.playerId == 1 then
+            inputHandler:centerOn(entity.position.x, entity.position.y)
+        end
+    end
+
     ui.load()
 
 end

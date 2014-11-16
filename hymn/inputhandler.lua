@@ -40,6 +40,11 @@ function InputHandler:update(dt)
     self.translate.y = GameMath.clamp(self.translate.y, -h + height, 0)
 end
 
+function InputHandler:centerOn(x, y)
+    local width, height = love.graphics.getDimensions()
+    self.translate.x = -x + width/2
+    self.translate.y = -y + height/2
+end
 
 -- click-through prevention. sucky, sucky Quickie! ;)
 function InputHandler:isToolBar(x, y)
