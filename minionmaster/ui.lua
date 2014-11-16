@@ -42,9 +42,9 @@ end
 
 function ui.drawRadar()
     love.graphics.setColor(0, 0, 0)
-    love.graphics.circle("fill", 0, 0, 100, 20)
+    love.graphics.circle("fill", 0, 0, 100, 40)
     local pos = state.master.position
-    local range = 500
+    local range = 1000
     local sqrRange = range * range
     local entitiesInRange = state.entityManager:findAllEntities(
         function(entity)
