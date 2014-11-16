@@ -40,6 +40,10 @@ function Entity:setAnimation(imagePath, delay, scale)
     self.animation = anim8.newAnimation(grid('1-' .. frames,1), delay)
 end
 
+function Entity:setRandomStartAnimationTime()
+    self.animation.timer = math.random() * self.animation.durations[1]
+end
+
 function Entity:update(dt)
     if self.animation then
         self.animation:update(dt)

@@ -17,10 +17,23 @@ function MinionMaster:initialize(entityStatics)
     self.summoning = false
 end
 
+function MinionMaster:remove()
+    state.entityManager:remove(self.id)
+    state.status = "game over"
+end
+
 function MinionMaster:update(dt)
+    if self.dead then
+        Unit.update(self, dt)
+        return
+    end
+
     if self.health <= 0 then
-        state.entityManager:remove(self.id)
-        state.status = "game over"
+        self.dead = true
+        -- self:setAnimation("images/summoner/die.png", 0.175)
+        -- self.animation.onLoop = self.remove
+        -- self.animation.id = self
+        self:remove()
         return
     end
 

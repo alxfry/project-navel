@@ -18,12 +18,25 @@ function Enemy:initialize(entityStatics)
 
     self:setAnimation("images/minion/lava/walk.png", 0.175)
     self.attack = false
+    self:setRandomStartAnimationTime()
+end
+
+function Enemy:died()
+    state.entityManager:remove(self.entity.id)
 end
 
 function Enemy:update(dt)
+    if self.dead then
+        Unit.update(self, dt)
+        return
+    end
+
     if self.health <= 0 then
+        self.dead = true
         state.dna = state.dna + self.dna
-        state.entityManager:remove(self.id)
+        self:setAnimation("images/minion/lava/die.png", 0.175)
+        self.animation.onLoop = self.died
+        self.animation.entity = self
         return
     end
 
@@ -35,9 +48,11 @@ function Enemy:update(dt)
     if self.attack then
         if not wasAttacking then
             self:setAnimation("images/minion/lava/attack.png", 0.175)
+            self:setRandomStartAnimationTime()
         end
     elseif wasAttacking then
         self:setAnimation("images/minion/lava/walk.png", 0.175)
+        self:setRandomStartAnimationTime()
     end
 end
 

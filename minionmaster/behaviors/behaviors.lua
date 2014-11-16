@@ -1,5 +1,5 @@
 local Class = require "shared.middleclass"
-
+local blocking = require "shared.blocking"
 local BehaviorTree = require "shared.behaviortree"
 local Behavior = BehaviorTree.Behavior
 local STATUS = Behavior.static.STATUS
@@ -14,6 +14,21 @@ function SearchEnemyBehavior:update(dt, context)
     object.target = object:findNearestEnemy(object.position, object.attackRange)
     self.status = object.target and STATUS.SUCCESS or STATUS.FAILURE
 	return self.status
+end
+
+local SearchMinionBehavior = Class("SearchMinionBehavior", Behavior)
+
+function SearchMinionBehavior:update(dt, context)
+    local object = context.object
+
+    object.target = state.entityManager:findClosestEntity(object.position,
+        function(entity)
+            return not entity.dead and entity.type == "minion"
+        end,
+        object.attackRange
+        )
+    self.status = object.target and STATUS.SUCCESS or STATUS.FAILURE
+    return self.status
 end
 
 local SearchMasterBehavior = Class("SearchMasterBehavior", Behavior)
@@ -32,7 +47,7 @@ function SearchNearestBehavior:update(dt, context)
 
     object.target = state.entityManager:findClosestEntity(object.position,
         function(entity)
-            return entity.type == "master" or entity.type == "minion"
+            return not entity.dead and entity.type == "master" or entity.type == "minion"
         end,
         object.attackRange
         )
@@ -55,12 +70,17 @@ end
 
 local GotoTargetWithEnemySearchBehavior = Class("GotoTargetWithEnemySearchBehavior", GotoTargetBehavior)
 
+function GotoTargetWithEnemySearchBehavior:initialize()
+    self.time = 0
+end
+
 function GotoTargetWithEnemySearchBehavior:update(dt, context)
     local object = context.object
-
-    if object.target.type ~= "enemy" then
+    self.time = self.time - dt
+    if self.time <= 0 and object.target.type ~= "enemy" then
         local target = object:findNearestEnemy(object.position, object.attackRange)
-        if target then
+        self.time = 1
+        if target and blocking.pathExists(object.position.x, object.position.y, target.position.x, target.position.y) then
             object.target = target
             self.status = STATUS.FAILURE
         end
@@ -76,18 +96,22 @@ end
 
 local GotoTargetWithMinionSearchBehavior = Class("GotoTargetWithMinionSearchBehavior", GotoTargetBehavior)
 
+function GotoTargetWithMinionSearchBehavior:initialize()
+    self.time = 0
+end
+
 function GotoTargetWithMinionSearchBehavior:update(dt, context)
     local object = context.object
-
-    if object.target.type ~= "minion" then
+    self.time = self.time - dt
+    if self.time <= 0 and object.target.type ~= "minion" then
         local target = state.entityManager:findClosestEntity(object.position,
             function(entity)
-                return entity.type == "minion"
+                return not entity.dead and entity.type == "minion"
             end,
             object.attackRange
         )
-
-        if target then
+        self.time = 1
+        if target and blocking.pathExists(object.position.x, object.position.y, target.position.x, target.position.y) then
             object.target = target
             self.status = STATUS.FAILURE
         end
@@ -129,6 +153,7 @@ end
 
 return {
     SearchEnemyBehavior = SearchEnemyBehavior,
+    SearchMinionBehavior = SearchMinionBehavior,
     SearchMasterBehavior = SearchMasterBehavior,
     SearchNearestBehavior = SearchNearestBehavior,
     GotoTargetBehavior = GotoTargetBehavior,
