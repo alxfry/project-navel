@@ -56,6 +56,7 @@ function DecayingUnit:update(dt)
 	    end
     elseif self.state == "dying" then
 		self.timeInState = self.timeInState + dt
+		dbgprint(self.animation.status)
 		if self.animation.status == "paused" then
 			LogicCore.entityManager:remove(self.id)
 		end

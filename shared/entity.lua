@@ -35,7 +35,7 @@ function Entity:pauseAnimation()
     end
 end
 
-function Entity:setAnimation(imagePath, delay, loop, scale)
+function Entity:setAnimation(imagePath, delay, scale, loop)
     local image = love.graphics.newImage(imagePath)
     local imageWidth, imageHeight = image:getDimensions()
     local frameWidth, frameHeight = imageHeight, imageHeight

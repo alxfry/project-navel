@@ -47,12 +47,15 @@ end
 
 function AttackEnemy:update(dt, context)
 	local targetId = context.object.attackTarget
-	local entity = LogicCore.entityManager:entity(targetId)
+	local enemy = LogicCore.entityManager:entity(targetId)
+	local oldStatus = self.status
 	self.status = STATUS.FAILURE
-	if entity then
+	-- if oldStatus ~= STATUS.RUNNING then
+	-- 	context.object:setAnimation()
+	if enemy then
 		self.attackTick = self.attackTick + dt
 		if self.attackTick > 1 then
-			entity:takeDamage(1)
+			enemy:takeDamage(1)
 			self.attackTick = self.attackTick - 1
 		end
 		self.status = STATUS.RUNNING
