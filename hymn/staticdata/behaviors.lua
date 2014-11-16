@@ -58,6 +58,9 @@ function AttackEnemy:update(dt, context)
 			enemy:takeDamage(1)
 			self.attackTick = self.attackTick - 1
 		end
+		if oldStatus ~= STATUS.RUNNING then
+			context.object:setAnimation("attack")
+		end
 		self.status = STATUS.RUNNING
 	else
 		self.attackTarget = false

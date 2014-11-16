@@ -28,7 +28,10 @@ local themes = {
 function DecayingUnit:setPlayer(player)
     self.player = player
     self.theme = themes[player.playerId] or themes[1]
-    self:setAnimation("images/minion/" .. self.theme .. "/walk.png", 0.175, 0.7)
+    self:addAnimation("walk", "images/minion/" .. self.theme .. "/walk.png", 0.175, 0.7)
+    self:addAnimation("attack", "images/minion/" .. self.theme .. "/attack.png", 0.175, 0.7)
+    self:addAnimation("die", "images/minion/" .. self.theme .. "/die.png", 0.25, 0.7, "pauseAtEnd")
+    self:setAnimation("walk")
 end
 
 function DecayingUnit:update(dt)
@@ -50,7 +53,7 @@ function DecayingUnit:update(dt)
 
 	    -- DEATH
 	    if self.health <= 0 then
-	    	self:setAnimation("images/minion/" .. self.theme .. "/die.png", 0.25, 0.7, "pauseAtEnd")
+	    	self:setAnimation("die")
 	        self.state = "dying"
 	        self.timeInState = 0
 	        -- LogicCore.entityManager:remove(self.id)

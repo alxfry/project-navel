@@ -230,7 +230,7 @@ function blocking.refreshGrid()
     blocking.finder = Pathfinder(Grid(grid), 'ASTAR', WALKABLE)
 end
 
---[[
+---[[
 function blocking.updateDynamicBlock(oldX, oldY, x, y)
     local previousGridX, previousGridY = blocking.toGrid(oldX, oldY)
     local newGridX, newGridY = blocking.toGrid(x, y)
