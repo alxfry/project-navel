@@ -1,8 +1,9 @@
-local Class = require "shared.middleclass"
+local Class = require "spiceminion_engine.libs.middleclass"
+local BehaviorTree = require "spiceminion_engine.logic.behaviortree"
+
 local Unit = require "shared.unit"
 local LogicCore = require "hymn.logiccore"
 local DecayUnitBT = require "hymn.staticdata.decayunitbehaviortree"
-local BehaviorTree = require "shared.behaviortree"
 
 local DecayingUnit = Class("DecayingUnit", Unit)
 

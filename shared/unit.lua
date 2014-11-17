@@ -1,8 +1,9 @@
-local flux          = require "libs.flux"
+local flux     = require "spiceminion_engine.libs.flux"
+local blocking = require "spiceminion_engine.logic.blocking"
+local GameMath = require "spiceminion_engine.logic.gamemath"
+local Entity   = require "spiceminion_engine.game_core.entity"
 
-local blocking = require "shared.blocking"
-local GameMath = require "shared.gamemath"
-local Entity = require "shared.entity"
+
 local Unit = Entity:subclass("Unit")
 
 -- speed: pixels/second
@@ -47,6 +48,7 @@ function Unit:updateMove(dt)
         -- Update orientation
         if length > 0 then
             local newOrientation = math.atan2(direction.y, direction.x)
+            -- self.orientation = newOrientation
             flux.to(self, 0.04, { orientation = newOrientation }):ease("quadinout")
         end
 

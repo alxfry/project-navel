@@ -1,10 +1,10 @@
-local Class = require "shared.middleclass"
+local Class = require "spiceminion_engine.libs.middleclass"
 
-local EntityManager = require "shared.entitymanager"
+local EntityManager = require "spiceminion_engine.game_core.entitymanager"
 local InputHandler 	= require "hymn.inputhandler"
 local HymnPlayer 	= require "hymn.hymnplayer"
 
-local blocking = require "shared.blocking"
+local blocking = require "spiceminion_engine.logic.blocking"
 
 -- LogicCore Class
 local LogicCore = Class "LogicCore"

@@ -1,7 +1,7 @@
 local Building = require "shared.building"
 local LogicCore = require "hymn.logiccore"
 local EntityStatics = require "hymn.staticdata.entitystatics"
-local GameMath = require "shared.gamemath"
+local GameMath = require "spiceminion_engine.logic.gamemath"
 
 local Deposit = Building:subclass("Deposit")
 

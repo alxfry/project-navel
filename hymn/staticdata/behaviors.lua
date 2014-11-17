@@ -1,8 +1,8 @@
-local Class = require "shared.middleclass"
-local GameMath = require "shared.gamemath"
+local Class = require "spiceminion_engine.libs.middleclass"
+local GameMath = require "spiceminion_engine.logic.gamemath"
 local LogicCore = require "hymn.logiccore"
 
-local BehaviorTree = require "shared.behaviortree"
+local BehaviorTree = require "spiceminion_engine.logic.behaviortree"
 local Behavior = BehaviorTree.Behavior
 local STATUS = Behavior.static.STATUS
 

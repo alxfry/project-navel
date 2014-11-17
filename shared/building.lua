@@ -1,4 +1,6 @@
-local Entity = require "shared.entity"
+local Entity = require "spiceminion_engine.game_core.entity"
+
+
 local Building = Entity:subclass("Building")
 
 function Building:initialize(entityStatic, player)

@@ -1,6 +1,6 @@
-local Class = require "shared.middleclass"
-local blocking = require "shared.blocking"
-local BehaviorTree = require "shared.behaviortree"
+local Class = require "spiceminion_engine.libs.middleclass"
+local blocking = require "spiceminion_engine.logic.blocking"
+local BehaviorTree = require "spiceminion_engine.logic.behaviortree"
 local Behavior = BehaviorTree.Behavior
 local STATUS = Behavior.static.STATUS
 

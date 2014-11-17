@@ -1,5 +1,5 @@
-local Class = require "shared.middleclass"
-local BehaviorTree = require "shared.behaviortree"
+local Class = require "spiceminion_engine.libs.middleclass"
+local BehaviorTree = require "spiceminion_engine.logic.behaviortree"
 local Behaviors = require "hymn.staticdata.behaviors"
 
 -- local root = BehaviorTree.Selector:new()

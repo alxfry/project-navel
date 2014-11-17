@@ -1,4 +1,4 @@
-local flux          = require "libs.flux"
+local flux          = require "spiceminion_engine.libs.flux"
 
 local Unit = require "shared.unit"
 
@@ -8,7 +8,7 @@ local content = require "minionmaster.content"
 local state = require "minionmaster.state"
 
 local BehaviorTrees = require "minionmaster.behaviors.behaviortrees"
-local BehaviorTree = require "shared.behaviortree"
+local BehaviorTree = require "spiceminion_engine.logic.behaviortree"
 
 -- speed: pixels/second
 function Enemy:initialize(entityStatics)

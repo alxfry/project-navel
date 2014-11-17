@@ -2,7 +2,7 @@ local state = require "minionmaster.state"
 
 local smallFont = love.graphics.newFont("fonts/Exocet1.ttf", 28)
 local mediumFont = love.graphics.newFont("fonts/Exocet1.ttf", 45)
-local GameMath = require "shared.gamemath"
+local GameMath = require "spiceminion_engine.logic.gamemath"
 
 local ui = {}
 

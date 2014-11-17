@@ -12,8 +12,8 @@ setmetatable(_G, {
 
 -- require "shared.controllerbindings"
 
-local sti           = require "libs.sti"
-local flux          = require "libs.flux"
+local sti           = require "spiceminion_engine.libs.sti"
+local flux          = require "spiceminion_engine.libs.flux"
 
 local state         = require "minionmaster.state"
 local ui            = require "minionmaster.ui"
@@ -23,7 +23,7 @@ local Enemy         = require "minionmaster.enemy"
 local Minion        = require "minionmaster.minion"
 local MinionMaster  = require "minionmaster.minionmaster"
 
-local blocking      = require "shared.blocking"
+local blocking      = require "spiceminion_engine.logic.blocking"
 local sharedui      = require "shared.ui"
 
 local UpgradeStatics = require "minionmaster.upgrades"

@@ -1,4 +1,4 @@
-local Class = require "shared.middleclass"
+local Class = require "spiceminion_engine.libs.middleclass"
 local Player = require "shared.player"
 local HymnPlayer = Class("HymnPlayer", Player)
 

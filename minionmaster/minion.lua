@@ -1,14 +1,14 @@
-local flux          = require "libs.flux"
+local flux          = require "spiceminion_engine.libs.flux"
 
 local Unit = require "shared.unit"
-local Entity = require "shared.entity"
+local Entity = require "spiceminion_engine.game_core.entity"
 
 local state = require "minionmaster.state"
 local content = require "minionmaster.content"
 local state = require "minionmaster.state"
 
 local BehaviorTrees = require "minionmaster.behaviors.behaviortrees"
-local BehaviorTree = require "shared.behaviortree"
+local BehaviorTree = require "spiceminion_engine.logic.behaviortree"
 
 local Minion = Unit:subclass("Minion")
 

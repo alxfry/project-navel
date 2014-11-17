@@ -1,10 +1,10 @@
 -- Central access point for game state
 
-local sti           = require "libs.sti"
+local sti           = require "spiceminion_engine.libs.sti"
 
-local blocking      = require "shared.blocking"
-local EntityManager = require "shared.entitymanager"
-local Player = require "shared.player"
+local blocking      = require "spiceminion_engine.logic.blocking"
+local EntityManager = require "spiceminion_engine.game_core.entitymanager"
+local Player 		= require "spiceminion_engine.game_core.player"
 
 local EntityStatics = require "minionmaster.entitystatics"
 

@@ -1,7 +1,8 @@
-local Class = require "shared.middleclass"
-local GameMath = require "shared.gamemath"
-local InputHandler = Class "InputHandler"
+local Class = require "spiceminion_engine.libs.middleclass"
+local GameMath = require "spiceminion_engine.logic.gamemath"
 local EntityStatics = require "hymn.staticdata.entitystatics"
+
+local InputHandler = Class "InputHandler"
 
 function InputHandler:initialize(logicCore)
     self.logicCore = logicCore
