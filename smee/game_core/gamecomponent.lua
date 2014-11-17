@@ -11,3 +11,5 @@ end
 
 function GameComponent:draw(dt)
 end
+
+return GameComponent

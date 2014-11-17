@@ -42,3 +42,5 @@ function Game:addComponent(component)
 		"Cannot add non-component object to game component list")
 	table.insert(self.components, component)
 end
+
+return Game

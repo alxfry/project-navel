@@ -9,7 +9,7 @@ local state = require "minionmaster.state"
 
 -- speed: pixels/second
 function MinionMaster:initialize(entityStatics)
-    Unit.initialize(self, entityStatics, state.player)
+    Unit.initialize(self, entityStatics, state.player.playerId)
 
     self.joystick = love.joystick.getJoysticks()[1]
     self.type = "master"

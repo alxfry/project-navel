@@ -3,8 +3,8 @@ local Entity = require "smee.game_core.entity"
 
 local Building = Entity:subclass("Building")
 
-function Building:initialize(entityStatic, player)
-    Entity.initialize(self, entityStatic, player)
+function Building:initialize(entityStatic, playerId)
+    Entity.initialize(self, entityStatic, playerId)
     -- self.targetHealth = self.health
     self.health = 1
     self.constructing = true

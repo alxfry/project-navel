@@ -79,7 +79,7 @@ function InputHandler:mouseReleased(x, y, button)
     end
 
     local function isSelectable(entity)
-        return entity.player == self.logicCore.players[1] and entity.selectable
+        return entity.playerId == 1 and entity.selectable
     end
 
     local position = GameMath.Vector2:new(x, y) - self.translate
@@ -87,7 +87,7 @@ function InputHandler:mouseReleased(x, y, button)
     local logicCore = self.logicCore
     if button == "l" then
         if self.mode == "build" then
-            local building = self.logicCore.entityManager:spawnFromEntityStatic(EntityStatics.spawnPortal, logicCore.players[1])
+            local building = self.logicCore.entityManager:spawnFromEntityStatic(EntityStatics.spawnPortal, 1)
             building:setPosition(position.x, position.y)
             self:selectEntity(building.id)
             self.mode = false

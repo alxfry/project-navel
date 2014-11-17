@@ -5,16 +5,17 @@ local EntityStatics = require "hymn.staticdata.entitystatics"
 
 local SpawnPortal = Building:subclass("SpawnPortal")
 
-function SpawnPortal:initialize(entityStatic, player)
-    Building.initialize(self, entityStatic, player)
-    self:setPlayer(player)
+function SpawnPortal:initialize(entityStatic, playerId)
+    Building.initialize(self, entityStatic, playerId)
+    self:setPlayer(playerId)
     self:setAnimation("images/buildings/constructionsite.png", 1)
     self.timeSinceLastSpawn = 0
     self.path = {}
 end
 
-function SpawnPortal:setPlayer(player)
-	self.player = player
+function SpawnPortal:setPlayer(playerId)
+	self.playerId = playerId
+	local player = LogicCore.players[playerId]
     self.theme = player:theme()
     -- self:setAnimation("images/buildings/" .. self.theme .. "/portal.png", 0.1)
 end
@@ -24,7 +25,8 @@ function SpawnPortal:addPathPoint(position)
 end
 
 function SpawnPortal:spawnInterval()
-    return 800/self.player.resource
+	local player = LogicCore.players[self.playerId]
+    return 800/player.resource
 end
 
 function SpawnPortal:update(dt)
@@ -36,7 +38,7 @@ function SpawnPortal:update(dt)
 		
 		if self.timeSinceLastSpawn >= spawnInterval then --not self.hasSpawned and 
 			-- SPAWN
-			local spawn = entityManager:spawnFromEntityStatic(self.spawnEntityStatics, self.player)
+			local spawn = entityManager:spawnFromEntityStatic(self.spawnEntityStatics, self.playerId)
 			spawn:setPosition(self.position.x, self.position.y)
 			spawn.userPath = {}
 			for k, v in pairs(self.path) do

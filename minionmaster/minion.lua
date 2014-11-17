@@ -30,7 +30,7 @@ end
 
 -- speed: pixels/second
 function Minion:initialize(entityStatics, master)
-    Unit.initialize(self, entityStatics, state.player)
+    Unit.initialize(self, entityStatics, state.player.playerId)
     self.master = master
     self.behavior = BehaviorTree.BehaviorTree:new(self, BehaviorTrees:createMinionTree())
 

@@ -12,7 +12,7 @@ function SearchEnemy:update(dt, context)
 	local object = context.object
 
 	local function isEnemy(entity)
-		return entity.player and entity.player ~= object.player
+		return entity.playerId and entity.playerId ~= object.playerId
 	end
 
 	local target = object.attackTarget and LogicCore.entityManager:entity(object.attackTarget)
@@ -150,12 +150,12 @@ local FindConstruction = Class("FindConstruction", Behavior)
 function FindConstruction:update(dt, context)
 	local Building = require "shared.building"
 	local object = context.object
-	local player = object.player
+	local playerId = object.playerId
 	
 	local function predicate(entity)
 		if entity:isInstanceOf(Building) 
 		   and entity.constructing 
-		   and entity.player == player then
+		   and entity.playerId == playerId then
 			return true
 		else
 			return false
@@ -213,10 +213,10 @@ local FindDeposit = Class("FindDeposit", Behavior)
 function FindDeposit:update(dt, context)
 	local Deposit = require "hymn.deposit"
 	local object = context.object
-	local player = object.player
+	local playerId = object.playerId
 	
 	local function isClaimableDeposit(entity)
-		return entity:isInstanceOf(Deposit) and entity.claims[player.playerId] < 100
+		return entity:isInstanceOf(Deposit) and entity.claims[playerId] < 100
 	end
 
 	local target, distance = LogicCore.entityManager:findClosestEntity(object.position, isClaimableDeposit)
@@ -245,7 +245,7 @@ function ClaimDeposit:update(dt, context)
 	if not target then
 		return STATUS.FAILURE
 	end
-	if target.owner == context.object.player and target.claims[target.owner.playerId] >= 100 then
+	if target.owner == LogicCore.players[context.object.playerId] and target.claims[target.owner.playerId] >= 100 then
 		return STATUS.FAILURE
 	end
 

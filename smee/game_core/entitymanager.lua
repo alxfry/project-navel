@@ -1,45 +1,40 @@
-local Class = require "smee.libs.middleclass"
-local GameMath = require "smee.logic.gamemath"
-local Building = require "shared.building"
-local Unit     = require "shared.unit"
+local Class         = require "smee.libs.middleclass"
+local Game          = require "smee.game_core.game"
+local GameComponent = require "smee.game_core.gamecomponent"
+local GameMath      = require "smee.logic.gamemath"
+local Building      = require "shared.building"
+local Unit          = require "shared.unit"
 
-local EntityManager = Class "EntityManager"
+local EntityManager = GameComponent:subclass("EntityManager")
 
 function EntityManager:initialize(logicCore)
     self.logicCore = logicCore
     self.nextId = 1
     self.entities = {}
-    self.drawLayer = {
-        buildings = {},
-        units = {},
-    }
 end
 
 function EntityManager:update(dt)
+    GameComponent.update(self, dt)
+
     for id, entity in pairs(self.entities) do
         entity:update(dt)
-        if entity.markedForRemoval then
-            self:remove(entity.id)
+        if entity.markedForDelete then
+            self:prot_delete(entity.id)
         end
     end
 end
 
 function EntityManager:draw(dt)
-    local buildings = self.drawLayer.buildings
-    local units = self.drawLayer.units
-    for i = 1, #buildings do
-        local current = buildings[i]
-        current:draw(dt)
-    end
-    for i = 1, #units do
-        local current = units[i]
-        current:draw(dt)
+    GameComponent.update(self, dt)
+
+    for eId, entity in pairs(self.entities) do
+        entity:draw(dt)
     end
 end
 
-function EntityManager:spawnFromEntityStatic(entityStatic, player)
+function EntityManager:spawnFromEntityStatic(entityStatic, playerId)
     local entityClass = require(entityStatic.classSource)
-    local entity = entityClass:new(entityStatic, player)
+    local entity = entityClass:new(entityStatic, playerId)
     self:add(entity)
     return entity
 end
@@ -50,33 +45,18 @@ function EntityManager:add(entity)
 
     entity.id = id
     self.entities[id] = entity
-    if entity:isInstanceOf(Building) then
-        table.insert(self.drawLayer.buildings, entity)
-    elseif entity:isInstanceOf(Unit) then
-        table.insert(self.drawLayer.units, entity)
-    end
 end
 
 function EntityManager:remove(id)
+    assert(self.entities[id], "Entity Id not found in EntityManager")
+    self.entities[id].markedForDelete = true
+end
+
+function EntityManager:prot_delete(id)
     local entity = self.entities[id]
     if self.entities[id] then
         self.entities[id]:delete()
         self.entities[id] = nil
-    end
-    if entity:isInstanceOf(Building) then
-        for i, entity in pairs(self.drawLayer.buildings) do
-            if entity.id == id then
-                table.remove(self.drawLayer.buildings, i)
-                break
-            end
-        end
-    elseif entity:isInstanceOf(Unit) then
-        for i, entity in pairs(self.drawLayer.units) do
-            if entity.id == id then
-                table.remove(self.drawLayer.units, i)
-                break
-            end
-        end
     end
 end
 
@@ -120,7 +100,7 @@ end
 
 function EntityManager:clear()
     for id, entity in pairs(self.entities) do
-        self:remove(id)
+        delete(self, id)
     end
 end
 

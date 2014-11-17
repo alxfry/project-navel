@@ -7,7 +7,7 @@ local Blocking = require "smee.logic.blocking"
 
 local Entity = Class "Entity"
 
-function Entity:initialize(entityStatics, player)
+function Entity:initialize(entityStatics, playerId)
     for key, value in pairs(entityStatics) do
         self[key] = value
     end
@@ -22,12 +22,12 @@ function Entity:initialize(entityStatics, player)
     self.images = {}
     self.animation = false
     self.radius = self.radius or 10
-    self:setPlayer(player)
+    self:setPlayer(playerId)
 	self:initPosition(0,0)
 end
 
-function Entity:setPlayer(player)
-    self.playerId = player and player.playerId
+function Entity:setPlayer(playerId)
+    self.playerId = playerId
 end
 
 function Entity:addAnimation(animationKey, imagePath, delay, onLoop)

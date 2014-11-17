@@ -9,8 +9,8 @@ local DecayingUnit = Class("DecayingUnit", Unit)
 
 -- TODO: Proper STATE HANDLING
 
-function DecayingUnit:initialize(entityStatic, player)
-	Unit.initialize(self, entityStatic, player)
+function DecayingUnit:initialize(entityStatic, playerId)
+	Unit.initialize(self, entityStatic, playerId)
     self.speed = self.speed + (math.random()-0.5) * 20
 
 	self.behaviorTree = BehaviorTree.BehaviorTree:new(self, DecayUnitBT())
@@ -26,9 +26,9 @@ local themes = {
     "lava",
 }
 
-function DecayingUnit:setPlayer(player)
-    self.player = player
-    self.theme = themes[player.playerId] or themes[1]
+function DecayingUnit:setPlayer(playerId)
+    self.playerId = playerId
+    self.theme = themes[playerId] or themes[1]
     self:addAnimation("walk", "images/minion/" .. self.theme .. "/walk.png", 0.175)
     self:addAnimation("attack", "images/minion/" .. self.theme .. "/attack.png", 0.175)
     self:addAnimation("die", "images/minion/" .. self.theme .. "/die.png", 0.25, "pauseAtEnd")

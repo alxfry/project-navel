@@ -12,7 +12,7 @@ local BehaviorTree = require "smee.logic.behaviortree"
 
 -- speed: pixels/second
 function Enemy:initialize(entityStatics)
-    Unit.initialize(self, entityStatics, state.player)
+    Unit.initialize(self, entityStatics, state.player.playerId)
     self.type = "enemy"
     self.maxHealth = self.health
 

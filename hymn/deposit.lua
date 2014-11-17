@@ -41,7 +41,7 @@ function Deposit:takeOwnership(player)
 end
 
 function Deposit:claim(entity, amount)
-    local playerId = entity.player.playerId
+    local playerId = entity.playerId
     local maxClaim = 0
 
     for id, current in pairs(self.claims) do
@@ -55,7 +55,7 @@ function Deposit:claim(entity, amount)
     local ownClaim = self.claims[playerId]
 
     if maxClaim == 0 and ownClaim > 50 then
-        self:takeOwnership(entity.player)
+        self:takeOwnership(LogicCore.players[entity.playerId])
     end
 end
 
