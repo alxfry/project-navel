@@ -1,5 +1,5 @@
-local Class = require "spiceminion_engine.libs.middleclass"
-local BehaviorTree = require "spiceminion_engine.logic.behaviortree"
+local Class = require "smee.libs.middleclass"
+local BehaviorTree = require "smee.logic.behaviortree"
 local Behaviors = require "minionmaster.behaviors.behaviors"
 
 local BehaviorTrees = {}

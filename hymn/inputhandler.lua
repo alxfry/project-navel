@@ -1,5 +1,5 @@
-local Class = require "spiceminion_engine.libs.middleclass"
-local GameMath = require "spiceminion_engine.logic.gamemath"
+local Class = require "smee.libs.middleclass"
+local GameMath = require "smee.logic.gamemath"
 local EntityStatics = require "hymn.staticdata.entitystatics"
 
 local InputHandler = Class "InputHandler"

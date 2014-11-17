@@ -1,15 +1,15 @@
-local flux          = require "spiceminion_engine.libs.flux"
+local flux          = require "smee.libs.flux"
 
 local InputHandler = require "hymn.inputhandler"
 
 local baseWidth, baseHeight = 1920, 1080
-local Entity = require "spiceminion_engine.game_core.entity"
-local EntityManager = require "spiceminion_engine.game_core.entitymanager"
-local Player = require "spiceminion_engine.game_core.player"
-local BehaviorTree = require "spiceminion_engine.logic.behaviortree"
-local sti = require "spiceminion_engine.libs.sti"
-local MapLoader = require "spiceminion_engine.resource_management.maploader"
-local GameMath = require "spiceminion_engine.logic.gamemath"
+local Entity = require "smee.game_core.entity"
+local EntityManager = require "smee.game_core.entitymanager"
+local Player = require "smee.game_core.player"
+local BehaviorTree = require "smee.logic.behaviortree"
+local sti = require "smee.libs.sti"
+local MapLoader = require "smee.resource_management.maploader"
+local GameMath = require "smee.logic.gamemath"
 
 local LogicCore = require "hymn.logiccore"
 local DecayingUnit = require "hymn.decayingunit"

@@ -1,7 +1,7 @@
-local Class = require "spiceminion_engine.libs.middleclass"
+local Class = require "smee.libs.middleclass"
 
-local sti = require "spiceminion_engine.libs.sti"
-local blocking = require "spiceminion_engine.logic.blocking"
+local sti = require "smee.libs.sti"
+local blocking = require "smee.logic.blocking"
 
 local MapLoader = Class "MapLoader"
 

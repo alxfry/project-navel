@@ -1,10 +1,10 @@
-local Class = require "spiceminion_engine.libs.middleclass"
+local Class = require "smee.libs.middleclass"
 
-local EntityManager = require "spiceminion_engine.game_core.entitymanager"
+local EntityManager = require "smee.game_core.entitymanager"
 local InputHandler 	= require "hymn.inputhandler"
 local HymnPlayer 	= require "hymn.hymnplayer"
 
-local blocking = require "spiceminion_engine.logic.blocking"
+local blocking = require "smee.logic.blocking"
 
 -- LogicCore Class
 local LogicCore = Class "LogicCore"

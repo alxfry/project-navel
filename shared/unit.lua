@@ -1,7 +1,7 @@
-local flux     = require "spiceminion_engine.libs.flux"
-local blocking = require "spiceminion_engine.logic.blocking"
-local GameMath = require "spiceminion_engine.logic.gamemath"
-local Entity   = require "spiceminion_engine.game_core.entity"
+local flux     = require "smee.libs.flux"
+local blocking = require "smee.logic.blocking"
+local GameMath = require "smee.logic.gamemath"
+local Entity   = require "smee.game_core.entity"
 
 
 local Unit = Entity:subclass("Unit")

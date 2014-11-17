@@ -1,5 +1,5 @@
 -- Central access point for game content
-local anim8 = require "spiceminion_engine.libs.anim8" 
+local anim8 = require "smee.libs.anim8" 
 
 local content = 
 {

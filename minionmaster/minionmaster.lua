@@ -1,6 +1,6 @@
 local Unit = require "shared.unit"
-local blocking = require "spiceminion_engine.logic.blocking"
-local GameMath = require "spiceminion_engine.logic.gamemath"
+local blocking = require "smee.logic.blocking"
+local GameMath = require "smee.logic.gamemath"
 
 local MinionMaster = Unit:subclass("MinionMaster")
 

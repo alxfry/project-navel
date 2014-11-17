@@ -1,6 +1,6 @@
-local Class = require "spiceminion_engine.libs.middleclass"
+local Class = require "smee.libs.middleclass"
 
-local GameComponent = require "spiceminion_engine.game_core.gamecomponent"
+local GameComponent = require "smee.game_core.gamecomponent"
 
 local Game = Class "Game"
 

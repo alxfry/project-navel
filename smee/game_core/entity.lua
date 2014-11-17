@@ -1,9 +1,9 @@
-local anim8 = require "spiceminion_engine.libs.anim8"
+local anim8 = require "smee.libs.anim8"
 
 -- local blocking = require "shared.blocking"
-local Class = require "spiceminion_engine.libs.middleclass"
-local GameMath = require "spiceminion_engine.logic.gamemath"
-local Blocking = require "spiceminion_engine.logic.blocking"
+local Class = require "smee.libs.middleclass"
+local GameMath = require "smee.logic.gamemath"
+local Blocking = require "smee.logic.blocking"
 
 local Entity = Class "Entity"
 

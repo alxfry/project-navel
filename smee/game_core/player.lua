@@ -1,4 +1,4 @@
-local Class = require "spiceminion_engine.libs.middleclass"
+local Class = require "smee.libs.middleclass"
 local Player = Class "Player"
 
 Player.static.count = 1
