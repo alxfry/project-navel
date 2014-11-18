@@ -2,13 +2,6 @@ local Class = require "smee.libs.middleclass"
 local BehaviorTree = require "smee.logic.behaviortree"
 local Behaviors = require "hymn.staticdata.behaviors"
 
--- local root = BehaviorTree.Selector:new()
--- local engageCombat = BehaviorTree.Sequence:new()
--- local walkToWaypoint = BehaviorTree.Sequence:new()
--- local randomWalk = BehaviorTree.Sequence:new()
-
--- root:addChild(randomWalk)
---     randomWalk:addChild(Behaviors.RandomMovement:new())
 local function createDecayUnitBT()
 -- Absolutely valid BT
     -- local findTarget = BehaviorTree.Selector:new()

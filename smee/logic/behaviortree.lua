@@ -1,9 +1,8 @@
 local Class = require "smee.libs.middleclass"
 
-local BTClasses = {}
-
 local Behavior = Class "Behavior"
 
+-- MAYBE ADD ABORT CASE FOR TERMINATION FROM OUTSIDE
 local STATUS = {
 	INVALID = 1,
 	SUCCESS = 2,
@@ -256,6 +255,58 @@ for i = 1, 2 do
 	assert(TEST_INSTANCE:child(1).onTerminateCalled == 1, "Test failed")
 end
 
+
+local Parallel = Composite:subclass("Parallel")
+
+Parallel.static.POLICY = {
+	REQUIRE_ONE = "Require ONE Policy",
+	REQUIRE_ALL = "Require All Policy",
+}
+
+
+function Parallel:initialize(successPolicy, failurePolicy)
+	Composite.initialize(self)
+	self.successPolicy = successPolicy
+	self.failurePolicy = failurePolicy
+end
+
+function Parallel:update(dt, context)
+	local successCount = 0
+	local failureCount = 0
+	local policy = self.POLICY
+	-- ALWAYS CHECK ALL CHILDREN
+	for i = 1, #self.children do
+		local current = self.children[i]
+
+		local status = current:tick(dt, context)
+
+		if status == STATUS.SUCCESS then
+			if self.successPolicy == policy.REQUIRE_ONE then
+				return STATUS.SUCCESS
+			end
+			successCount = successCount + 1
+		end
+
+		if status == STATUS.FAILURE then
+			if self.failurePolicy == policy.REQUIRE_ONE then
+				return STATUS.FAILURE
+			end
+			failureCount = failureCount + 1
+		end
+	end
+
+	if self.successPolicy == policy.REQUIRE_ALL and successCount == #self.children then
+		return STATUS.SUCCESS
+	end
+
+	if self.failurePolicy == policy.REQUIRE_ALL and failureCount == #self.children then
+		return STATUS.FAILURE
+	end
+
+	return STATUS.RUNNING
+end
+
+
 local BehaviorTree = Class("BehaviorTree", Behavior)
 
 function BehaviorTree:initialize(object, behavior)
@@ -273,6 +324,7 @@ function BehaviorTree:update(dt)
 	return self.behavior:tick(dt, self.context)
 end
 
+local BTClasses = {}
 BTClasses.Behavior 		= Behavior
 BTClasses.Composite  	= Composite
 BTClasses.Sequence 		= Sequence
