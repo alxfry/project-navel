@@ -1,5 +1,5 @@
 local Class = require "smee.libs.middleclass"
-local Player = require "shared.player"
+local Player = require "smee.game_core.player"
 local HymnPlayer = Class("HymnPlayer", Player)
 
 function HymnPlayer:initialize()

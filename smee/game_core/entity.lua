@@ -26,6 +26,11 @@ function Entity:initialize(entityStatics, playerId)
 	self:initPosition(0,0)
 end
 
+function Entity.static.createFromEStat(entityStatic, playerId, ...)
+    local entityClass = require(entityStatic.classSource)
+    return entityClass:new(entityStatic, playerId, ...)
+end
+
 function Entity:setPlayer(playerId)
     self.playerId = playerId
 end

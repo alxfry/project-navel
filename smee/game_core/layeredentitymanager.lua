@@ -1,3 +1,4 @@
+local Class = require "smee.libs.middleclass"
 local EntityManager = require "smee.game_core.entitymanager"
 
 local EntityLayer = Class "EntityLayer"
@@ -27,7 +28,7 @@ function LayeredEntityManager:draw(dt)
 	for i = 1, #layers do
 		local currentLayer = layers[i]
 		if currentLayer.visible then
-			for k = 1, #currentLayer do
+			for k = 1, #currentLayer.entities do
 				local entity = currentLayer.entities[k]
 				entity:draw(dt)
 			end
@@ -35,9 +36,12 @@ function LayeredEntityManager:draw(dt)
 	end
 end
 
+-- Entities can be added by either giving layer name or layer idx
+-- Insertion by index is more efficient
 function LayeredEntityManager:add(entity, layer)
 	EntityManager.add(self, entity)
 
+	-- INSERTION BY LAYER IDX
 	if type(layer) == "number" then
 		local targetLayer = self.layers[layer]
 		self.eIdToLayer[entity.id] = layer
@@ -45,18 +49,27 @@ function LayeredEntityManager:add(entity, layer)
 		return true
 	end
 
+	-- INSERTION BY LAYER NAME
 	if type(layer) == "string" then
 		local layers = self.layers
 		for i = 1, #layers do
 			if layers[i].name == layer then
-				table.insert(layers[i], entity)
+				table.insert(layers[i].entities, entity)
 				self.eIdToLayer[entity.id] = i
 				return true
 			end
 		end
 	end
 
+	-- NO SUCCESS
 	return false
+end
+
+function EntityManager:spawnFromEntityStatic(entityStatic, playerId, layer)
+    local entityClass = require(entityStatic.classSource)
+    local entity = entityClass:new(entityStatic, playerId)
+    self:add(entity, layer)
+    return entity
 end
 
 function LayeredEntityManager:prot_delete(entityId)
@@ -64,9 +77,9 @@ function LayeredEntityManager:prot_delete(entityId)
 	local layerIdx = self.eIdToLayer[entityId]
 	assert(layerIdx, "Entity Id not found in LayeredEntityManager")
 	local layer = self.layers[layerIdx]
-    for i=1, #layer do
-        if layer[i].id == entityId then
-            table.remove(layer, i)
+    for i=1, #layer.entities do
+        if layer.entities[i].id == entityId then
+            table.remove(layer.entities, i)
             break
         end
     end

@@ -1,5 +1,8 @@
-local Building = require "shared.building"
-local LogicCore = require "hymn.logiccore"
+local Entity 		= require "smee.game_core.entity"
+
+local Building  	= require "shared.building"
+
+local LogicCore 	= require "hymn.logiccore"
 local EntityStatics = require "hymn.staticdata.entitystatics"
 
 
@@ -38,7 +41,8 @@ function SpawnPortal:update(dt)
 		
 		if self.timeSinceLastSpawn >= spawnInterval then --not self.hasSpawned and 
 			-- SPAWN
-			local spawn = entityManager:spawnFromEntityStatic(self.spawnEntityStatics, self.playerId)
+			local spawn = Entity.createFromEStat(self.spawnEntityStatics, self.playerId)
+			entityManager:add(spawn, LogicCore.layerId.units)
 			spawn:setPosition(self.position.x, self.position.y)
 			spawn.userPath = {}
 			for k, v in pairs(self.path) do

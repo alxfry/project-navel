@@ -34,9 +34,7 @@ end
 
 function EntityManager:spawnFromEntityStatic(entityStatic, playerId)
     local entityClass = require(entityStatic.classSource)
-    local entity = entityClass:new(entityStatic, playerId)
-    self:add(entity)
-    return entity
+    return entityClass:new(entityStatic, playerId)
 end
 
 function EntityManager:add(entity)

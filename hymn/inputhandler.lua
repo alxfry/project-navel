@@ -1,5 +1,6 @@
-local Class = require "smee.libs.middleclass"
-local GameMath = require "smee.logic.gamemath"
+local Class         = require "smee.libs.middleclass"
+local GameMath      = require "smee.logic.gamemath"
+local Entity        = require "smee.game_core.entity"
 local EntityStatics = require "hymn.staticdata.entitystatics"
 
 local InputHandler = Class "InputHandler"
@@ -87,7 +88,8 @@ function InputHandler:mouseReleased(x, y, button)
     local logicCore = self.logicCore
     if button == "l" then
         if self.mode == "build" then
-            local building = self.logicCore.entityManager:spawnFromEntityStatic(EntityStatics.spawnPortal, 1)
+            local building = Entity.createFromEStat(EntityStatics.spawnPortal, 1)
+            entityManager:add(building, logicCore.layerId.buildings)
             building:setPosition(position.x, position.y)
             self:selectEntity(building.id)
             self.mode = false

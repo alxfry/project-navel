@@ -1,10 +1,12 @@
 local Class = require "smee.libs.middleclass"
 
 local Game 			= require "smee.game_core.game"
-local EntityManager = require "smee.game_core.entitymanager"
-local InputHandler 	= require "hymn.inputhandler"
-local HymnPlayer 	= require "hymn.hymnplayer"
-local MapLoader 	= require "smee.resource_management.maploader"
+local EntityManager = require "smee.game_core.layeredentitymanager"
+local Entity        = require "smee.game_core.entity"
+local MapLoader     = require "smee.resource_management.maploader"
+
+local InputHandler  = require "hymn.inputhandler"
+local HymnPlayer    = require "hymn.hymnplayer"
 local EntityStatics = require "hymn.staticdata.entitystatics"
 
 -- local LogicCore = require "hymn.logiccore"s
@@ -19,17 +21,17 @@ local function spawn(self, object, x, y)
 	local entityManager = self.entityManager
     local entity
     if object.id == 0 then
-        entity = entityManager:spawnFromEntityStatic(EntityStatics.deposit)
+        entity = Entity.createFromEStat(EntityStatics.deposit)
     elseif object.id == 1 then
-    	entity = entityManager:spawnFromEntityStatic(EntityStatics.spawnPortal, 1)
+    	entity = Entity.createFromEStat(EntityStatics.spawnPortal, 1)
         entity:instantBuild()
     elseif object.id == 2 then
-    	entity = entityManager:spawnFromEntityStatic(EntityStatics.spawnPortal, 2)
+    	entity = Entity.createFromEStat(EntityStatics.spawnPortal, 2)
         entity:instantBuild()
     end
 
     if entity then
-        entityManager:add(entity)
+        entityManager:add(entity, self.layerId.buildings)
         entity:setPosition(x, y)
     end
 end
@@ -73,8 +75,15 @@ function HymnGame:init(eMng, iHndlr)
 		[player2.playerId] = player2,
 	}
 
+    drawLayer = {
+        buildings = "bldgs",
+        units = "units"
+    }
+    self.layerId = drawLayer
 	-- TODO: Create and include map component
-	self.entityManager = eMng or  EntityManager:new(self)
+	self.entityManager = eMng or EntityManager:new(self)
+    self.entityManager:addLayer(drawLayer.buildings)
+    self.entityManager:addLayer(drawLayer.units)
 	self:addComponent(self.entityManager)
 	self.inputHandler = iHndlr or InputHandler:new(self)
 	-- self:addComponent(self.inputHandler)
