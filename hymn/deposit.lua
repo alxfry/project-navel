@@ -31,7 +31,7 @@ function Deposit:takeOwnership(player)
     end
 
     if self.owner then
-        self.owner = self.owner.resource - 50
+        self.owner.resource = self.owner.resource - 50
     end
 
     self:setAnimation("images/buildings/" .. player:theme() .. "/resourcesrock.png", 0.1)

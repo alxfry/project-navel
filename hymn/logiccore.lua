@@ -124,7 +124,7 @@ function HymnGame:draw(dt)
 
     -- debug printing the entity paths
     if DEBUG then
-    	require "shared.blocking":draw()
+    	require "smee.logic.blocking":draw()
 	    for id, entity in pairs(self.entityManager.entities) do
 	        if entity.drawPath then
 	            entity:drawPath()

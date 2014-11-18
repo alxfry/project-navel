@@ -42,6 +42,7 @@ end
 local AttackEnemy = Class("AttackEnemy", Behavior)
 
 function AttackEnemy:start()
+	Behavior.start(self)
 	self.attackTick = 0
 end
 
@@ -127,6 +128,7 @@ end
 local RandomMovement = Class("RandomMovement", Behavior)
 
 function RandomMovement:start()
+	Behavior.start(self)
 	self.orientation = math.random() * math.pi * 2
 end
 
@@ -178,6 +180,7 @@ end
 local WorkConstruction = Class("WorkConstruction", Behavior)
 
 function WorkConstruction:start()
+	Behavior.start(self)
 	self.timeWorked = 0
 	self.workTime = 0.7
 end
@@ -208,6 +211,7 @@ function WorkConstruction:update(dt, context)
 	-- dbgprint("WorkConstr")
 end
 
+
 local FindDeposit = Class("FindDeposit", Behavior)
 
 function FindDeposit:update(dt, context)
@@ -216,14 +220,17 @@ function FindDeposit:update(dt, context)
 	local playerId = object.playerId
 	
 	local function isClaimableDeposit(entity)
-		return entity:isInstanceOf(Deposit) and entity.claims[playerId] < 100
+		return entity:isInstanceOf(Deposit) and (entity.claims[playerId] < 100)
 	end
 
 	local target, distance = LogicCore.entityManager:findClosestEntity(object.position, isClaimableDeposit)
 
 	if target then
 		local targetPosition = target:closestPosition(object.position)
-		object:moveTo(targetPosition.x, targetPosition.y)
+		if not object:moveTo(targetPosition.x, targetPosition.y) then
+			-- FAILED TO FIND PATH: There might be a deposit, but no path
+			return STATUS.FAILURE
+		end
 		context.closestDeposit = target
 		self.status = STATUS.SUCCESS
 	else
@@ -236,6 +243,7 @@ end
 local ClaimDeposit = Class("ClaimDeposit", Behavior)
 
 function ClaimDeposit:start()
+	Behavior.start(self)
 	self.timeWorked = 0
 	self.workTime = 0.2
 end

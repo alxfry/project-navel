@@ -32,7 +32,6 @@ function InputHandler:update(dt)
 
     -- dragging
     if self.dragAnchor then
-        -- dbgprint
         self.translate.x = x - self.dragAnchor.x
         self.translate.y = y - self.dragAnchor.y
     end

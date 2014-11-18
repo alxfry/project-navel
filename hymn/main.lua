@@ -1,5 +1,5 @@
 local flux          = require "smee.libs.flux"
-
+-- DEBUG = true
 local HymnGame      = require "hymn.logiccore"
 
 local baseWidth, baseHeight = 1920, 1080

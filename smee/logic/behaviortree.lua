@@ -17,6 +17,9 @@ function Behavior:initialize()
 end
 
 function Behavior:start()
+	if DEBUG then
+		dbgprint(self)
+	end
 end
 
 function Behavior:tick(dt, context)
@@ -316,6 +319,9 @@ function BehaviorTree:initialize(object, behavior)
 end
 
 function BehaviorTree:start()
+	if DEBUG then
+		dbgprint("#### START BEHAVIOR TREE ####")
+	end
 	Behavior.start(self)
 	self.context = { object = self.object }
 end

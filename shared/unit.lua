@@ -24,8 +24,10 @@ function Unit:moveTo(x, y, stopRange)
     self.targetPosition.y = y
     self.stopRange = stopRange or self.stopRange
 
+    -- CAN RETURN NIL! Careful, in one behavior we expected to get always something
     self.waypoints = blocking.findPath(self.position.x, self.position.y,
                                        self.targetPosition.x, self.targetPosition.y)
+    return self.waypoints
 end
 
 function Unit:reachedTarget(target, step)
@@ -61,14 +63,13 @@ function Unit:updateMove(dt)
                 local newPosition = self.position + direction * step
                 self:setPosition(newPosition.x, newPosition.y)
             end
-            -- dbgprint("f")
             return false
         else
-            -- dbgprint("t")
+            self.waypoints = nil
             return true
         end
     end
-    -- dbgprint("t")
+    
     return true
 end
 
