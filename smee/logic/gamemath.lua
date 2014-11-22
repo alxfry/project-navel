@@ -1,5 +1,6 @@
 local Class = require "smee.libs.middleclass"
 
+local EMPTY_TABLE
 ----------------------------------------------------------------------
 
 local function clamp(val, lower, upper)
@@ -243,6 +244,35 @@ function OBB2D.checkCollision(obb1, obb2)
 end
 
 ----------------------------------------------------------------------
+
+local AABB = Class "AABB"
+-- TODO make Transform Class, Use Vector2 Class
+function AABB:initialize(x, y, width, height)
+    self.x
+    self.y
+    self.width
+    self.height
+end
+
+function AABB:checkCollision(otherAABB, myTransform, otherTransform)
+    myTransform = myTransform or EMPTY_TABLE
+    otherTransform = otherTransform or EMPTY_TABLE
+    local myMinX = self.x + (myTransform.x or 0) -- use empty transform instead
+    local myMinY = self.y + (myTransform.y or 0)
+    local myMaxX = myMinX + self.width
+    local myMaxY = myMinY + self.height
+    local otherMinX = otherAABB.x + (otherTransform.y or 0)
+    local otherMinY = otherAABB.y + (otherTransform.y or 0)
+    local otherMaxX = otherMinX + otherAABB.width
+    local otherMaxY = otherMinY + otherAABB.height
+    local otherWidth, otherHeight = otherAABB.width, otherAABB.height
+    local xOverlap =    (otherMinY > myMinY and otherMinY < myMaxY) 
+                     or (otherMaxY > myMinY and otherMaxY < myMaxY)
+    local yOverlap =    (otherMinY > myMinY and otherMinY < myMaxY) 
+                     or (otherMaxY > myMinY and otherMaxY < myMaxY)
+    return yOverlap and xOverlap 
+
+end
 
 return {
     clamp = clamp,

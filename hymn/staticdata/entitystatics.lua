@@ -20,6 +20,7 @@ EntityStatics.spawnPortal = {
 	health = 25,
 	spawnEntityStatics = EntityStatics.basicDecayMinion,
     selectable = true,
+    blockingShape = "circle"
     radius = 126/2,
 }
 
@@ -28,7 +29,9 @@ EntityStatics.deposit = {
 	health = 100,
     selectable = false,
     blocking = true,
-    radius = 64/2,
+    blockingShape = "quad"
+    baseWidth = 64,
+    baseHeight = 64,
 }
 
 return EntityStatics
