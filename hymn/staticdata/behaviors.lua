@@ -27,11 +27,12 @@ function SearchEnemy:update(dt, context)
 	end
 
 	if target then
+		local targetPosition = target:closestPosition(object.position)
+		object.attackTarget = target.id	
 		if distance > 20 then
-			object:moveTo(target.position.x, target.position.y)
+			object:moveTo(targetPosition.x, targetPosition.y)
 			self.status = STATUS.SUCCESS
 		else
-			object.attackTarget = target.id
 			self.status = STATUS.SUCCESS
 		end
 	end
@@ -48,6 +49,7 @@ end
 
 function AttackEnemy:update(dt, context)
 	local targetId = context.object.attackTarget
+	dbgprint(targetId)
 	local enemy = LogicCore.entityManager:entity(targetId)
 	local oldStatus = self.status
 	self.status = STATUS.FAILURE
@@ -55,7 +57,7 @@ function AttackEnemy:update(dt, context)
 	-- 	context.object:setAnimation()
 	if enemy then
 		self.attackTick = self.attackTick + dt
-		if self.attackTick > 1 then
+		if self.attackTick >= 1 then
 			enemy:takeDamage(1)
 			self.attackTick = self.attackTick - 1
 		end
@@ -80,17 +82,13 @@ function FindWaypoint:update(dt, context)
 	-- dbgprint("PathIdx", object.pathIdx)
 	local wpIdx = object.pathIdx
 	local currentWp = userPath[wpIdx]
-	-- dbgprint("current: " .. wpIdx)
 	local nextWp = userPath[wpIdx + 1]
-	-- dbgprint("next: " .. wpIdx + 1)
 	local reachedWp = true
 	if currentWp then
 		reachedWp = object.position:add(-userPath[wpIdx]):sqLength() <= 4
 	end
 	if object.pathIdx == 0 or reachedWp then
 		if nextWp then
-			-- dbgprint(nextWp.x .. " / " .. nextWp.y)
-			-- dbgprint(object.position.x .. " / " .. object.position.y)
 			self.status = STATUS.SUCCESS
 			object:moveTo(nextWp.x, nextWp.y)
 			-- INCREASE PATH TARGET IDX

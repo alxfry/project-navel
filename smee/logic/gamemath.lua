@@ -13,6 +13,47 @@ end
 
 local Vector2 = Class "Vector2"
 
+Vector2.static.Zero = Vector2:new(0,0)
+
+
+-- An intersection implementation for vector segments that makes use of Cramers Law
+function Vector2.static.intersects(v0, v, w0, w)
+    -- IDEA:
+    -- Searching for a solution for v0 + t*v == w0 + u*w (with t and u in [0,1] in this case)
+    -- Therefore we get Matrix (A | b):  t*v - u*w = w0 - v0  
+
+    -- CREATING VECTOR SEGMENTS
+    local vSeg = v - v0
+    local wSeg = w - w0
+    -- NOTE: This is the determinant of the matrix that would represent ( vSeg wSeg | v0-w0 )
+    -- Solving this matrix would give us the intersection point; but let's do a faster approach
+    local determinant = vSeg.x * wSeg.y - vSeg.y * wSeg.x
+
+    -- NO SOLUTION: If the determinant is zero there are no solutions to the matrix described earlier.
+    -- (i.e. the vectors are parallel)
+    if determinant == 0 then
+        return false
+    end
+
+    -- THE RIGHT SIDE OF THE MATRIX
+    local b = w0 - v0
+    -- USE CRAMERS LAW
+    local t = (b.x * vSeg.y - b.y * vSeg.x) / determinant
+    if (t < 0 or t > 1) then
+        -- No intersection was found within the boundaries of vSeg
+        return false
+    end
+
+    local u = (b.x * wSeg.y - b.y * wSeg.x) / determinant
+    if (u < 0 or u > 1) then
+        -- No intersection was found within the boundaries of wSeg
+        return false
+    end
+
+    return true, v0 + t * vSeg
+end
+
+
 function Vector2:initialize(x, y)
 	self.x = x
 	self.y = y
@@ -247,30 +288,43 @@ end
 
 local AABB = Class "AABB"
 -- TODO make Transform Class, Use Vector2 Class
-function AABB:initialize(x, y, width, height)
-    self.x
-    self.y
-    self.width
-    self.height
+function AABB:initialize(cX, cY, width, height)
+    self.pos = Vector2:new(cX, cY)
+    self.width = width
+    self.height = height
+    self.minVec = Vector2:new(self.pos.x - width/2, self.pos.y - height/2)
+    --self.minX = self.pos - width/2
+    --self.maxX = self.pos + width/2
+    --self.minY = self.pos - height/2
+    --self.maxY = self.pos + height/2
 end
 
 function AABB:checkCollision(otherAABB, myTransform, otherTransform)
-    myTransform = myTransform or EMPTY_TABLE
-    otherTransform = otherTransform or EMPTY_TABLE
-    local myMinX = self.x + (myTransform.x or 0) -- use empty transform instead
-    local myMinY = self.y + (myTransform.y or 0)
-    local myMaxX = myMinX + self.width
-    local myMaxY = myMinY + self.height
-    local otherMinX = otherAABB.x + (otherTransform.y or 0)
-    local otherMinY = otherAABB.y + (otherTransform.y or 0)
-    local otherMaxX = otherMinX + otherAABB.width
-    local otherMaxY = otherMinY + otherAABB.height
-    local otherWidth, otherHeight = otherAABB.width, otherAABB.height
-    local xOverlap =    (otherMinY > myMinY and otherMinY < myMaxY) 
-                     or (otherMaxY > myMinY and otherMaxY < myMaxY)
-    local yOverlap =    (otherMinY > myMinY and otherMinY < myMaxY) 
-                     or (otherMaxY > myMinY and otherMaxY < myMaxY)
+    myTransform = myTransform or Vector2.Zero
+    otherTransform = otherTransform or Vector2.Zero
+    local myWorldMin = self.minVec + myTransform
+    local width, height = self.width, self.height 
+    --local myWorldMax = self.minVec
+    local otherWorldMin = otherAABB.minVec + otherTransform
+    --local myPos = self.pos
+    --local otherPos = otherAABB.pos
+    --local myMinX = self.minX + (myTransform.x or 0) -- use empty transform instead
+    --local myMinY = self.minY + (myTransform.y or 0)
+    --local myMaxX = self.maxX + (myTransform.x or 0)
+    --local myMaxY = self.maxY + (myTransform.y or 0)
+    --local otherMinX = otherPos.x + (otherTransform.x or 0)
+    --local otherMinY = otherPos.y + (otherTransform.y or 0)
+    --local otherMaxX = otherMinX + otherAABB.width
+    --local otherMaxY = otherMinY + otherAABB.height
+    local oWidth, oHeight = otherAABB.width, otherAABB.height
+    local xOverlap =    (otherWorldMin.x > myWorldMin.x and otherWorldMin.x < myWorldMin.x + width) 
+                     or (otherWorldMin.x + oWidth > myWorldMin.x and otherWorldMin.x + oWidth < myWorldMin.x + width)
+    local yOverlap =    (otherWorldMin.y > myWorldMin.y and otherWorldMin.y < myWorldMin.y + height) 
+                     or (otherWorldMin.y + oHeight > myWorldMin.y and otherWorldMin.y + oHeight < myWorldMin.y + height)
     return yOverlap and xOverlap 
+end
+
+function AABB:getApproachPos(myTransform, approachVector)
 
 end
 

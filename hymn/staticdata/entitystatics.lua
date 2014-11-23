@@ -10,7 +10,7 @@ EntityStatics.basicDecayMinion = {
 	health = 10,
 	stopRange = 10,
 	speed = 300,
-	decayInterval = 0.3,
+	decayInterval = 40,--0.3,
 	decayAmount = 1,
     selectable = false,
 }
@@ -20,7 +20,7 @@ EntityStatics.spawnPortal = {
 	health = 25,
 	spawnEntityStatics = EntityStatics.basicDecayMinion,
     selectable = true,
-    blockingShape = "circle"
+    blockingShape = "circle",
     radius = 126/2,
 }
 
@@ -29,9 +29,10 @@ EntityStatics.deposit = {
 	health = 100,
     selectable = false,
     blocking = true,
-    blockingShape = "quad"
+    blockingShape = "quad",
     baseWidth = 64,
     baseHeight = 64,
+    radius = 32--(only for testing)
 }
 
 return EntityStatics

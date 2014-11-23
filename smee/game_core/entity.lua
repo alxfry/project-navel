@@ -7,6 +7,8 @@ local Blocking = require "smee.logic.blocking"
 
 local Entity = Class "Entity"
 
+local ROOT_TWO = math.sqrt(2)
+
 function Entity:initialize(entityStatics, playerId)
     for key, value in pairs(entityStatics) do
         self[key] = value
@@ -114,7 +116,7 @@ end
 -- find a position outside the entity closest to point
 function Entity:closestPosition(point)
     local direction = point - self.position
-    local length = self.radius + 5 
+    local length = (self.radius+1) * ROOT_TWO
     direction:normalize()
     return length * direction + self.position
 end

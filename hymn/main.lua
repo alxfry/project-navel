@@ -1,5 +1,5 @@
 local flux          = require "smee.libs.flux"
--- DEBUG = true
+DEBUG = true
 local HymnGame      = require "hymn.logiccore"
 
 local baseWidth, baseHeight = 1920, 1080
@@ -11,7 +11,7 @@ local function load()
     love.window.setTitle("Hymn of Snow and Lava")
     love.window.setMode(baseWidth/2, baseHeight/2, { centered = true, resizable = true })
 
-    HymnGame:load("losttemple")
+    HymnGame:load("testmap")
     HymnGame:init()
 
     -- pan to own base

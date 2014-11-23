@@ -9,13 +9,6 @@ local InputHandler  = require "hymn.inputhandler"
 local HymnPlayer    = require "hymn.hymnplayer"
 local EntityStatics = require "hymn.staticdata.entitystatics"
 
--- local LogicCore = require "hymn.logiccore"s
--- local DecayingUnit = require "hymn.decayingunit"
--- local SpawnPortal = require "hymn.spawnportal"s
--- local Deposit = require "hymn.deposit"
-
--- local EntityStatics = require "hymn.staticdata.entitystatics"
--- local blocking 		= require "smee.logic.blocking"
 
 local function spawn(self, object, x, y)
 	local entityManager = self.entityManager
@@ -143,6 +136,8 @@ function HymnGame:startMap(map)
     		spawn(self, obj.id, obj.x, obj.y)
     	end
     end
+    -- ### ADD DEBUG SPAWNS HERE
+    spawn(self, {id = 2}, 100, 400)
 end
 
 function HymnGame:reset()
