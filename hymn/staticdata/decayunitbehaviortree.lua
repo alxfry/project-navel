@@ -32,10 +32,10 @@ local function createDecayUnitBT()
 	 	constructionJob:addChild(Behaviors.FindConstruction:new())
 	 	constructionJob:addChild(Behaviors.MoveTo:new())
 	 	constructionJob:addChild(Behaviors.WorkConstruction:new())
-    root:addChild(claimDeposit)
-        claimDeposit:addChild(Behaviors.FindDeposit:new())
-        claimDeposit:addChild(Behaviors.MoveTo:new())
-        claimDeposit:addChild(Behaviors.ClaimDeposit:new())
+    -- root:addChild(claimDeposit)
+    --     claimDeposit:addChild(Behaviors.FindDeposit:new())
+    --     claimDeposit:addChild(Behaviors.MoveTo:new())
+    --     claimDeposit:addChild(Behaviors.ClaimDeposit:new())
 
 	return root
 end

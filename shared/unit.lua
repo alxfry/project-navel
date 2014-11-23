@@ -14,7 +14,7 @@ function Unit:initialize(entityStatic, player)
     self.speed = self.speed or 300
     -- self.orientation = orientation
     self.targetPosition = GameMath.Vector2:new(self.position.x, self.position.y)
-    self.stopRange = 1
+    self.stopRange = 30
     self.waypoints = false
     self.dead = false
 end
@@ -42,6 +42,7 @@ function Unit:updateMove(dt)
     if self.waypoints and #self.waypoints > 0 then
         local waypoints = self.waypoints
 
+        -- TODO: not create new vector every turn
         local target = GameMath.Vector2:new(waypoints[1].x, waypoints[1].y)
         local step = dt * self.speed
 
