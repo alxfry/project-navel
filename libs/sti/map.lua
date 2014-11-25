@@ -360,6 +360,7 @@ function Map:setTilesFromImage(index, tileset)
 
 	for y = 1, h do
 		for x = 1, w do
+			local id = gid - tileset.firstgid
 			local qx = (x - 1) * tw + m + (x - 1) * s
 			local qy = (y - 1) * th + m + (y - 1) * s
 			local properties
@@ -367,7 +368,7 @@ function Map:setTilesFromImage(index, tileset)
 			local animation
 
 			for _, tile in pairs(tileset.tiles) do
-				if tile.id == gid - tileset.firstgid then
+				if tile.id == id then
 					properties = tile.properties
 					animation = tile.animation
 					if tile.terrain then
@@ -380,7 +381,7 @@ function Map:setTilesFromImage(index, tileset)
 			end
 
 			local tile = {
-				id 			= gid - tileset.firstgid,
+				id 			= id,
 				gid			= gid,
 				tileset		= index,
 				quad		= quad(qx, qy, tw, th, iw, ih),
