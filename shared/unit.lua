@@ -15,7 +15,7 @@ function Unit:initialize(entityStatic, player)
     -- self.orientation = orientation
     self.targetPosition = GameMath.Vector2:new(self.position.x, self.position.y)
     self.targetEntity = nil
-    self.targetDirection = Vector2:new(0,0)
+    self.targetDirection = GameMath.Vector2:new(0,0)
     self.stopRange = 30
     self.waypoints = false
     self.dead = false
@@ -38,7 +38,7 @@ function Unit:moveToTarget(targetEntity)
     local targetPos = targetEntity:getPosition()
     self.targetEntity = targetEntity
     self.targetPosition = targetPos
-    self.targetDirection = targetPos - self.position 
+    self.targetDirection = targetPos - self.position
 
     self.waypoints = blocking.findPath(self.position.x, self.position.y,
                                        targetPos.x, targetPos.y)
@@ -97,7 +97,7 @@ function Unit:updateMove(dt)
             return true
         end
     end
-    
+
     return true
 end
 
