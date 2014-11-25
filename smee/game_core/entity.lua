@@ -113,6 +113,10 @@ function Entity:setPosition(x, y)
     end
 end
 
+function Entity:getPosition()
+    return self.position
+end
+
 -- find a position outside the entity closest to point
 function Entity:closestPosition(point)
     local direction = point - self.position

@@ -14,21 +14,37 @@ function Unit:initialize(entityStatic, player)
     self.speed = self.speed or 300
     -- self.orientation = orientation
     self.targetPosition = GameMath.Vector2:new(self.position.x, self.position.y)
+    self.targetEntity = nil
+    self.targetDirection = Vector2:new(0,0)
     self.stopRange = 30
     self.waypoints = false
     self.dead = false
 end
 
-function Unit:moveTo(x, y, stopRange)
-    self.targetPosition.x = x
-    self.targetPosition.y = y
+function Unit:moveTo(targetPos, stopRange)
+    -- RESET OLD TARGET / SET NEW
+    self.targetEntity = nil
+    self.targetPosition = targetPos
     self.stopRange = stopRange or self.stopRange
 
     -- CAN RETURN NIL! Careful, in one behavior we expected to get always something
     self.waypoints = blocking.findPath(self.position.x, self.position.y,
-                                       self.targetPosition.x, self.targetPosition.y)
+                                       targetPos.x, targetPos.y)
     return self.waypoints
 end
+
+function Unit:moveToTarget(targetEntity)
+    -- SET NEW TARGET
+    local targetPos = targetEntity:getPosition()
+    self.targetEntity = targetEntity
+    self.targetPosition = targetPos
+    self.targetDirection = targetPos - self.position 
+
+    self.waypoints = blocking.findPath(self.position.x, self.position.y,
+                                       targetPos.x, targetPos.y)
+    return self.waypoints
+end
+
 
 function Unit:reachedTarget(target, step)
     local direction = (target - self.position)
@@ -38,7 +54,18 @@ function Unit:reachedTarget(target, step)
     return length <= step, direction, length
 end
 
+function Unit:checkDirection()
+    if self.targetEntity then
+        -- COMPARE ANGLE TO ANGLE AT PATHFIND: If the angle has changed too much we need to pathfind again
+        local angle = math.acos(self.targetDir:dot(self.targetPosition))
+        if angle > 15 then
+            self:moveToTarget(self.targetEntity)
+        end
+    end
+end
+
 function Unit:updateMove(dt)
+    self:checkDirection()
     if self.waypoints and #self.waypoints > 0 then
         local waypoints = self.waypoints
 

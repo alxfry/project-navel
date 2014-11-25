@@ -30,7 +30,7 @@ function SearchEnemy:update(dt, context)
 		local targetPosition = target:closestPosition(object.position)
 		object.attackTarget = target.id	
 		if distance > 20 then
-			object:moveTo(targetPosition.x, targetPosition.y)
+			object:moveTo(targetPosition)
 			self.status = STATUS.SUCCESS
 		else
 			self.status = STATUS.SUCCESS
@@ -90,7 +90,7 @@ function FindWaypoint:update(dt, context)
 	if object.pathIdx == 0 or reachedWp then
 		if nextWp then
 			self.status = STATUS.SUCCESS
-			object:moveTo(nextWp.x, nextWp.y)
+			object:moveTo(nextWp)
 			-- INCREASE PATH TARGET IDX
 			object.pathIdx = object.pathIdx + 1
 		else
@@ -100,7 +100,7 @@ function FindWaypoint:update(dt, context)
 		-- CORRECT PATH: if target not correctly set update it
 		local targetX, targetY = object:getTargetPosition()
 		if nextWp and ((targetX ~= nextWp.x) or targetY ~= nextWp.y) then
-			object:moveTo(nextWp.x, nextWp.y) 
+			object:moveTo(nextWp) 
 			self.status = STATUS.SUCCESS
 		else
 			-- FOUND NO NEXT NODE
@@ -139,7 +139,7 @@ function RandomMovement:update(dt, context)
 	local newPosition = object.position + direction
 	-- dbgprint(object.id, self.orientation)
 
-	object:moveTo(newPosition.x, newPosition.y)
+	object:moveTo(newPosition)
 	local finished = object:updateMove(dt)
 	
 	return STATUS.RUNNING
@@ -165,7 +165,7 @@ function FindConstruction:update(dt, context)
 	local closestEntity, distance = LogicCore.entityManager:findClosestEntity(object.position, predicate)
 
 	if closestEntity then
-		object:moveTo(closestEntity.position.x, closestEntity.position.y)
+		object:moveTo(closestEntity.position)
 		context.closestEntity = closestEntity
 		self.status = STATUS.SUCCESS
 	else
@@ -225,7 +225,7 @@ function FindDeposit:update(dt, context)
 
 	if target then
 		local targetPosition = target:closestPosition(object.position)
-		if not object:moveTo(targetPosition.x, targetPosition.y) then
+		if not object:moveTo(targetPosition) then
 			-- FAILED TO FIND PATH: There might be a deposit, but no path
 			return STATUS.FAILURE
 		end
