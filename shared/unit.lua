@@ -24,7 +24,8 @@ end
 function Unit:moveTo(targetPos, stopRange)
     -- RESET OLD TARGET / SET NEW
     self.targetEntity = nil
-    self.targetPosition = targetPos
+    self.targetPosition.x = targetPos.x
+    self.targetPosition.y = targetPos.y
     self.stopRange = stopRange or self.stopRange
 
     -- CAN RETURN NIL! Careful, in one behavior we expected to get always something
@@ -37,7 +38,8 @@ function Unit:moveToTarget(targetEntity)
     -- SET NEW TARGET
     local targetPos = targetEntity:getPosition()
     self.targetEntity = targetEntity
-    self.targetPosition = targetPos
+    self.targetPosition.x = targetPos.x
+    self.targetPosition.y = targetPos.y
     self.targetDirection = targetPos - self.position
 
     self.waypoints = blocking.findPath(self.position.x, self.position.y,
