@@ -124,6 +124,19 @@ function Vector2.add(v1, v2, result)
 	end
 end
 
+function Vector2.scalar(v1, num, result)
+    if result then
+        result.x = v1.x * num
+        result.y = v2.x * num
+    else
+        return Vector2:new(v1.x*num, v1.y*num)
+    end
+end
+
+function Vector2.determinant(v1, v2)
+    return v1.x * v2.y - v1.y * v2.x 
+end
+
 function Vector2.dot(v1, v2)
 	return v1.x * v2.x + v1.y * v2.y
 end

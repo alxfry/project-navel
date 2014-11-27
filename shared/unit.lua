@@ -3,6 +3,7 @@ local blocking = require "smee.logic.blocking"
 local GameMath = require "smee.logic.gamemath"
 local Entity   = require "smee.game_core.entity"
 
+local Vector2 = GameMath.Vector2
 
 local Unit = Entity:subclass("Unit")
 
@@ -13,7 +14,7 @@ function Unit:initialize(entityStatic, player)
 
     self.speed = self.speed or 300
     -- self.orientation = orientation
-    self.targetPosition = GameMath.Vector2:new(self.position.x, self.position.y)
+    self.targetPosition = Vector2:new(self.position.x, self.position.y)
     self.targetEntity = nil
     self.targetDirection = Vector2:new(0,0)
     self.stopRange = 30
@@ -21,27 +22,35 @@ function Unit:initialize(entityStatic, player)
     self.dead = false
 end
 
-function Unit:moveTo(targetPos, stopRange)
+function Unit:moveToPosition(targetPos, stopRange)
     -- RESET OLD TARGET / SET NEW
     self.targetEntity = nil
-    self.targetPosition = targetPos
+    self.targetPosition = targetPos:copy()
     self.stopRange = stopRange or self.stopRange
-
+    dbgprint(self.position.x, self.position.y, "--", targetPos.x, targetPos.y)
     -- CAN RETURN NIL! Careful, in one behavior we expected to get always something
-    self.waypoints = blocking.findPath(self.position.x, self.position.y,
+    self.waypoints = {}
+    local rawWPs = blocking.findPath(self.position.x, self.position.y,
                                        targetPos.x, targetPos.y)
+    for i = 1, #rawWPs do
+        table.insert(self.waypoints, Vector2:new(rawWPs[i].x, rawWPs[i].y))
+    end
     return self.waypoints
 end
 
 function Unit:moveToTarget(targetEntity)
     -- SET NEW TARGET
-    local targetPos = targetEntity:getPosition()
+    local targetPos = targetEntity:closestPosition(self.position)
     self.targetEntity = targetEntity
-    self.targetPosition = targetPos
-    self.targetDirection = targetPos - self.position 
-
-    self.waypoints = blocking.findPath(self.position.x, self.position.y,
+    self.targetPosition = targetPos:copy()
+    self.nextPathUpdate = 0.25 + math.random()
+    -- CAN RETURN NIL! Careful, in one behavior we expected to get always something
+    self.waypoints = {}
+    local rawWPs = blocking.findPath(self.position.x, self.position.y,
                                        targetPos.x, targetPos.y)
+    for i = 1, #rawWPs do
+        table.insert(self.waypoints, Vector2:new(rawWPs[i].x, rawWPs[i].y))
+    end
     return self.waypoints
 end
 
@@ -54,23 +63,27 @@ function Unit:reachedTarget(target, step)
     return length <= step, direction, length
 end
 
-function Unit:checkDirection()
+function Unit:updatePath(dt)
+    self.nextPathUpdate = self.nextPathUpdate - dt
+    if self.nextPathUpdate > 0 then
+        -- lets check later 
+        return
+    end 
     if self.targetEntity then
-        -- COMPARE ANGLE TO ANGLE AT PATHFIND: If the angle has changed too much we need to pathfind again
-        local angle = math.acos(self.targetDir:dot(self.targetPosition))
-        if angle > 15 then
+        local newTargetPos = self.targetEntity:closestPosition(self.position)
+        local dist = self.targetPosition - newTargetPos
+        if dist:sqLength() > 4 then
             self:moveToTarget(self.targetEntity)
         end
     end
 end
 
 function Unit:updateMove(dt)
-    self:checkDirection()
+    self:updatePath(dt)
     if self.waypoints and #self.waypoints > 0 then
         local waypoints = self.waypoints
 
-        -- TODO: not create new vector every turn
-        local target = GameMath.Vector2:new(waypoints[1].x, waypoints[1].y)
+        local target = waypoints[1]
         local step = dt * self.speed
 
         local reached, direction, length = self:reachedTarget(target, step)
