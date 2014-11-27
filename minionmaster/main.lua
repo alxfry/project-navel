@@ -1,4 +1,5 @@
 -- require "libs.cupid"
+DEBUG = false
 
 -- lock down the globals table for performance and error detection
 setmetatable(_G, {

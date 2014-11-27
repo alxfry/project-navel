@@ -16,7 +16,7 @@ function Unit:initialize(entityStatic, player)
     -- self.orientation = orientation
     self.targetPosition = Vector2:new(self.position.x, self.position.y)
     self.targetEntity = nil
-    self.targetDirection = Vector2:new(0,0)
+    self.targetDirection = GameMath.Vector2:new(0,0)
     self.stopRange = 30
     self.waypoints = false
     self.dead = false
@@ -25,7 +25,8 @@ end
 function Unit:moveToPosition(targetPos, stopRange)
     -- RESET OLD TARGET / SET NEW
     self.targetEntity = nil
-    self.targetPosition = targetPos:copy()
+    self.targetPosition.x = targetPos.x
+    self.targetPosition.y = targetPos.y
     self.stopRange = stopRange or self.stopRange
     dbgprint(self.position.x, self.position.y, "--", targetPos.x, targetPos.y)
     -- CAN RETURN NIL! Careful, in one behavior we expected to get always something
@@ -42,7 +43,8 @@ function Unit:moveToTarget(targetEntity)
     -- SET NEW TARGET
     local targetPos = targetEntity:closestPosition(self.position)
     self.targetEntity = targetEntity
-    self.targetPosition = targetPos:copy()
+    self.targetPosition.x = targetPos.x
+    self.targetPosition.y = targetPos.y
     self.nextPathUpdate = 0.25 + math.random()
     -- CAN RETURN NIL! Careful, in one behavior we expected to get always something
     self.waypoints = {}
@@ -110,7 +112,7 @@ function Unit:updateMove(dt)
             return true
         end
     end
-    
+
     return true
 end
 

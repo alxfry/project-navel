@@ -67,7 +67,7 @@ local GotoTargetBehavior = Class("GotoTargetBehavior", Behavior)
 
 function GotoTargetBehavior:update(dt, context)
     local object = context.object
-    object:moveToPosition(object.target.position.x, object.target.position.y, object.target.spriteSize / 2)
+    object:moveToPosition(object.target.position, object.target.spriteSize / 2)
     if not object.waypoints or #object.waypoints < 1 then
         self.status = STATUS.FAILURE
     else
@@ -94,9 +94,9 @@ function GotoTargetWithEnemySearchBehavior:update(dt, context)
             self.status = STATUS.FAILURE
         end
     end
-    
+
     local status = GotoTargetBehavior.update(self, dt, context)
-    
+
     if self.status ~= STATUS.FAILURE then
         self.status = status
     end
