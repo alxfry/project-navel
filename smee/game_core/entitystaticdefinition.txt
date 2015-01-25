@@ -1,0 +1,20 @@
+-- EntityStatic Definition:
+
+EntityStatic := <EntityUID> = {
+	List<KeyVal>,
+	List<Component>,
+}
+
+EntityUID := string
+
+List<ItemType> := Item1, Item2, ..., ItemN
+
+Component := ComponentName = { List<KeyVal> }
+
+ComponentName := string | Name of Subclass of smee.game_core.entitycomponent.lua
+
+KeyVal := Key = Val
+
+
+
+

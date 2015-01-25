@@ -37,10 +37,12 @@ function Entity:setPlayer(playerId)
     self.playerId = playerId
 end
 
-function Entity:addAnimation(animationKey, imagePath, delay, onLoop)
-    local image = love.graphics.newImage(imagePath)
+function Entity:addAnimation(animationKey, image, delay, onLoop)
+    if type(image) == "string" then
+        image = love.graphics.newImage(image)
+    end
     local imageWidth, imageHeight = image:getDimensions()
-    local frameWidth, frameHeight = imageHeight, imageHeight
+    local frameWidth, frameHeight = 64, 64
     local grid = anim8.newGrid(frameWidth, frameHeight, imageWidth, imageHeight)
     local frames = imageWidth / frameWidth
 

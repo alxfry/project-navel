@@ -1,0 +1,398 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"Entity",
+				"entityManager"
+			],
+			[
+				"mainC",
+				"mainCharacter"
+			],
+			[
+				"_",
+				"_theGame"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "main.lua",
+			"settings":
+			{
+				"buffer_size": 1348,
+				"line_ending": "Windows",
+				"name": "local flux          = require \"smee.libs.flux\""
+			}
+		},
+		{
+			"file": "navelgame.lua",
+			"settings":
+			{
+				"buffer_size": 1648,
+				"line_ending": "Windows",
+				"name": "-- NavelGame Class"
+			}
+		},
+		{
+			"file": "smee/game_core/entity.lua",
+			"settings":
+			{
+				"buffer_size": 4041,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "libs/anim8.lua",
+			"settings":
+			{
+				"buffer_size": 8141,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "smee/game_core/game.lua",
+			"settings":
+			{
+				"buffer_size": 968,
+				"line_ending": "Windows"
+			}
+		}
+	],
+	"build_system": "Packages/User/love.sublime-build",
+	"command_palette":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"console":
+	{
+		"height": 146.0,
+		"history":
+		[
+			"love C:\\Users\\Florian\\Documents\\GitHub\\project-navel\\project-navel --console",
+			"love \"C:\\Users\\Florian\\Documents\\GitHub\\project-navel\\project-navel\" --console",
+			"love \"C:\\Users\\Florian\\Documents\\GitHub\\project-navel\\project-navel\\\" --console"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/C/Users/Florian/Documents/GitHub/project-navel/project-navel",
+		"/C/Users/Florian/Documents/GitHub/project-navel/project-navel/smee",
+		"/C/Users/Florian/Documents/GitHub/project-navel/project-navel/smee/game_core"
+	],
+	"file_history":
+	[
+		"/C/Users/Florian/AppData/Roaming/Sublime Text 3/Packages/User/love.sublime-build",
+		"/C/Users/Florian/Documents/GitHub/project-navel/project-navel/smee/game_core/layeredentitymanager.lua",
+		"/C/Users/Florian/Documents/GitHub/project-navel/project-navel/libs/anim8.lua",
+		"/C/Users/Florian/Documents/GitHub/project-navel/project-navel/libs/flux.lua",
+		"/C/Users/Florian/AppData/Roaming/Sublime Text 3/Packages/Default/Default (Windows).sublime-keymap",
+		"/C/Users/Florian/AppData/Roaming/Sublime Text 3/Packages/User/Default (Windows).sublime-keymap",
+		"/C/Users/Florian/AppData/Roaming/Sublime Text 3/Packages/Default/Preferences.sublime-settings",
+		"/C/Users/Florian/Documents/GitHub/project-navel/project-navel/sound/cannon 01 jay.wav",
+		"/C/Users/Florian/Documents/GitHub/project-navel/project-navel/libs/jumper/core/node.lua",
+		"/C/Users/Florian/Documents/GitHub/project-navel/project-navel/raw_images/nerd.xcf",
+		"/C/Users/Florian/Documents/GitHub/project-navel/project-navel/libs/jumper/grid.lua"
+	],
+	"find":
+	{
+		"height": 26.0
+	},
+	"find_in_files":
+	{
+		"height": 90.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": true,
+		"find_history":
+		[
+			"Game",
+			"HymnGame",
+			"NavelGame"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 1,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "main.lua",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1348,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								223,
+								223
+							]
+						],
+						"settings":
+						{
+							"auto_name": "local flux          = require \"smee.libs.flux\"",
+							"syntax": "Packages/Lua/Lua.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "navelgame.lua",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1648,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								984,
+								984
+							]
+						],
+						"settings":
+						{
+							"auto_name": "-- NavelGame Class",
+							"syntax": "Packages/Lua/Lua.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 216.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "smee/game_core/entity.lua",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 4041,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								953,
+								953
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Lua/Lua.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "libs/anim8.lua",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 8141,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2877,
+								2881
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Lua/Lua.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1193.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "smee/game_core/game.lua",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 968,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								419,
+								419
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Lua/Lua.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 216.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 26.0
+	},
+	"input":
+	{
+		"height": 0.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.exec":
+	{
+		"height": 118.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"project": "p-navel.sublime-project",
+	"replace":
+	{
+		"height": 48.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+			[
+				"anim",
+				"libs\\anim8.lua"
+			],
+			[
+				"f",
+				"libs\\flux.lua"
+			],
+			[
+				"game",
+				"smee\\game_core\\game.lua"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": false,
+	"side_bar_width": 236.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

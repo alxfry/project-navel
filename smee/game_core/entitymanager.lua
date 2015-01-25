@@ -2,8 +2,6 @@ local Class         = require "smee.libs.middleclass"
 local Game          = require "smee.game_core.game"
 local GameComponent = require "smee.game_core.gamecomponent"
 local GameMath      = require "smee.logic.gamemath"
-local Building      = require "shared.building"
-local Unit          = require "shared.unit"
 
 local EntityManager = GameComponent:subclass("EntityManager")
 
