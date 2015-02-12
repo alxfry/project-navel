@@ -1,7 +1,7 @@
 -- Documentation:
 -- https://love2d.org/wiki/Config_Files
 
-local baseWidth, baseHeight = 1920, 1080
+local baseWidth, baseHeight = 1280, 720
 
 function love.conf(t)
     t.title = "SpiceMinons Engine"
@@ -14,8 +14,8 @@ function love.conf(t)
 
     t.window.fullscreen = false
     t.window.fullscreentype = "desktop"
-    t.window.resizable = true
+    t.window.resizable = false
     t.window.vsync = true
-    t.window.width = baseWidth/2
-    t.window.height = baseHeight/2
+    t.window.width = baseWidth
+    t.window.height = baseHeight
 end

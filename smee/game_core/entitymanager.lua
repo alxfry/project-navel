@@ -5,8 +5,8 @@ local GameMath      = require "smee.logic.gamemath"
 
 local EntityManager = GameComponent:subclass("EntityManager")
 
-function EntityManager:initialize(logicCore)
-    self.logicCore = logicCore
+function EntityManager:initialize(game)
+    self.game = game
     self.nextId = 1
     self.entities = {}
 end

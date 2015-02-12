@@ -7,7 +7,7 @@ local _theGame
 
 function love.load()
     love.window.setTitle("Project Navel")
-    love.window.setMode(baseWidth/2, baseHeight/2, { centered = true, resizable = true })
+    -- love.window.setMode(baseWidth/2, baseHeight/2, { centered = true, resizable = true })
     _theGame = NavelGame:new()
 
     _theGame:load()
@@ -21,7 +21,6 @@ end
 
 
 function love.draw(dt)
-    love.graphics.print("Hello World")
     _theGame:draw(dt)
 end
 

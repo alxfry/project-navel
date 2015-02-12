@@ -4,6 +4,22 @@
 		"selected_items":
 		[
 			[
+				"scal",
+				"scaleHeight"
+			],
+			[
+				"scale",
+				"scaleWidth"
+			],
+			[
+				"window",
+				"windowHeight"
+			],
+			[
+				"wi",
+				"windowWidth"
+			],
+			[
 				"Entity",
 				"entityManager"
 			],
@@ -23,7 +39,7 @@
 			"file": "main.lua",
 			"settings":
 			{
-				"buffer_size": 1348,
+				"buffer_size": 1350,
 				"line_ending": "Windows",
 				"name": "local flux          = require \"smee.libs.flux\""
 			}
@@ -32,17 +48,60 @@
 			"file": "navelgame.lua",
 			"settings":
 			{
-				"buffer_size": 1648,
+				"buffer_size": 2007,
 				"line_ending": "Windows",
 				"name": "-- NavelGame Class"
+			}
+		},
+		{
+			"file": "SKoA_Sandbox/mapcomponent.lua",
+			"settings":
+			{
+				"buffer_size": 531,
+				"line_ending": "Windows",
+				"name": "local GameComponent = require \"smee.game_core.game"
 			}
 		},
 		{
 			"file": "smee/game_core/entity.lua",
 			"settings":
 			{
-				"buffer_size": 4041,
+				"buffer_size": 4060,
 				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "components/animationcomponent.lua",
+			"settings":
+			{
+				"buffer_size": 701,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "smee/game_core/entitystaticdefinition.txt",
+			"settings":
+			{
+				"buffer_size": 315,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "smee/game_core/entitymanager.lua",
+			"settings":
+			{
+				"buffer_size": 2574,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"contents": "Searching 135 files for \"GameComponent:subclass\"\n\nD:\\alexander.frey\\Documents\\project-navel\\SKoA_Sandbox\\mapcomponent:\n    1  local GameComponent = require \"smee.game_core.gamecomponent\"\n    2  \n    3: local MapComponent = GameComponent:subclass(\"MapComponent\")\n\nD:\\alexander.frey\\Documents\\project-navel\\SKoA_Sandbox\\mapcomponent.lua:\n    1  local GameComponent = require \"smee.game_core.gamecomponent\"\n    2  \n    3: local MapComponent = GameComponent:subclass(\"MapComponent\")\n    4  \n    5  \n\nD:\\alexander.frey\\Documents\\project-navel\\smee\\game_core\\entitymanager.lua:\n    4  local GameMath      = require \"smee.logic.gamemath\"\n    5  \n    6: local EntityManager = GameComponent:subclass(\"EntityManager\")\n    7  \n    8  function EntityManager:initialize(game)\n\n3 matches across 3 files\n",
+			"settings":
+			{
+				"buffer_size": 789,
+				"line_ending": "Windows",
+				"name": "Find Results",
+				"scratch": true
 			}
 		},
 		{
@@ -60,9 +119,17 @@
 				"buffer_size": 968,
 				"line_ending": "Windows"
 			}
+		},
+		{
+			"file": "smee/game_core/gamecomponent.lua",
+			"settings":
+			{
+				"buffer_size": 231,
+				"line_ending": "Windows"
+			}
 		}
 	],
-	"build_system": "Packages/User/love.sublime-build",
+	"build_system": "Packages/User/LoveBuildSys.sublime-build",
 	"command_palette":
 	{
 		"height": 0.0,
@@ -92,12 +159,33 @@
 	},
 	"expanded_folders":
 	[
-		"/C/Users/Florian/Documents/GitHub/project-navel/project-navel",
-		"/C/Users/Florian/Documents/GitHub/project-navel/project-navel/smee",
-		"/C/Users/Florian/Documents/GitHub/project-navel/project-navel/smee/game_core"
+		"/D/alexander.frey/Documents/project-navel"
 	],
 	"file_history":
 	[
+		"/D/alexander.frey/Documents/project-navel/maps/testmap.tmx",
+		"/D/alexander.frey/Documents/project-navel/smee/game_core/entitystaticdefinition.txt",
+		"/D/alexander.frey/Documents/project-navel/maps/testmap.lua",
+		"/D/alexander.frey/Documents/project-navel/smee/game_core/gamecomponent.lua",
+		"/D/alexander.frey/Documents/project-navel/smee/game_core/layeredentitymanager.lua",
+		"/D/alexander.frey/Documents/project-navel/smee/game_core/player.lua",
+		"/D/alexander.frey/Documents/project-navel/smee/input_management/controllerbindings.lua",
+		"/D/alexander.frey/Documents/project-navel/smee/dbginit.lua",
+		"/D/alexander.frey/Documents/project-navel/smee/game_core/entitymanager.lua",
+		"/D/alexander.frey/Documents/project-navel/smee/game_core/entitycomponent.lua",
+		"/D/alexander.frey/Documents/project-navel/smee/libs/middleclass.lua",
+		"/D/alexander.frey/Documents/project-navel/libs/slam.lua",
+		"/D/alexander.frey/Documents/project-navel/smee/logic/behaviortree.lua",
+		"/D/alexander.frey/Documents/project-navel/smee/logic/blocking.lua",
+		"/D/alexander.frey/Documents/project-navel/smee/logic/gamemath.lua",
+		"/D/alexander.frey/Documents/project-navel/maps/losttemple.lua",
+		"/D/alexander.frey/Documents/project-navel/LICENSE",
+		"/D/alexander.frey/Documents/project-navel/smee/libs/sti/init.lua",
+		"/D/alexander.frey/Documents/project-navel/smee/libs/quickie/init.lua",
+		"/D/alexander.frey/Documents/project-navel/libs/sti/init.lua",
+		"/D/alexander.frey/Documents/project-navel/libs/quickie/init.lua",
+		"/D/alexander.frey/Documents/project-navel/raw_images/manaIcon.xcf",
+		"/C/Users/alexander.frey/AppData/Roaming/Sublime Text 3/Packages/User/LoveBuildSys.sublime-build",
 		"/C/Users/Florian/AppData/Roaming/Sublime Text 3/Packages/User/love.sublime-build",
 		"/C/Users/Florian/Documents/GitHub/project-navel/project-navel/smee/game_core/layeredentitymanager.lua",
 		"/C/Users/Florian/Documents/GitHub/project-navel/project-navel/libs/anim8.lua",
@@ -112,20 +200,24 @@
 	],
 	"find":
 	{
-		"height": 26.0
+		"height": 38.0
 	},
 	"find_in_files":
 	{
 		"height": 90.0,
 		"where_history":
 		[
+			""
 		]
 	},
 	"find_state":
 	{
-		"case_sensitive": true,
+		"case_sensitive": false,
 		"find_history":
 		[
+			"GameComponent:subclass",
+			"logicCore",
+			"mainchar",
 			"Game",
 			"HymnGame",
 			"NavelGame"
@@ -155,15 +247,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1348,
+						"buffer_size": 1350,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								223,
-								223
+								470,
+								470
 							]
 						],
 						"settings":
@@ -177,7 +269,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 4,
+					"stack_index": 8,
 					"type": "text"
 				},
 				{
@@ -186,15 +278,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1648,
+						"buffer_size": 2007,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								984,
-								984
+								190,
+								190
 							]
 						],
 						"settings":
@@ -202,8 +294,8 @@
 							"auto_name": "-- NavelGame Class",
 							"syntax": "Packages/Lua/Lua.tmLanguage"
 						},
-						"translation.x": 0.0,
-						"translation.y": 216.0,
+						"translation.x": -0.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
@@ -211,19 +303,48 @@
 				},
 				{
 					"buffer": 2,
-					"file": "smee/game_core/entity.lua",
+					"file": "SKoA_Sandbox/mapcomponent.lua",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 4041,
+						"buffer_size": 531,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								953,
-								953
+								527,
+								527
+							]
+						],
+						"settings":
+						{
+							"auto_name": "local GameComponent = require \"smee.game_core.game",
+							"syntax": "Packages/Lua/Lua.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "smee/game_core/entity.lua",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 4060,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2250,
+								2250
 							]
 						],
 						"settings":
@@ -233,14 +354,153 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 990.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 5,
 					"type": "text"
 				},
 				{
-					"buffer": 3,
+					"buffer": 4,
+					"file": "components/animationcomponent.lua",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 701,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								322,
+								332
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Lua/Lua.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 6,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "smee/game_core/entitystaticdefinition.txt",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 315,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 7,
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "smee/game_core/entitymanager.lua",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2574,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								242,
+								264
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Lua/Lua.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 789,
+						"regions":
+						{
+							"match":
+							{
+								"flags": 112,
+								"regions":
+								[
+									[
+										223,
+										245
+									],
+									[
+										440,
+										462
+									],
+									[
+										668,
+										690
+									]
+								],
+								"scope": ""
+							}
+						},
+						"selection":
+						[
+							[
+								449,
+								449
+							]
+						],
+						"settings":
+						{
+							"detect_indentation": false,
+							"line_numbers": false,
+							"output_tag": 1,
+							"result_base_dir": "",
+							"result_file_regex": "^([A-Za-z\\\\/<].*):$",
+							"result_line_regex": "^ +([0-9]+):",
+							"scroll_past_end": true,
+							"syntax": "Packages/Default/Find Results.hidden-tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 8,
 					"file": "libs/anim8.lua",
 					"semi_transient": false,
 					"settings":
@@ -266,11 +526,11 @@
 						"translation.y": 1193.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 3,
+					"stack_index": 10,
 					"type": "text"
 				},
 				{
-					"buffer": 4,
+					"buffer": 9,
 					"file": "smee/game_core/game.lua",
 					"semi_transient": false,
 					"settings":
@@ -282,8 +542,8 @@
 						"selection":
 						[
 							[
-								419,
-								419
+								445,
+								445
 							]
 						],
 						"settings":
@@ -292,10 +552,38 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 216.0,
+						"translation.y": 48.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 9,
+					"type": "text"
+				},
+				{
+					"buffer": 10,
+					"file": "smee/game_core/gamecomponent.lua",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 231,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								206,
+								209
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Lua/Lua.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
 					"type": "text"
 				}
 			]
@@ -307,7 +595,7 @@
 	},
 	"input":
 	{
-		"height": 0.0
+		"height": 38.0
 	},
 	"layout":
 	{
@@ -351,6 +639,38 @@
 		"height": 0.0,
 		"selected_items":
 		[
+			[
+				"gamecom",
+				"smee\\game_core\\gamecomponent.lua"
+			],
+			[
+				"entityman",
+				"smee\\game_core\\entitymanager.lua"
+			],
+			[
+				"estat",
+				"smee\\game_core\\entitystaticdefinition.txt"
+			],
+			[
+				"animation",
+				"components\\animationcomponent.lua"
+			],
+			[
+				"entity",
+				"smee\\game_core\\entity.lua"
+			],
+			[
+				"entityma",
+				"smee\\game_core\\entitymanager.lua"
+			],
+			[
+				"gameco",
+				"smee\\game_core\\gamecomponent.lua"
+			],
+			[
+				"smee",
+				"smee\\game_core\\game.lua"
+			],
 			[
 				"anim",
 				"libs\\anim8.lua"

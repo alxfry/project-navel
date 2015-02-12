@@ -81,7 +81,7 @@ end
 function Entity:draw(dt)
     local x, y = self.position.x, self.position.y
     if self.animation then
-        self.animation:draw(self.image, x, y, self.orientation, self.scale, self.scale, self.spriteSize/2, self.spriteSize/2)
+        self.animation:draw(self.image, x, y, self.orientation, self.scale, self.scale)--, self.spriteSize/2, self.spriteSize/2)
     else
         love.graphics.circle("fill", x, y, self.radius, self.radius)
     end
