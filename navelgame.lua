@@ -24,7 +24,7 @@ function NavelGame:load()
 		spritesheets = {},
 	}
 	sourcePath = "/resources/c_mustache.png"
-	resources.spritesheets[sourcePath] = love.graphics.newImage(sourcePath)
+	NavelGame.static.resources.spritesheets[sourcePath] = love.graphics.newImage(sourcePath)
 end
 
 -- CALLED ON GAME INIT
@@ -36,10 +36,11 @@ function NavelGame:init()
 	self:addComponent(self.entityManager)
 
 	local mainChar = Entity:new({})
-	mainChar:addAnimation("Explain_Right", resources.spritesheets.mainChar, 0.15)
+    local mainCharSpriteSheet = NavelGame.static.resources.spritesheets["/resources/c_mustache.png"]
+	mainChar:addAnimation("Explain_Right", mainCharSpriteSheet, 0.15)
 	mainChar:setAnimation("Explain_Right")
 
-	local bwaa = anim8.newGrid(64,64,resources.spritesheets.mainChar:getWidth(),resources.spritesheets.mainChar:getHeight())
+	local bwaa = anim8.newGrid(64,64, mainCharSpriteSheet:getWidth(), mainCharSpriteSheet:getHeight())
 	NavelGame.mainAnimation = anim8.newAnimation(bwaa('1-7',4), 0.2)
 end
 
@@ -60,7 +61,7 @@ function NavelGame:draw(dt)
 	for i = 1, #components do
 		components[i]:draw(dt)
 	end
-	NavelGame.mainAnimation:draw(resources.spritesheets.mainChar,200,200)
+	NavelGame.mainAnimation:draw(NavelGame.static.resources.spritesheets["/resources/c_mustache.png"],200,200)
 end
 
 return NavelGame
