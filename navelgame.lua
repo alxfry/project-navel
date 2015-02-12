@@ -16,6 +16,7 @@ local NavelGame = Game:subclass("NavelGame")
 NavelGame.static.resources = {
 	spritesheets = {},
     images = {},
+    componentClasses = {},
 }
 
 local resources = NavelGame.static.resources
@@ -27,8 +28,8 @@ function NavelGame:load()
 	NavelGame.resources = {
 		spritesheets = {},
 	}
-	sourcePath = "/resources/c_mustache.png"
-	NavelGame.static.resources.spritesheets[sourcePath] = love.graphics.newImage(sourcePath)
+	-- sourcePath = "/resources/c_mustache.png"
+	-- NavelGame.static.resources.spritesheets[sourcePath] = love.graphics.newImage(sourcePath)
     NavelGame.static.resources.images["BGImage"] = love.graphics.newImage("/skoa_sandbox/resources/grass_wallpaper.jpg")
 end
 
@@ -42,6 +43,11 @@ function NavelGame:init()
 
 	self.entityManager = EntityManager:new(self)
 	self:addComponent(self.entityManager)
+
+    -- local myEntity = Entity:new({})
+    -- myEntity:setPosition(100, 100)
+
+    -- self.entityManager:add(myEntity)
 
 	-- mainChar = Entity:new({})
  --    local mainCharSpriteSheet = NavelGame.static.resources.spritesheets["/resources/c_mustache.png"]

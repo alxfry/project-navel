@@ -16,8 +16,6 @@ function Entity:initialize(entityStatics, playerId)
 
     self.alpha = self.alpha or 255
     self.scale = self.scale or 1
-    self.health = self.health or 0
-    self.maxHealth = self.health
     self.orientation = 0
     self.id = 0
     self.animations = {}
@@ -26,6 +24,7 @@ function Entity:initialize(entityStatics, playerId)
     self.radius = self.radius or 10
     self:setPlayer(playerId)
 	self:initPosition(0,0)
+    self.components = {}
 end
 
 function Entity.static.createFromEStat(entityStatic, playerId, ...)
@@ -73,18 +72,24 @@ function Entity:setRandomStartAnimationTime()
 end
 
 function Entity:update(dt)
-    if self.animation then
-        self.animation:update(dt)
+    for i = 1, #self.components do
+        self.components[i]:update(dt)
     end
+    -- if self.animation then
+    --     self.animation:update(dt)
+    -- end
 end
 
 function Entity:draw(dt)
     local x, y = self.position.x, self.position.y
-    if self.animation then
-        self.animation:draw(self.image, x, y, self.orientation, self.scale, self.scale)--, self.spriteSize/2, self.spriteSize/2)
-    else
-        love.graphics.circle("fill", x, y, self.radius, self.radius)
+    -- if self.animation then
+    --     self.animation:draw(self.image, x, y, self.orientation, self.scale, self.scale)--, self.spriteSize/2, self.spriteSize/2)
+    -- else
+    for i = 1, #self.components do
+        self.components[i]:draw(dt)
     end
+    love.graphics.circle("fill", x, y, self.radius, self.radius)
+    -- end
 end
 
 function Entity:delete()
@@ -127,12 +132,8 @@ function Entity:closestPosition(point)
     return length * direction + self.position
 end
 
-function Entity:addHealth(amount)
-    self.health = self.health + amount
-end
-
-function Entity:takeDamage(dmg)
-    self.health = self.health - dmg
+function Entity:addComponent(componentClass)
+    self.components[#self.components + 1] = componentClass:new(self)
 end
 
 return Entity
