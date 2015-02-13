@@ -5,7 +5,7 @@ local EntityDefinitions = require "skoa_sandbox.statics.entitydefinitions"
 
 local BattlefieldComponent = EntityComponent:subclass("BattlefieldComponent")
 
-function BattlefieldComponent:init(battlefieldStatics, playerId)
+function BattlefieldComponent:init(owner, battlefieldStatics, playerId)
 	print("BattlefieldComponent:init(" .. tostring(battlefieldStatics) .. ", " .. tostring(playerId) .. ")")
 
 	self.units = {}
