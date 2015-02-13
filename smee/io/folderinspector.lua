@@ -14,7 +14,6 @@ local function trim(s)
 end
 
 local function capture(command)
-    dbgprint(command)
     local f = assert(io.popen(command, 'r'))
     local s = assert(f:read('*a'))
     f:close()
@@ -22,6 +21,22 @@ local function capture(command)
 end
 
 local uniqueNames = {}
+
+local function escapeMagicCharacters(string)
+    local escapedString = string
+    escapedString = string.gsub(escapedString, "%(", "%%%(")
+    escapedString = string.gsub(escapedString, "%)", "%%%)")
+    escapedString = string.gsub(escapedString, "%%", "%%%%")
+    escapedString = string.gsub(escapedString, "%+", "%%%+")
+    escapedString = string.gsub(escapedString, "%-", "%%%-")
+    escapedString = string.gsub(escapedString, "%*", "%%%*")
+    escapedString = string.gsub(escapedString, "%?", "%%%?")
+    escapedString = string.gsub(escapedString, "%[", "%%%[")
+    escapedString = string.gsub(escapedString, "%^", "%%%^")
+    escapedString = string.gsub(escapedString, "%$", "%%%$")
+    return escapedString
+end
+
 
 local function inspect(inspectType, ...)
     inspectType = inspectType or InspectTypeEnum.FULL_PATH
@@ -53,11 +68,13 @@ end
 local function inspectList(inspectType, ...)
     inspectType = inspectType or InspectTypeEnum.FULL_PATH
     local dir = (...) or capture('cd')
+    -- dbgprint(capture('dir ' .. (...)))
     local dirPattern = "^(.-)([^\\]-([^\\%.]+))\n"
     local listing = capture(format('DIR /S /B "%s"', dir)) .. '\n'
     -- gets the absolute path of the first file, is identical if dir is not relative
     local fullDir = string.match(listing, dirPattern)
-    local pattern = fullDir .. "([%S_]+)%.([%S_]+)\n"
+    local escapedFullDir = escapeMagicCharacters(fullDir)
+    local pattern = escapedFullDir .. "([%S_]+)%.([%S_]+)\n"
     local result = {}
     if inspectType == InspectTypeEnum.FULL_PATH then
         for name, extension in string.gmatch(listing, pattern) do
