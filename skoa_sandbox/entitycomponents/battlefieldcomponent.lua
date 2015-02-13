@@ -12,8 +12,7 @@ function BattlefieldComponent:init(battlefieldStatics, playerId)
 
 	-- Instantiate units.
 	for i, unitDescription in ipairs(battlefieldStatics.units) do
-		local newUnit = UnitComponent:new()
-		newUnit:init(EntityDefinitions[unitDescription.unitId])
+		local newUnit = Entity.static.createFromEStat(EntityDefinitions[unitDescription.unitId], 1)
 		self.units[#self.units + 1] = newUnit
 		print("Added unit '" .. unitDescription.unitId .. "' to battlefield")
 	end

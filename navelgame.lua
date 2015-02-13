@@ -40,12 +40,28 @@ function NavelGame:init()
 	self.entityManager = EntityManager:new(self)
 	self:addComponent(self.entityManager)
     -- ++ DEBUG CODE EXAMPLE: Howto create an entity
-    local myKnight = Entity.static.createFromEStat(self.resources.entityStatics.Knight, 1)
-    dbgprint(myKnight:getComponent("UnitComponent").initialHealth)
-    self.entityManager:add(myKnight)
+    -- local myKnight = Entity.static.createFromEStat(self.resources.entityStatics.Knight, 1)
+    -- dbgprint(myKnight:getComponent("UnitComponent").initialHealth)
+    -- self.entityManager:add(myKnight)
     -- -- DEBUG CODE EXAMPLE
 	-- ++ DEBUG CODE EXAMPLE: Howto create an entity
+
+	-- Create first encounter entity. Entity holds a battlefield component which has its units in 'units'.
 	local firstEncounter = Entity.static.createFromEStat(self.resources.entityStatics.FirstEncounter, 1)
+	self.entityManager:add(firstEncounter)
+
+    -- local myEntity = Entity:new({})
+    -- myEntity:setPosition(100, 100)
+
+    -- self.entityManager:add(myEntity)
+
+	-- mainChar = Entity:new({})
+ --    local mainCharSpriteSheet = NavelGame.static.resources.spritesheets["/resources/c_mustache.png"]
+	-- mainChar:addAnimation("Explain_Right", mainCharSpriteSheet, 0.15)
+	-- mainChar:setAnimation("Explain_Right")
+
+	-- local bwaa = anim8.newGrid(64,64, mainCharSpriteSheet:getWidth(), mainCharSpriteSheet:getHeight())
+	-- NavelGame.mainAnimation = anim8.newAnimation(bwaa('1-7',4), 0.2)
 end
 
 -- CALLED EVERY FRAME
