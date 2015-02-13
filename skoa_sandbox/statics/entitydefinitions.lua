@@ -7,27 +7,27 @@ local EStats = {
 			units = {
 				{
 					unitId = "Wolf",
-					pos = {10, 50},
+					pos = {10, 100},
 				},
 				{
 					unitId = "Wolf",
-					pos = {10, 100},
+					pos = {10, 200},
 				},
 				{
 					unitId = "Knight",
-					pos = {10, 50},
+					pos = {1000, 100},
 				},
 				{
 					unitId = "Archer",
-					pos = {10, 100},
+					pos = {1000, 200},
 				},
 				{
 					unitId = "Priest",
-					pos = {10, 150},
+					pos = {1000, 300},
 				},
 				{
 					unitId = "Mage",
-					pos = {10, 200},
+					pos = {1000, 400},
 				},
 			}
 		}
@@ -41,10 +41,10 @@ local EStats = {
     		walkSpeed = 10,
     	},
         SimpleIconComponent = {
-            iconPath = "/skoa_sandbox/resources/unit_pictures/co_armygroup_footsoldier.png",
+            iconPath = "/skoa_sandbox/resources/unit_pictures/co_armygroup_axeman_circle.png",
             width = 64,
             height = 64,
-        }
+        },
     },
 
     Priest = {
@@ -54,6 +54,11 @@ local EStats = {
     		defense = 5,
     		walkSpeed = 10,
     	},
+        SimpleIconComponent = {
+            iconPath = "/skoa_sandbox/resources/unit_pictures/co_armygroup_viking_outcast_circle.png",
+            width = 64,
+            height = 64,
+        },
     },
 
     Archer = {
@@ -63,6 +68,11 @@ local EStats = {
     		defense = 5,
     		walkSpeed = 10,
     	},
+        SimpleIconComponent = {
+            iconPath = "/skoa_sandbox/resources/unit_pictures/co_armygroup_bowman_circle.png",
+            width = 64,
+            height = 64,
+        },
     },
 
     Mage = {
@@ -72,6 +82,11 @@ local EStats = {
     		defense = 0,
     		walkSpeed = 10,
     	},
+        SimpleIconComponent = {
+            iconPath = "/skoa_sandbox/resources/unit_pictures/co_armygroup_brother_circle.png",
+            width = 64,
+            height = 64,
+        },
     },
 
     Wolf = {
@@ -81,6 +96,11 @@ local EStats = {
     		defense = 10,
     		walkSpeed = 10,
     	},
+        SimpleIconComponent = {
+            iconPath = "/skoa_sandbox/resources/unit_pictures/co_armygroup_tamed_wolf_circle.png",
+            width = 64,
+            height = 64,
+        },
     },
 
 }
