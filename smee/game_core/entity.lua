@@ -25,6 +25,7 @@ function Entity:initialize(entityStatics, playerId)
     self:setPlayer(playerId)
 	self:initPosition(0,0)
     self.components = {}
+    self.componentsMap = {}
 end
 
 function Entity.static.createFromEStat(entityStatic, playerId, ...)
@@ -132,8 +133,9 @@ function Entity:closestPosition(point)
     return length * direction + self.position
 end
 
-function Entity:addComponent(componentClass)
-    self.components[#self.components + 1] = componentClass:new(self)
+function Entity:addComponent(componentClass, ...)
+    self.components[#self.components + 1] = componentClass:new(self, ...)
+    self.componentsMap[componentClass.name] = self.components[#self.components + 1]
 end
 
 return Entity

@@ -7,6 +7,7 @@ local _theGame
 
 function love.load()
     love.window.setTitle("Project Navel")
+    require "smee.dbginit"
     -- love.window.setMode(baseWidth/2, baseHeight/2, { centered = true, resizable = true })
     _theGame = NavelGame:new()
 

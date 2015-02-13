@@ -6,9 +6,10 @@ local Game = require "smee.game_core.game"
 
 local Entity = require "smee.game_core.entity"
 
-local GameComponent = require "smee.game_core.gamecomponent"
-local EntityManager = require "smee.game_core.entitymanager"
-local MapComponent  = require "skoa_sandbox.mapcomponent"
+local GameComponent     = require "smee.game_core.gamecomponent"
+local EntityManager     = require "smee.game_core.entitymanager"
+local ComponentImporter = require "smee.io.componentimporter"
+local MapComponent      = require "skoa_sandbox.mapcomponent"
 -- local InputManager	= require "smee.game_core.inputmanager"
 
 local NavelGame = Game:subclass("NavelGame")
@@ -30,6 +31,7 @@ function NavelGame:load()
 	}
 	-- sourcePath = "/resources/c_mustache.png"
 	-- NavelGame.static.resources.spritesheets[sourcePath] = love.graphics.newImage(sourcePath)
+    -- ComponentImporter.loadComponentClasses(resources.componentClasses, "/skoa_sandbox/entitycomponents/")
     NavelGame.static.resources.images["BGImage"] = love.graphics.newImage("/skoa_sandbox/resources/grass_wallpaper.jpg")
 end
 
