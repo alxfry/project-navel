@@ -26,10 +26,7 @@ function NavelGame:load()
 	}
     ComponentImporter.loadComponentClasses(self.resources.componentClasses, "skoa_sandbox\\entitycomponents")
     self.resources.entityStatics = require "skoa_sandbox.statics.entitydefinitions"
-    -- ++ DEBUG CODE EXAMPLE: Howto create an entity
-    local myKnight = Entity.static.createFromEStat(self.resources.entityStatics.Knight, 1)
-    dbgprint(myKnight:getComponent("UnitComponent").initialHealth)
-    -- -- DEBUG CODE EXAMPLE
+
     self.resources.images["BGImage"] = love.graphics.newImage("/skoa_sandbox/resources/grass_wallpaper.jpg")
 end
 
@@ -43,6 +40,12 @@ function NavelGame:init()
 
 	self.entityManager = EntityManager:new(self)
 	self:addComponent(self.entityManager)
+
+    -- ++ DEBUG CODE EXAMPLE: Howto create an entity
+    local myKnight = Entity.static.createFromEStat(self.resources.entityStatics.Knight, 1)
+    dbgprint(myKnight:getComponent("UnitComponent").initialHealth)
+    self.entityManager:add(myKnight)
+    -- -- DEBUG CODE EXAMPLE
 
     -- local myEntity = Entity:new({})
     -- myEntity:setPosition(100, 100)

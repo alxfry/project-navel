@@ -10,9 +10,6 @@ local Entity = Class "Entity"
 local ROOT_TWO = math.sqrt(2)
 
 function Entity:initialize(playerId)
-    -- for key, value in pairs(entityStatics) do
-    --     self[key] = value
-    -- end
 
     self.alpha = self.alpha or 255
     self.scale = self.scale or 1
@@ -39,7 +36,7 @@ function Entity.static.createFromEStat(entityStatic, playerId, ...)
     for propertyName, value in pairs(entityStatic) do
         if componentClasses[propertyName] then
             local component = entity:addComponent(componentClasses[propertyName])
-            component:init(value)            
+            component:init(self, value)            
         else
             entity.staticProperties[propertyName] = value
         end
@@ -98,14 +95,10 @@ end
 
 function Entity:draw(dt)
     local x, y = self.position.x, self.position.y
-    -- if self.animation then
-    --     self.animation:draw(self.image, x, y, self.orientation, self.scale, self.scale)--, self.spriteSize/2, self.spriteSize/2)
-    -- else
     for i = 1, #self.components do
         self.components[i]:draw(dt)
     end
-    love.graphics.circle("fill", x, y, self.radius, self.radius)
-    -- end
+    -- love.graphics.circle("fill", x, y, self.radius, self.radius)
 end
 
 function Entity:delete()

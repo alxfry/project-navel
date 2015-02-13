@@ -9,6 +9,11 @@ local EStats = {
     		defense = 15,
     		walkSpeed = 10,
     	},
+        SimpleIconComponent = {
+            iconPath = "/skoa_sandbox/resources/unit_pictures/co_armygroup_footsoldier.png",
+            width = 64,
+            height = 64,
+        }
     },
 
     Priest = {
@@ -46,7 +51,7 @@ local EStats = {
     		walkSpeed = 10,
     	},
     },
-    
+
 }
 
 return EStats
