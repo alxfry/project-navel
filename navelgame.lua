@@ -31,7 +31,7 @@ function NavelGame:load()
 	}
 	-- sourcePath = "/resources/c_mustache.png"
 	-- NavelGame.static.resources.spritesheets[sourcePath] = love.graphics.newImage(sourcePath)
-    -- ComponentImporter.loadComponentClasses(resources.componentClasses, "/skoa_sandbox/entitycomponents/")
+    ComponentImporter.loadComponentClasses(resources.componentClasses, "skoa_sandbox\\entitycomponents")
     NavelGame.static.resources.images["BGImage"] = love.graphics.newImage("/skoa_sandbox/resources/grass_wallpaper.jpg")
 end
 

@@ -13,3 +13,5 @@ end
 function LogicComponent:draw(dt)
     -- This will probably stay empty
 end
+
+return LogicComponent
