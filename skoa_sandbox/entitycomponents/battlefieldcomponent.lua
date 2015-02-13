@@ -9,10 +9,11 @@ function BattlefieldComponent:init(owner, battlefieldStatics, playerId)
 	print("BattlefieldComponent:init(" .. tostring(battlefieldStatics) .. ", " .. tostring(playerId) .. ")")
 
 	self.units = {}
-
+    local entityManager = SMEE.GetGame().entityManager
 	-- Instantiate units.
 	for i, unitDescription in ipairs(battlefieldStatics.units) do
 		local newUnit = Entity.static.createFromEStat(EntityDefinitions[unitDescription.unitId], 1)
+        entityManager:add(newUnit)
 		self.units[#self.units + 1] = newUnit
 		print("Added unit '" .. unitDescription.unitId .. "' to battlefield")
 	end
