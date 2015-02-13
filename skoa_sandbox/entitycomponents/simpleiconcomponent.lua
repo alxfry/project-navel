@@ -6,8 +6,10 @@ function SimpleIconComponent:init(owner, componentStatics)
     EntityComponent.init(self, owner)
     local resources = SMEE.GetGame():getResources()
     self.iconPath = componentStatics.iconPath
-    resources.images[self.iconPath] = love.graphics.newImage(self.iconPath)
+    -- New löve2D image into GameResources
+    resources.images[self.iconPath] = resources.images[self.iconPath] or love.graphics.newImage(self.iconPath)
     self.icon = resources.images[self.iconPath]
+    -- some basic computations
     self.width = componentStatics.width
     self.height = componentStatics.height
     self.scaleX = self.width / self.icon:getWidth()

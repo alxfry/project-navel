@@ -10,7 +10,7 @@ local Entity = Class "Entity"
 local ROOT_TWO = math.sqrt(2)
 
 function Entity:initialize(playerId)
-
+-- TODO: Get rid of unnecessary stuff
     self.alpha = self.alpha or 255
     self.scale = self.scale or 1
     self.orientation = 0
@@ -28,9 +28,6 @@ end
 
 function Entity.static.createFromEStat(entityStatic, playerId, ...)
     local componentClasses = SMEE.GetGame():getResources("componentClasses")
-    for k, v in pairs(componentClasses) do
-        dbgprint(k)
-    end
     local entity = Entity:new(playerId, ...)
 
     for propertyName, value in pairs(entityStatic) do
@@ -145,7 +142,6 @@ function Entity:addComponent(componentClass, ...)
     local newComponent = componentClass:new(self, ...)
     self.components[#self.components + 1] = newComponent
     self.componentsMap[componentClass.name] = newComponent
-    dbgprint(componentClass.name)
     return newComponent
 end
 
