@@ -9,10 +9,10 @@ local Entity = Class "Entity"
 
 local ROOT_TWO = math.sqrt(2)
 
-function Entity:initialize(entityStatics, playerId)
-    for key, value in pairs(entityStatics) do
-        self[key] = value
-    end
+function Entity:initialize(playerId)
+    -- for key, value in pairs(entityStatics) do
+    --     self[key] = value
+    -- end
 
     self.alpha = self.alpha or 255
     self.scale = self.scale or 1
@@ -24,13 +24,28 @@ function Entity:initialize(entityStatics, playerId)
     self.radius = self.radius or 10
     self:setPlayer(playerId)
 	self:initPosition(0,0)
+    self.staticProperties = {}
     self.components = {}
     self.componentsMap = {}
 end
 
 function Entity.static.createFromEStat(entityStatic, playerId, ...)
-    local entityClass = require(entityStatic.classSource)
-    return entityClass:new(entityStatic, playerId, ...)
+    local componentClasses = SMEE.GetGame():getResources("componentClasses")
+    for k, v in pairs(componentClasses) do
+        dbgprint(k)
+    end
+    local entity = Entity:new(playerId, ...)
+
+    for propertyName, value in pairs(entityStatic) do
+        if componentClasses[propertyName] then
+            local component = entity:addComponent(componentClasses[propertyName])
+            component:init(value)            
+        else
+            entity.staticProperties[propertyName] = value
+        end
+    end
+
+    return entity
 end
 
 function Entity:setPlayer(playerId)
@@ -134,8 +149,15 @@ function Entity:closestPosition(point)
 end
 
 function Entity:addComponent(componentClass, ...)
-    self.components[#self.components + 1] = componentClass:new(self, ...)
-    self.componentsMap[componentClass.name] = self.components[#self.components + 1]
+    local newComponent = componentClass:new(self, ...)
+    self.components[#self.components + 1] = newComponent
+    self.componentsMap[componentClass.name] = newComponent
+    dbgprint(componentClass.name)
+    return newComponent
+end
+
+function Entity:getComponent(key)
+    return self.components[key] or self.componentsMap[key]
 end
 
 return Entity

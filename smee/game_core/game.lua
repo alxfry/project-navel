@@ -13,6 +13,12 @@ end
 -- CALLED ON GAME START
 -- load resources here
 function Game:load()
+    self.resources = {}
+	if not SMEE.GetGame then
+		SMEE.GetGame = function()
+			return self
+		end
+	end
 end
 
 -- CALLED ON GAME INIT
@@ -41,6 +47,14 @@ function Game:addComponent(component)
 	assert(component.isInstanceOf and component:isInstanceOf(GameComponent), 
 		"Cannot add non-component object to game component list")
 	table.insert(self.components, component)
+end
+
+function Game:getResources(category)
+    if category then
+        return self.resources[category]
+    else
+        return self.resources
+    end
 end
 
 return Game

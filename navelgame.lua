@@ -14,25 +14,23 @@ local MapComponent      = require "skoa_sandbox.mapcomponent"
 
 local NavelGame = Game:subclass("NavelGame")
 
-NavelGame.static.resources = {
-	spritesheets = {},
-    images = {},
-    componentClasses = {},
-}
-
-local resources = NavelGame.static.resources
-
 -- CALLED ON GAME START
 -- load resources here
 function NavelGame:load()
 	Game.load(self)
-	NavelGame.resources = {
-		spritesheets = {},
+	self.resources = {
+        spritesheets = {},
+        images = {},
+        componentClasses = {},
+        entityStatics = {}
 	}
-	-- sourcePath = "/resources/c_mustache.png"
-	-- NavelGame.static.resources.spritesheets[sourcePath] = love.graphics.newImage(sourcePath)
-    ComponentImporter.loadComponentClasses(resources.componentClasses, "skoa_sandbox\\entitycomponents")
-    NavelGame.static.resources.images["BGImage"] = love.graphics.newImage("/skoa_sandbox/resources/grass_wallpaper.jpg")
+    ComponentImporter.loadComponentClasses(self.resources.componentClasses, "skoa_sandbox\\entitycomponents")
+    self.resources.entityStatics = require "skoa_sandbox.statics.entitydefinitions"
+    -- ++ DEBUG CODE EXAMPLE: Howto create an entity
+    local myKnight = Entity.static.createFromEStat(self.resources.entityStatics.Knight, 1)
+    dbgprint(myKnight:getComponent("UnitComponent").initialHealth)
+    -- -- DEBUG CODE EXAMPLE
+    self.resources.images["BGImage"] = love.graphics.newImage("/skoa_sandbox/resources/grass_wallpaper.jpg")
 end
 
 -- CALLED ON GAME INIT
@@ -40,7 +38,7 @@ end
 function NavelGame:init()
 	Game.init(self)
 
-    self.mapComponent = MapComponent:new(resources.images["BGImage"])
+    self.mapComponent = MapComponent:new(self.resources.images["BGImage"])
     self:addComponent(self.mapComponent)
 
 	self.entityManager = EntityManager:new(self)
