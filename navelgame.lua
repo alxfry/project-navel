@@ -40,13 +40,9 @@ function NavelGame:init()
 	self.entityManager = EntityManager:new(self)
 	self:addComponent(self.entityManager)
 
-	-- ++ DEBUG CODE EXAMPLE: Howto create an entity
+	-- Create first encounter entity. Entity holds a battlefield component which has its units in 'units'.
 	local firstEncounter = Entity.static.createFromEStat(self.resources.entityStatics.FirstEncounter, 1)
-
-    --local myKnight = Entity.static.createFromEStat(self.resources.entityStatics.Knight, 1)
-    --dbgprint(myKnight:getComponent("UnitComponent").initialHealth)
-    -- -- DEBUG CODE EXAMPLE
-
+	self.entityManager:add(firstEncounter)
 
     -- local myEntity = Entity:new({})
     -- myEntity:setPosition(100, 100)
