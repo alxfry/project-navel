@@ -87,12 +87,14 @@ function UiComponent:registerInputController(inputController)
 end
 
 function UiComponent:unitSelected(unitEntity)
-    self.selectedUnit = unitEntity
-
-    local simpleIconComponent = self.selectedUnit:getComponent("SimpleIconComponent")
-    if simpleIconComponent then
-        simpleIconComponent.selected = false
+    -- Unselect former selected unit.
+    if self.selectedUnit then
+        local simpleIconComponent = self.selectedUnit:getComponent("SimpleIconComponent")
+        if simpleIconComponent then
+            simpleIconComponent.selected = false
+        end
     end
+    self.selectedUnit = unitEntity
 
     local unitComponent = unitEntity:getComponent("UnitComponent")
     
