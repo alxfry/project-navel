@@ -18,8 +18,8 @@ function BattlefieldComponent:initialize(owner)
 
     resourceImages["arrowImage"] = resourceImages["arrowImage"] or love.graphics.newImage("/skoa_sandbox/resources/tutorial_arrow.png")
     self.arrowImage = resourceImages["arrowImage"]
-    self.arrowOffsetX = self.arrowImage:getWidth() / 2 
-    self.arrowOffsetY = self.arrowImage:getHeight()
+    self.arrowHalfWidth = self.arrowImage:getWidth() / 2 
+    self.arrowHalfHeight = self.arrowImage:getHeight() / 2
 end
 
 function BattlefieldComponent:init(owner, battlefieldStatics, playerId)
@@ -63,11 +63,12 @@ end
 
 function BattlefieldComponent:draw(dt)
     local currentUnit = self.units[self.turnOrder[self.currentActor]]
-    -- love.graphics.push()
-    -- love.graphics.translate(currentUnit.position.x - )
-    -- love.graphics.rotate(180)
-    -- love.graphics.draw(self.arrowImage, currentUnit.position.x - self.arrowOffsetX, currentUnit.position.y)
-    -- love.graphics.origin()
+    love.graphics.push()
+    -- Put coordinate system into the center of arrow
+    love.graphics.translate(currentUnit.position.x+self.arrowHalfWidth, currentUnit.position.y+self.arrowHalfHeight)
+    love.graphics.rotate(PI)
+    love.graphics.draw(self.arrowImage, 0, self.arrowHalfHeight + 32, 0)
+    love.graphics.pop()
 end
 
 function BattlefieldComponent:removeEntity(entity)
