@@ -27,19 +27,40 @@ function Entity:initialize(playerId)
     self.staticProperties = {}
     self.components = {}
     self.componentsMap = {}
+    -- local mt = getmetatable(self)
+    -- local oldIndex = mt.__index
+    -- mt.__index = function(self, key) 
+    --     if not oldIndex[key] then
+    --         for i=1, #self.components do
+    --             if self.components[i][key] then
+    --                 return self.components[i][key]
+    --             end
+    --         end
+    --     end
+    -- end
 end
 
 function Entity.static.createFromEStat(entityStatic, playerId, ...)
     local componentClasses = SMEE.GetGame():getResources("componentClasses")
     local entity = Entity:new(playerId, ...)
 
+    local componentValueList = {} -- { {Cmp,Val}, {Cmp,Val}, ... }
+
+    -- First append all the components
     for propertyName, value in pairs(entityStatic) do
         if componentClasses[propertyName] then
             local component = entity:addComponent(componentClasses[propertyName])
-            component:init(self, value)            
+            componentValueList[#componentValueList+1] = {component,value}
         else
             entity.staticProperties[propertyName] = value
         end
+    end
+
+    -- Now start their live cycle (separating construction from init because some components are dependend on each other)
+    -- But sometimes order is still important
+    for i=1, #componentValueList do
+        local current = componentValueList[i]
+        current[1]:init(entity, current[2])
     end
 
     return entity
@@ -152,11 +173,11 @@ function Entity:getComponent(key)
     return self.components[key] or self.componentsMap[key]
 end
 
-function Entity:wasClicked(clickPos)
-    dbgprint("wasClicked")
-    -- local clickPos = GameMath.Vector2:new(x,y)
-    local hasCollision = self.boundingBox:checkCollision(GameMath.AABB.Zero, self.position, clickPos)
-    return hasCollision
-end
+-- function Entity:wasClicked(clickPos)
+--     dbgprint("wasClicked")
+--     -- local clickPos = GameMath.Vector2:new(x,y)
+--     local hasCollision = self.boundingBox:checkCollision(GameMath.AABB.Zero, self.position, clickPos)
+--     return hasCollision
+-- end
 
 return Entity

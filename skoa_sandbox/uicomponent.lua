@@ -52,9 +52,18 @@ function UiComponent:initialize()
         button:SetSize(100, 100):SetText(buttonDef.name)
         form:AddItem(button)
     end
+
+    self.selectedUnit = nil
 end
 
 function UiComponent:unitClicked(unitEntity)
+    if self.selectedUnit then
+        local simpleIconComponent = self.selectedUnit:getComponent("SimpleIconComponent")
+        if simpleIconComponent then
+            simpleIconComponent.selected = false
+        end
+    end
+
     local unitComponent = unitEntity:getComponent("UnitComponent")
     
     self.unitDataContainer:SetName(unitComponent.name)
@@ -71,6 +80,12 @@ function UiComponent:unitClicked(unitEntity)
     local textFieldSpeed = self.unitStatsGrid:GetItem(4, 2)
     textFieldSpeed:SetText(unitComponent.walkSpeed)
     
+    local simpleIconComponent = unitEntity:getComponent("SimpleIconComponent")
+    if simpleIconComponent then
+        simpleIconComponent.selected = true
+    end
+
+    self.selectedUnit = unitEntity
 end
 
 function UiComponent:draw()

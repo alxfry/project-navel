@@ -1,6 +1,7 @@
 local GameComponent = require "smee.game_core.gamecomponent"
 local GameMath      = require "smee.logic.gamemath"
 local Entity        = require "smee.game_core.entity"
+local CollisionComponent = require "skoa_sandbox.entitycomponents.collisioncomponent"
 
 local InputHandler = GameComponent:subclass("InputHandler")
 
@@ -20,7 +21,7 @@ end
 function InputHandler:mousePressed(x, y, button)
     if button == "l" then
         local clickPos = GameMath.Vector2:new(x,y)
-        local clickedEntities = self.entityManager:findAllEntities(Entity.wasClicked, clickPos)
+        local clickedEntities = self.entityManager:findAllEntities(CollisionComponent.static.checkClicked, clickPos)
         for k, v in pairs(clickedEntities) do
             self.uiComponent:unitClicked(v)
         end
