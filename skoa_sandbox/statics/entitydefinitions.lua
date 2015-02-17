@@ -46,6 +46,10 @@ local EStats = {
             width = 64,
             height = 64,
         },
+        CollisionComponent = {
+            width = 64,
+            height = 64,
+        },
     },
 
     Priest = {
@@ -57,6 +61,10 @@ local EStats = {
     	},
         SimpleIconComponent = {
             iconPath = "/skoa_sandbox/resources/unit_pictures/co_armygroup_viking_outcast_circle.png",
+            width = 64,
+            height = 64,
+        },
+        CollisionComponent = {
             width = 64,
             height = 64,
         },
@@ -74,6 +82,10 @@ local EStats = {
             width = 64,
             height = 64,
         },
+        CollisionComponent = {
+            width = 64,
+            height = 64,
+        },
     },
 
     Mage = {
@@ -88,6 +100,10 @@ local EStats = {
             width = 64,
             height = 64,
         },
+        CollisionComponent = {
+            width = 64,
+            height = 64,
+        },
     },
 
     Wolf = {
@@ -99,6 +115,10 @@ local EStats = {
     	},
         SimpleIconComponent = {
             iconPath = "/skoa_sandbox/resources/unit_pictures/co_armygroup_tamed_wolf_circle.png",
+            width = 64,
+            height = 64,
+        },
+        CollisionComponent = {
             width = 64,
             height = 64,
         },

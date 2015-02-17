@@ -17,7 +17,7 @@ function BattlefieldComponent:init(owner, battlefieldStatics, playerId)
 		newUnit:initPosition(unitDescription.pos[1], unitDescription.pos[2])
         entityManager:add(newUnit)
 		self.units[#self.units + 1] = newUnit
-		dbgprint("Added new unit at: " .. Table.dump(unitDescription.pos))
+		-- dbgprint("Added new unit at: " .. Table.dump(unitDescription.pos))
 	end
 end
 

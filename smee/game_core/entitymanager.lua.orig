@@ -87,7 +87,11 @@ end
 function EntityManager:findAllEntities(filter, ...)
     local entities = {}
     for id, entity in pairs(self.entities) do
+<<<<<<< HEAD
+        --dbgprint(id)
+=======
         -- dbgprint(id)
+>>>>>>> de3ccdf4c3239d761ec1728156406eb3cddaab01
         if filter(entity, ...) then
             table.insert(entities, entity)
         end

@@ -173,11 +173,20 @@ function Entity:getComponent(key)
     return self.components[key] or self.componentsMap[key]
 end
 
+<<<<<<< HEAD
+function Entity:wasClicked(clickPos)
+    -- dbgprint("wasClicked")
+    -- local clickPos = GameMath.Vector2:new(x,y)
+    local hasCollision = self.boundingBox:checkCollision(GameMath.AABB.Zero, self.position, clickPos)
+    return hasCollision
+end
+=======
 -- function Entity:wasClicked(clickPos)
 --     dbgprint("wasClicked")
 --     -- local clickPos = GameMath.Vector2:new(x,y)
 --     local hasCollision = self.boundingBox:checkCollision(GameMath.AABB.Zero, self.position, clickPos)
 --     return hasCollision
 -- end
+>>>>>>> de3ccdf4c3239d761ec1728156406eb3cddaab01
 
 return Entity

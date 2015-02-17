@@ -61,6 +61,7 @@ function newobject:initialize()
 	self.OnClose = nil
 	self.OnDock = nil
 	self.OnResize = nil
+    self.clickThrough = false
 	
 	-- create docking zones
 	self.dockzones = {
@@ -408,6 +409,8 @@ function newobject:update(dt)
 	if update then
 		update(self, dt)
 	end
+
+    return (not self.clickThrough) and self.hover
 
 end
 

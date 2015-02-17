@@ -1,7 +1,7 @@
 -- Documentation:
 -- https://love2d.org/wiki/Config_Files
 
-local baseWidth, baseHeight = 1280, 720
+local baseWidth, baseHeight = 1280, 720+150 -- UI HACK
 
 function love.conf(t)
     t.title = "SpiceMinons Engine"

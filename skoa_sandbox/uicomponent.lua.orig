@@ -76,6 +76,7 @@ function UiComponent:initialize()
     self.selectedUnit = nil
 end
 
+<<<<<<< HEAD
 ---
 -- The input controller must provide functions for prepareAttack, prepareMove and prepareUseAbility.
 function UiComponent:registerInputController(inputController)
@@ -88,11 +89,15 @@ end
 
 function UiComponent:unitSelected(unitEntity)
     self.selectedUnit = unitEntity
-
-    local simpleIconComponent = self.selectedUnit:getComponent("SimpleIconComponent")
-    if simpleIconComponent then
-        simpleIconComponent.selected = false
+=======
+function UiComponent:unitClicked(unitEntity)
+    if self.selectedUnit then
+        local simpleIconComponent = self.selectedUnit:getComponent("SimpleIconComponent")
+        if simpleIconComponent then
+            simpleIconComponent.selected = false
+        end
     end
+>>>>>>> de3ccdf4c3239d761ec1728156406eb3cddaab01
 
     local unitComponent = unitEntity:getComponent("UnitComponent")
     
