@@ -40,6 +40,7 @@ local EStats = {
     		damage = 20,
     		defense = 10,
     		walkSpeed = 10,
+            initiative = 8,
     	},
         SimpleIconComponent = {
             iconPath = "/skoa_sandbox/resources/unit_pictures/co_armygroup_axeman_circle.png",
@@ -58,6 +59,7 @@ local EStats = {
     		damage = 20,
     		defense = 5,
     		walkSpeed = 10,
+            initiative = 3,
     	},
         SimpleIconComponent = {
             iconPath = "/skoa_sandbox/resources/unit_pictures/co_armygroup_viking_outcast_circle.png",
@@ -76,6 +78,7 @@ local EStats = {
     		damage = 30,
     		defense = 5,
     		walkSpeed = 10,
+            initiative = 6,
     	},
         SimpleIconComponent = {
             iconPath = "/skoa_sandbox/resources/unit_pictures/co_armygroup_bowman_circle.png",
@@ -94,6 +97,7 @@ local EStats = {
     		damage = 25,
     		defense = 0,
     		walkSpeed = 10,
+            initiative = 4,
     	},
         SimpleIconComponent = {
             iconPath = "/skoa_sandbox/resources/unit_pictures/co_armygroup_brother_circle.png",
@@ -112,6 +116,7 @@ local EStats = {
     		damage = 10,
     		defense = 5,
     		walkSpeed = 10,
+            initiative = 7,
     	},
         SimpleIconComponent = {
             iconPath = "/skoa_sandbox/resources/unit_pictures/co_armygroup_tamed_wolf_circle.png",
