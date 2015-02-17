@@ -22,7 +22,7 @@ function InputHandler:mousePressed(x, y, button)
         local clickPos = GameMath.Vector2:new(x,y)
         local clickedEntities = self.entityManager:findAllEntities(Entity.wasClicked, clickPos)
         for k, v in pairs(clickedEntities) do
-            dbgprint(v.id, v.position.x, v.position.y)
+            self.uiComponent:unitClicked(v)
         end
     end
 end

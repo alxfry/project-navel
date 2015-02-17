@@ -1,5 +1,6 @@
 -- EntityStatic Definitions for SKoA-Sandbox:
 
+
 local EStats = {
 
 	FirstEncounter = {
@@ -102,8 +103,14 @@ local EStats = {
             height = 64,
         },
     },
-
 }
+
+-- Set name to key.
+for name, data in pairs(EStats) do
+    if data.UnitComponent then
+        data.UnitComponent.name = name
+    end
+end
 
 return EStats
 

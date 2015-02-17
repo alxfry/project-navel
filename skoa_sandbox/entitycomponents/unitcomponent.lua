@@ -5,7 +5,14 @@ local UnitComponent = EntityComponent:subclass("UnitComponent")
 
 function UnitComponent:init(owner, unitStatics)
     EntityComponent.init(self, owner)
-	dbgprint("UnitComponent:init(" .. Table.dump(unitStatics) .. ", " .. tostring(playerId) .. ")")
+	
+    self.name = unitStatics.name
+    
+    self.health = unitStatics.health
+    self.damage = unitStatics.damage
+    self.defense = unitStatics.defense
+    self.walkSpeed = unitStatics.walkSpeed
+
 	self.initialHealth = unitStatics.health
 	self.initialDamage = unitStatics.damage
 	self.initialDefense = unitStatics.defense
