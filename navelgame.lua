@@ -11,6 +11,7 @@ local EntityManager     = require "smee.game_core.entitymanager"
 local ComponentImporter = require "smee.io.componentimporter"
 local MapComponent      = require "skoa_sandbox.mapcomponent"
 local Table				= require "skoa_sandbox.utl.table"
+local InputHandler      = require "skoa_sandbox.inputhandler"
 
 local NavelGame = Game:subclass("NavelGame")
 
@@ -39,6 +40,9 @@ function NavelGame:init()
 
 	self.entityManager = EntityManager:new(self)
 	self:addComponent(self.entityManager)
+
+    self.inputHandler = InputHandler:new()
+    self:addComponent(self.inputHandler)
 
 	-- Create first encounter entity. Entity holds a battlefield component which has its units in 'units'.
 	local firstEncounter = Entity.static.createFromEStat(self.resources.entityStatics.FirstEncounter, 1)

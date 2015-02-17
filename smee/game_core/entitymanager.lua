@@ -84,10 +84,11 @@ function EntityManager:findClosestEntity(position, filter, radius)
     return closestEntity, closestDist
 end
 
-function EntityManager:findAllEntities(filter)
+function EntityManager:findAllEntities(filter, ...)
     local entities = {}
     for id, entity in pairs(self.entities) do
-        if filter(entity) then
+        dbgprint(id)
+        if filter(entity, ...) then
             table.insert(entities, entity)
         end
     end

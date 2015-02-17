@@ -21,6 +21,9 @@ function Entity:initialize(playerId)
     self.radius = self.radius or 10
     self:setPlayer(playerId)
 	self:initPosition(0,0)
+    self.width, self.height = 64, 64
+    -- Standard bounding box, can be overwritten by components
+    self.boundingBox = GameMath.AABB:new(0,0,self.width,self.height)
     self.staticProperties = {}
     self.components = {}
     self.componentsMap = {}
@@ -147,6 +150,13 @@ end
 
 function Entity:getComponent(key)
     return self.components[key] or self.componentsMap[key]
+end
+
+function Entity:wasClicked(clickPos)
+    dbgprint("wasClicked")
+    -- local clickPos = GameMath.Vector2:new(x,y)
+    local hasCollision = self.boundingBox:checkCollision(GameMath.AABB.Zero, self.position, clickPos)
+    return hasCollision
 end
 
 return Entity

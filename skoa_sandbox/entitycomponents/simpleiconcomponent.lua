@@ -12,12 +12,15 @@ function SimpleIconComponent:init(owner, componentStatics)
     -- some basic computations
     self.width = componentStatics.width
     self.height = componentStatics.height
+    self.halfWidth = componentStatics.width / 2
+    self.halfHeight = componentStatics.height / 2
     self.scaleX = self.width / self.icon:getWidth()
     self.scaleY = self.height / self.icon:getHeight()
 end
 
 function SimpleIconComponent:draw(dt)
-    love.graphics.draw(self.icon, self.owner.position.x, self.owner.position.y, 0, self.scaleX, self.scaleY)
+    -- Draw the image centered to the entity
+    love.graphics.draw(self.icon, self.owner.position.x - self.halfWidth, self.owner.position.y - self.halfHeight, 0, self.scaleX, self.scaleY)
 end
 
 return SimpleIconComponent

@@ -13,9 +13,6 @@ end
 
 local Vector2 = Class "Vector2"
 
-Vector2.static.Zero = Vector2:new(0,0)
-
-
 -- An intersection implementation for vector segments that makes use of Cramers Law
 function Vector2.static.intersects(v0, v, w0, w)
     -- IDEA:
@@ -148,6 +145,8 @@ end
 function Vector2.isNull(v)
     return v.x == 0 and v.y == 0
 end
+
+Vector2.static.Zero = Vector2:new(0,0)
 
 ----------------------------------------------------------------------
 
@@ -300,6 +299,7 @@ end
 ----------------------------------------------------------------------
 
 local AABB = Class "AABB"
+
 -- TODO make Transform Class, Use Vector2 Class
 function AABB:initialize(cX, cY, width, height)
     self.pos = Vector2:new(cX, cY)
@@ -334,16 +334,19 @@ function AABB:checkCollision(otherAABB, myTransform, otherTransform)
                      or (otherWorldMin.x + oWidth > myWorldMin.x and otherWorldMin.x + oWidth < myWorldMin.x + width)
     local yOverlap =    (otherWorldMin.y > myWorldMin.y and otherWorldMin.y < myWorldMin.y + height) 
                      or (otherWorldMin.y + oHeight > myWorldMin.y and otherWorldMin.y + oHeight < myWorldMin.y + height)
-    return yOverlap and xOverlap 
+    return (yOverlap and xOverlap) 
 end
 
 function AABB:getApproachPos(myTransform, approachVector)
 
 end
 
+AABB.static.Zero = AABB:new(0,0,0,0)
+
 return {
     clamp = clamp,
     Vector2 = Vector2,
     Vector3 = Vector3,
+    AABB  = AABB,
     OBB2D = OBB2D,
 }
