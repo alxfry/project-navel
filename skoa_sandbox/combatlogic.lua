@@ -1,6 +1,6 @@
 local CombatLogic = {}
 
-function CombatLogic.performAttack(actor, target)
+function CombatLogic.performAttack(encounter, actor, target)
     local actorUnitComponent = actor:getComponent("UnitComponent")
     local targetUnitComponent = target:getComponent("UnitComponent")
     
@@ -10,6 +10,11 @@ function CombatLogic.performAttack(actor, target)
     end
     
     targetUnitComponent.health = targetUnitComponent.health - damage
+    if targetUnitComponent.health <= 0 then
+    	-- Remove entity from battlefield component.
+        local battlefieldComponent = encounter:getComponent("BattlefieldComponent")
+    	battlefieldComponent:removeEntity(target)
+    end
 end
 
 return CombatLogic

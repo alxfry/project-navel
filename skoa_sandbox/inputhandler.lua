@@ -15,6 +15,7 @@ InputHandler.States = {
 
 function InputHandler:initialize()
     local game = SMEE.GetGame()
+    self.game = game
     
     assert(game.entityManager, "The Game has no entityManager GameComponent, which is required for this input handler")
     self.entityManager = game.entityManager
@@ -22,6 +23,9 @@ function InputHandler:initialize()
     assert(game.uiComponent, "The Game has no UI component, which is required for this input handler")
     self.uiComponent = game.uiComponent
     self.uiComponent:registerInputController(self)
+    
+    assert(game.entityManager, "The Game has no entity manager, which is required for this input handler")
+    self.entityManager = game.entityManager
     
     self.currentState = InputHandler.States.Select
 end
@@ -55,7 +59,7 @@ function InputHandler:mousePressed(x, y, button)
             if self.currentState == InputHandler.States.Select then
                 self.uiComponent:unitSelected(entity)
             elseif self.currentState == InputHandler.States.Attack then
-                CombatLogic.performAttack(self.actingEntity, entity)
+                CombatLogic.performAttack(self.game.currentEncounter, self.actingEntity, entity)
                 self.currentState = InputHandler.States.Select
                 self.actingEntity = nil
             elseif self.currentState == InputHandler.States.Move then

@@ -8,11 +8,11 @@ local EStats = {
 			units = {
 				{
 					unitId = "Wolf",
-					pos = {10, 100},
+					pos = {60, 100},
 				},
 				{
 					unitId = "Wolf",
-					pos = {10, 200},
+					pos = {60, 200},
 				},
 				{
 					unitId = "Knight",
@@ -37,8 +37,8 @@ local EStats = {
     Knight = {
     	UnitComponent = {
     		health = 90,
-    		damage = 40,
-    		defense = 15,
+    		damage = 20,
+    		defense = 10,
     		walkSpeed = 10,
     	},
         SimpleIconComponent = {
@@ -55,7 +55,7 @@ local EStats = {
     Priest = {
     	UnitComponent = {
     		health = 60,
-    		damage = 40,
+    		damage = 20,
     		defense = 5,
     		walkSpeed = 10,
     	},
@@ -73,7 +73,7 @@ local EStats = {
     Archer = {
     	UnitComponent = {
     		health = 45,
-    		damage = 60,
+    		damage = 30,
     		defense = 5,
     		walkSpeed = 10,
     	},
@@ -91,7 +91,7 @@ local EStats = {
     Mage = {
     	UnitComponent = {
     		health = 30,
-    		damage = 50,
+    		damage = 25,
     		defense = 0,
     		walkSpeed = 10,
     	},
@@ -108,9 +108,9 @@ local EStats = {
 
     Wolf = {
     	UnitComponent = {
-    		health = 30,
-    		damage = 20,
-    		defense = 10,
+    		health = 50,
+    		damage = 10,
+    		defense = 5,
     		walkSpeed = 10,
     	},
         SimpleIconComponent = {

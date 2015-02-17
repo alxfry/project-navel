@@ -24,6 +24,9 @@ function SimpleIconComponent:init(owner, componentStatics)
     self.scaleX = self.width / self.icon:getWidth()
     self.scaleY = self.height / self.icon:getHeight()
     self.selected = false
+    
+    -- Find its unit component.
+    self.actorUnitComponent = self.owner:getComponent("UnitComponent")
 end
 
 function SimpleIconComponent:draw(dt)
@@ -34,7 +37,11 @@ function SimpleIconComponent:draw(dt)
         love.graphics.circle("fill", self.owner.position.x, self.owner.position.y, 35, 32)
         love.graphics.setColor(255,255,255)
     end
+    
     love.graphics.draw(self.icon, self.owner.position.x - self.halfWidth, self.owner.position.y - self.halfHeight, 0, self.scaleX, self.scaleY)
+    
+    local healthString = self.actorUnitComponent.health .. "/" .. self.actorUnitComponent.initialHealth
+    love.graphics.printf(healthString, self.owner.position.x - self.halfWidth, self.owner.position.y + self.height * 0.2, self.width, 'center')
 end
 
 return SimpleIconComponent

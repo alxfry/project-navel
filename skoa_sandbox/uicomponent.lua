@@ -50,20 +50,16 @@ function UiComponent:initialize()
     form:SetLayoutType("horizontal")
     
     -- Create grid with unit stats.
-    self.unitStatsGrid = loveframes.Create("grid")
-    self.unitStatsGrid:SetRows(4):SetColumns(2):SetCellWidth(50)
+    self.unitStatsGrid = loveframes.Create("list")
+    --self.unitStatsGrid:SetRows(4):SetColumns(2):SetCellWidth(75)
     for idx, textUiConfig in ipairs(textUiConfigs) do
         local titleText = loveframes.Create("text")
         titleText:SetText(textUiConfig.title)
         self.unitStatsGrid:AddItem(titleText, idx, 1)
-        
-        local valueText = loveframes.Create("text")
-        valueText:SetText("0")
-        self.unitStatsGrid:AddItem(valueText, idx, 2)
     end
     self.unitStatsGrid:SetHeight(100)
+    --self.unitStatsGrid:SetWidth(200)
     form:AddItem(self.unitStatsGrid)
-    form:SetWidth(form:GetWidth() + self.unitStatsGrid:GetWidth())
     
     -- Create command buttons
     for idx, buttonDef in ipairs(buttons) do
@@ -72,8 +68,6 @@ function UiComponent:initialize()
         button.OnClick = buttonDef.onClickFunction
         form:AddItem(button)
     end
-
-    self.selectedUnit = nil
 end
 
 ---
@@ -95,22 +89,23 @@ function UiComponent:unitSelected(unitEntity)
         end
     end
     self.selectedUnit = unitEntity
-
+    
     local unitComponent = unitEntity:getComponent("UnitComponent")
     
     self.unitDataContainer:SetName(unitComponent.name)
     
-    local textFieldHealth = self.unitStatsGrid:GetItem(1, 2)
-    textFieldHealth:SetText(unitComponent.health)
+    local statsTextFields = self.unitStatsGrid:GetChildren()
+    local textFieldHealth = statsTextFields[1]
+    textFieldHealth:SetText("Health: " .. unitComponent.health .. "/" .. unitComponent.initialHealth)
 
-    local textFieldDamage = self.unitStatsGrid:GetItem(2, 2)
-    textFieldDamage:SetText(unitComponent.damage)
+    local textFieldDamage = statsTextFields[2]
+    textFieldDamage:SetText("Damage: " .. unitComponent.damage)
 
-    local textFieldDefense = self.unitStatsGrid:GetItem(3, 2)
-    textFieldDefense:SetText(unitComponent.defense)
+    local textFieldDefense = statsTextFields[3]
+    textFieldDefense:SetText("Defense: " .. unitComponent.defense)
     
-    local textFieldSpeed = self.unitStatsGrid:GetItem(4, 2)
-    textFieldSpeed:SetText(unitComponent.walkSpeed)
+    local textFieldSpeed = statsTextFields[4]
+    textFieldSpeed:SetText("Speed: " .. unitComponent.walkSpeed)
     
     local simpleIconComponent = unitEntity:getComponent("SimpleIconComponent")
     if simpleIconComponent then

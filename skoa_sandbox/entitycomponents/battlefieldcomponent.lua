@@ -11,6 +11,8 @@ function BattlefieldComponent:init(owner, battlefieldStatics, playerId)
 
 	self.units = {}
     local entityManager = SMEE.GetGame().entityManager
+    self.entityManager = entityManager
+    
 	-- Instantiate units.
 	for i, unitDescription in ipairs(battlefieldStatics.units) do
 		local newUnit = Entity.static.createFromEStat(EntityDefinitions[unitDescription.unitId], 1)
@@ -19,6 +21,15 @@ function BattlefieldComponent:init(owner, battlefieldStatics, playerId)
 		self.units[#self.units + 1] = newUnit
 		-- dbgprint("Added new unit at: " .. Table.dump(unitDescription.pos))
 	end
+end
+
+function BattlefieldComponent:removeEntity(entity)
+    for idx, existingEntity in ipairs(self.units) do
+    	if existingEntity.id == entity.id then
+    		table:remove(idx)
+    		self.entityManager:remove(entity.id)
+    	end
+    end
 end
 
 return BattlefieldComponent

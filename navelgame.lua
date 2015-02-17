@@ -50,8 +50,8 @@ function NavelGame:init()
     self:addComponent(self.inputHandler)
 
 	-- Create first encounter entity. Entity holds a battlefield component which has its units in 'units'.
-	local firstEncounter = Entity.static.createFromEStat(self.resources.entityStatics.FirstEncounter, 1)
-	self.entityManager:add(firstEncounter)
+	self.currentEncounter = Entity.static.createFromEStat(self.resources.entityStatics.FirstEncounter, 1)
+	self.entityManager:add(self.currentEncounter)
 end
 
 -- CALLED EVERY FRAME
