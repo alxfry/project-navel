@@ -10,8 +10,10 @@ local GameComponent     = require "smee.game_core.gamecomponent"
 local EntityManager     = require "smee.game_core.entitymanager"
 local ComponentImporter = require "smee.io.componentimporter"
 local MapComponent      = require "skoa_sandbox.mapcomponent"
+local UiComponent       = require "skoa_sandbox.uicomponent"
 local Table				= require "skoa_sandbox.utl.table"
 local InputHandler      = require "skoa_sandbox.inputhandler"
+local loveframes        = require("libs.loveframes")
 
 local NavelGame = Game:subclass("NavelGame")
 
@@ -38,6 +40,9 @@ function NavelGame:init()
     self.mapComponent = MapComponent:new(self.resources.images["BGImage"])
     self:addComponent(self.mapComponent)
 
+    self.uiComponent = UiComponent:new()
+    self:addComponent(self.uiComponent)
+
 	self.entityManager = EntityManager:new(self)
 	self:addComponent(self.entityManager)
 
@@ -47,19 +52,6 @@ function NavelGame:init()
 	-- Create first encounter entity. Entity holds a battlefield component which has its units in 'units'.
 	local firstEncounter = Entity.static.createFromEStat(self.resources.entityStatics.FirstEncounter, 1)
 	self.entityManager:add(firstEncounter)
-
-    -- local myEntity = Entity:new({})
-    -- myEntity:setPosition(100, 100)
-
-    -- self.entityManager:add(myEntity)
-
-	-- mainChar = Entity:new({})
- --    local mainCharSpriteSheet = NavelGame.static.resources.spritesheets["/resources/c_mustache.png"]
-	-- mainChar:addAnimation("Explain_Right", mainCharSpriteSheet, 0.15)
-	-- mainChar:setAnimation("Explain_Right")
-
-	-- local bwaa = anim8.newGrid(64,64, mainCharSpriteSheet:getWidth(), mainCharSpriteSheet:getHeight())
-	-- NavelGame.mainAnimation = anim8.newAnimation(bwaa('1-7',4), 0.2)
 end
 
 -- CALLED EVERY FRAME

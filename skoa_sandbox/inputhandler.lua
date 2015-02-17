@@ -8,6 +8,9 @@ function InputHandler:initialize()
     local game = SMEE.GetGame()
     assert(game.entityManager, "The Game has no entityManager GameComponent, which is required for this input handler")
     self.entityManager = game.entityManager
+    
+    assert(game.uiComponent, "The Game has no UI component, which is required for this input handler")
+    self.uiComponent = game.uiComponent
 end
 
 function InputHandler:keyPressed(key, unicode)
