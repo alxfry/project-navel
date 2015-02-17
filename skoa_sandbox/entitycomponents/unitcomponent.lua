@@ -12,6 +12,7 @@ function UnitComponent:init(owner, unitStatics)
     self.damage = unitStatics.damage
     self.defense = unitStatics.defense
     self.walkSpeed = unitStatics.walkSpeed
+    self.initiative = unitStatics.initiative
     
     self.initialHealth = unitStatics.health
     self.initialDamage = unitStatics.damage
