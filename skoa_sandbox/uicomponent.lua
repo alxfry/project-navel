@@ -20,10 +20,16 @@ local function onUseAbilityClick()
     instance.inputController:prepareUseAbility(instance.selectedUnit)
 end
 
+local function onEndTurnClick()
+    --TODO AMD: Where to call 'endTurn()'?
+    -- instance.inputController:endTurn()
+end
+
 local buttons = {
-    { name = "Attack", icon = "...", onClickFunction = onAttackClick },
-    { name = "Move", icon = "...", onClickFunction = onMoveClick },
-    { name = "Ability", icon = "...", onClickFunction = onUseAbilityClick },
+    { name = "Attack",      onClickFunction = onAttackClick,    iconPath = "/skoa_sandbox/resources/ui_pictures/icon_attack.png" },
+    { name = "Move",        onClickFunction = onMoveClick,      iconPath = "/skoa_sandbox/resources/ui_pictures/icon_move.png" },
+    { name = "Ability",     onClickFunction = onUseAbilityClick,iconPath = "/skoa_sandbox/resources/ui_pictures/icon_useability.png" },
+    { name = "End Turn",    onClickFunction = onEndTurnClick,   iconPath = "/skoa_sandbox/resources/ui_pictures/icon_endturn.png" },
 }
 
 local textUiConfigs = {
@@ -62,9 +68,10 @@ function UiComponent:initialize()
     form:AddItem(self.unitStatsGrid)
     
     -- Create command buttons
+    local resources = SMEE.GetGame():getResources()
     for idx, buttonDef in ipairs(buttons) do
-        local button = loveframes.Create("button")
-        button:SetSize(100, 100):SetText(buttonDef.name):SetEnabled(true)
+        local button = loveframes.Create("imagebutton")
+        button:SetSize(100, 100):SetText(buttonDef.name):SetEnabled(true):SetImage(buttonDef.iconPath)
         button.OnClick = buttonDef.onClickFunction
         form:AddItem(button)
     end
