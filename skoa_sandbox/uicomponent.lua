@@ -4,10 +4,26 @@ local table         = require("skoa_sandbox.utl.table")
 
 local UiComponent = GameComponent:subclass("UiComponent")
 
+local instance
+
+local function onAttackClick()
+    dbgprint("onAttackClick()")
+
+    instance.inputController:prepareAttack(instance.selectedUnit)
+end
+
+local function onMoveClick()
+    instance.inputController:prepareMove(instance.selectedUnit)
+end
+
+local function onUseAbilityClick()
+    instance.inputController:prepareUseAbility(instance.selectedUnit)
+end
+
 local buttons = {
-    { name = "Attack", icon = "..." },
-    { name = "Move", icon = "..." },
-    { name = "Ability", icon = "..." },
+    { name = "Attack", icon = "...", onClickFunction = onAttackClick },
+    { name = "Move", icon = "...", onClickFunction = onMoveClick },
+    { name = "Ability", icon = "...", onClickFunction = onUseAbilityClick },
 }
 
 local textUiConfigs = {
@@ -18,6 +34,9 @@ local textUiConfigs = {
 }
 
 function UiComponent:initialize()
+    assert(not instance, "UiComponent is a Singleton!!")
+    instance = self
+
     local screenWidth, screenHeight = love.graphics.getDimensions()
     local unitDetails = loveframes.Create("frame")
     self.unitDataContainer = unitDetails
@@ -48,13 +67,26 @@ function UiComponent:initialize()
     
     -- Create command buttons
     for idx, buttonDef in ipairs(buttons) do
-        local button = loveframes.Create("imagebutton")
-        button:SetSize(100, 100):SetText(buttonDef.name)
+        local button = loveframes.Create("button")
+        button:SetSize(100, 100):SetText(buttonDef.name):SetEnabled(true)
+        button.OnClick = buttonDef.onClickFunction
         form:AddItem(button)
     end
 end
 
-function UiComponent:unitClicked(unitEntity)
+---
+-- The input controller must provide functions for prepareAttack, prepareMove and prepareUseAbility.
+function UiComponent:registerInputController(inputController)
+    assert(inputController.prepareAttack, "Could not find function 'prepareAttack'!")
+    assert(inputController.prepareMove, "Could not find function 'prepareMove'!")
+    assert(inputController.prepareUseAbility, "Could not find function 'prepareUseAbility'!")
+    
+    self.inputController = inputController
+end
+
+function UiComponent:unitSelected(unitEntity)
+    self.selectedUnit = unitEntity
+
     local unitComponent = unitEntity:getComponent("UnitComponent")
     
     self.unitDataContainer:SetName(unitComponent.name)
@@ -86,6 +118,8 @@ function UiComponent:keypressed(key, unicode)
 end
 
 function UiComponent:mousepressed(x, y, button)
+    dbgprint("UiComponent:mousepressed(x, y, button)")
+    
     loveframes.mousepressed(x, y, button)
 end
 
@@ -96,6 +130,5 @@ end
 function UiComponent:textinput(text)
     loveframes.textinput(text)
 end
-
 
 return UiComponent

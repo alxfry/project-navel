@@ -11,7 +11,7 @@ local EntityManager     = require "smee.game_core.entitymanager"
 local ComponentImporter = require "smee.io.componentimporter"
 local MapComponent      = require "skoa_sandbox.mapcomponent"
 local UiComponent       = require "skoa_sandbox.uicomponent"
-local Table				= require "skoa_sandbox.utl.table"
+local Table             = require "skoa_sandbox.utl.table"
 local InputHandler      = require "skoa_sandbox.inputhandler"
 local loveframes        = require("libs.loveframes")
 

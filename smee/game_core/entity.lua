@@ -153,7 +153,7 @@ function Entity:getComponent(key)
 end
 
 function Entity:wasClicked(clickPos)
-    dbgprint("wasClicked")
+    -- dbgprint("wasClicked")
     -- local clickPos = GameMath.Vector2:new(x,y)
     local hasCollision = self.boundingBox:checkCollision(GameMath.AABB.Zero, self.position, clickPos)
     return hasCollision
