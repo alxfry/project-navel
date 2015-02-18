@@ -1,18 +1,42 @@
 local EntityComponent   = require "smee.game_core.entitycomponent"
 local GameMath          = require "smee.logic.gamemath"
 
+local ROOT_TWO = math.sqrt(2)
+
 local CollisionComponent = EntityComponent:subclass("CollisionComponent")
 
 CollisionComponent.static.checkClicked = function(entity, clickPos)
-    -- dbgprint("checkClicked")
     local collisionComponent = entity.componentsMap["CollisionComponent"]
     local hasCollision = false
     if collisionComponent then
-        -- dbgprint("checking AABB")
         hasCollision = collisionComponent.AABB:checkCollision(GameMath.AABB.Zero, entity.position, clickPos)
     end
     return hasCollision
-end    
+end
+
+-- find a position outside the entity closest to point
+function CollisionComponent.static.closestPosition(entity, point)
+    local collisionComponent = entity.componentsMap["CollisionComponent"]
+    local direction = point - entity.position
+    local length = collisionComponent.AABB.width
+    direction:normalize()
+    return length * direction + entity.position
+end
+
+local function findCloseEntitiesFilter(entity, position)
+    local collisionComponent = entity.componentsMap["CollisionComponent"]
+
+    if collisionComponent then
+        local distance = GameMath.Vector2.distance(entity.position, position)
+        return distance <= collisionComponent.AABB.width
+    end
+
+    return false
+end
+
+function CollisionComponent.static.findCloseEntities(position)
+    return SMEE.GetGame().entityManager:findAllEntities(findCloseEntitiesFilter, position)
+end
 
 function CollisionComponent:initialize(owner)
     EntityComponent.initialize(self, owner)

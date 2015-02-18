@@ -154,14 +154,6 @@ function Entity:getPosition()
     return self.position
 end
 
--- find a position outside the entity closest to point
-function Entity:closestPosition(point)
-    local direction = point - self.position
-    local length = (self.radius+1) * ROOT_TWO
-    direction:normalize()
-    return length * direction + self.position
-end
-
 function Entity:addComponent(componentClass, ...)
     local newComponent = componentClass:new(self, ...)
     self.components[#self.components + 1] = newComponent
