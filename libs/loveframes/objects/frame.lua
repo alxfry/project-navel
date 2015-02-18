@@ -410,8 +410,6 @@ function newobject:update(dt)
 		update(self, dt)
 	end
 
-    return (not self.clickThrough) and self.hover
-
 end
 
 --[[---------------------------------------------------------
@@ -640,8 +638,9 @@ function newobject:mousepressed(x, y, button)
 		
 	for k, v in ipairs(children) do
 		v:mousepressed(x, y, button)
-	end
-	
+	end	
+
+    return (not self.clickThrough) and self.hover
 end
 
 --[[---------------------------------------------------------
@@ -688,6 +687,7 @@ function newobject:mousereleased(x, y, button)
 		v:mousereleased(x, y, button)
 	end
 	
+    return (not self.clickThrough) and self.hover
 end
 
 --[[---------------------------------------------------------

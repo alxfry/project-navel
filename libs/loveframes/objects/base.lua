@@ -152,19 +152,22 @@ function newobject:mousereleased(x, y, button)
 	if not visible then
 		return
 	end
+
+    local clickHandled = false    
 	
 	if children then
 		for k, v in ipairs(children) do
-			v:mousereleased(x, y, button)
+			clickHandled = v:mousereleased(x, y, button) or clickHandled
 		end
 	end
 	
 	if internals then
 		for k, v in ipairs(internals) do
-			v:mousereleased(x, y, button)
+			clickHandled = v:mousereleased(x, y, button) or clickHandled
 		end
 	end
 
+    return clickHandled
 end
 
 --[[---------------------------------------------------------
