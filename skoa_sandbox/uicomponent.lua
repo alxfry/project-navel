@@ -6,6 +6,13 @@ local UiComponent = GameComponent:subclass("UiComponent")
 
 local instance
 
+local battlefieldQuery = function(entity)
+    if entity:getComponent("BattlefieldComponent") then
+        return true
+    end
+    return false
+end
+
 local function onAttackClick()
     dbgprint("onAttackClick()")
 
@@ -21,8 +28,15 @@ local function onUseAbilityClick()
 end
 
 local function onEndTurnClick()
-    --TODO AMD: Where to call 'endTurn()'?
-    -- instance.inputController:endTurn()
+    -- GET BATTLEFIELD
+    local game = SMEE.GetGame()
+    local entityManager = game.entityManager
+    local battlefield = entityManager:findAllEntities(battlefieldQuery)
+    -- ONLY EXACTLY 1 BATTLEFIELD ALLOWED
+    assert(#battlefield < 2 , "More than 1 battlefield found")
+    assert(#battlefield > 0 , "No battlefield found")
+    -- END TURN
+    battlefield[1]:getComponent("BattlefieldComponent"):nextUnitRound()
 end
 
 local buttons = {
