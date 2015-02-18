@@ -170,15 +170,25 @@ function UiComponent:draw()
     loveframes.draw()
 
     if self.currentState == States.Move then
-        local pos = self.selectedUnit.position
         love.graphics.setColor(0, 0, 0, 64)
+        local pos = self.selectedUnit.position
         love.graphics.circle("fill", pos.x, pos.y, self.actorUnitComponent.walkSpeed)
         love.graphics.setColor(0xff, 0xff, 0xff, 0xff)
     elseif self.currentState == States.Attack then
-        --TODO AMD: Draw circle
+        local pos = self.selectedUnit.position
+        love.graphics.setColor(128, 0, 0, 64)
+        local pos = self.selectedUnit.position
+        love.graphics.circle("fill", pos.x, pos.y, self.actorUnitComponent.attackRange)
+        love.graphics.setColor(0xff, 0xff, 0xff, 0xff)
     elseif self.currentState == States.UseAbility then
-        --TODO AMD: Draw circle
+        love.graphics.setColor(128, 128, 0, 64)
+        local pos = self.selectedUnit.position
+        love.graphics.circle("fill", pos.x, pos.y, self.actorUnitComponent.attackRange)
+        love.graphics.setColor(0xff, 0xff, 0xff, 0xff)
+    else
+        return
     end
+    
 end
 
 function UiComponent:update(dt)

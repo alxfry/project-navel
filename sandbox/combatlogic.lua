@@ -15,16 +15,19 @@ function CombatLogic.performAttack(encounter, actor, target)
     local actorUnitComponent = actor:getComponent("UnitComponent")
     local targetUnitComponent = target:getComponent("UnitComponent")
     
-    local damage = actorUnitComponent.damage - targetUnitComponent.defense
-    if damage <= 0 then
-    	damage = 1
-    end
-    
-    targetUnitComponent.health = targetUnitComponent.health - damage
-    if targetUnitComponent.health <= 0 then
-    	-- Remove entity from battlefield component.
-        local battlefieldComponent = encounter:getComponent("BattlefieldComponent")
-    	battlefieldComponent:removeEntity(target)
+    local distance = GameMath.Vector2.distance(actor.position, target.position)
+    if distance <= actorUnitComponent.attackRange then
+        local damage = actorUnitComponent.damage - targetUnitComponent.defense
+        if damage <= 0 then
+        	damage = 1
+        end
+        
+        targetUnitComponent.health = targetUnitComponent.health - damage
+        if targetUnitComponent.health <= 0 then
+        	-- Remove entity from battlefield component.
+            local battlefieldComponent = encounter:getComponent("BattlefieldComponent")
+        	battlefieldComponent:removeEntity(target)
+        end
     end
 end
 
