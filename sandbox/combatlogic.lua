@@ -19,7 +19,7 @@ function CombatLogic.performMove(encounter, actor, newPos)
     -- Search for any units which are over target position.
     local nearEntities = CollisionComponent.static.findCloseEntities(newPos)
     if #nearEntities == 1 then
-        newPos = CollisionComponent.static.closestPosition(nearEntities[1], newPos)
+        newPos = CollisionComponent.static.closestPosition(nearEntities[1], actor.position)
     elseif #nearEntities > 1 then
         return
     end
