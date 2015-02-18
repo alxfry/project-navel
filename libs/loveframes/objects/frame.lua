@@ -691,7 +691,6 @@ function newobject:mousereleased(x, y, button)
 end
 
 function newobject:GetAnyChildHovered()
-	dbgprint(tostring(newobject.type) .. ":GetAnyChildHovered()")
 
 	if self.hover then
 		return true

@@ -1,4 +1,4 @@
-local flux          = require "smee.libs.flux"
+-- local flux          = require "smee.libs.flux"
 local NavelGame     = require "navelgame"
 -- DEBUG = true
 local baseWidth, baseHeight = 1920, 1080
@@ -17,6 +17,7 @@ function love.load()
 end
 
 function love.update(dt)
+    SMEE.Flux.update(dt) -- tweening
     _theGame:update(dt)
     -- ??? flux.update(dt)aa
 end

@@ -23,59 +23,83 @@ local battlefieldQuery = function(entity)
     return false
 end
 
-local function onAttackClick()
-    if instance.selectedUnit then
-        if instance.currentState == States.Attack then
-            instance.currentState = States.Select
-        else
-            instance.currentState = States.Attack
-            instance.actorUnitComponent = instance.selectedUnit:getComponent("UnitComponent")
-        end
-    end
-end
-
-local function onMoveClick()
-    dbgprint("onMoveClick()")
-
-    if instance.selectedUnit then
-        if instance.currentState == States.Move then
-            dbgprint("State was MOVE, so i set it to SELECT")
-            instance.currentState = States.Select
-        else
-            print("Set State to MOVE")
-            instance.currentState = States.Move
-            instance.actorUnitComponent = instance.selectedUnit:getComponent("UnitComponent")
-        end
-    end
-end
-
-local function onUseAbilityClick()
-    if instance.selectedUnit then
-        if instance.currentState == States.UseAbility then
-            instance.currentState = States.Select
-        else
-            instance.currentState = States.UseAbility
-            instance.actorUnitComponent = instance.selectedUnit:getComponent("UnitComponent")
-        end
-    end
-end
-
-local function onEndTurnClick()
+local function getBattlefield()
     -- GET BATTLEFIELD
     local entityManager = SMEE.GetGame().entityManager
-    local battlefield = entityManager:findAllEntities(battlefieldQuery)
+    local result = entityManager:findAllEntities(battlefieldQuery)
     -- ONLY EXACTLY 1 BATTLEFIELD ALLOWED
-    assert(#battlefield < 2 , "More than 1 battlefield found")
-    assert(#battlefield > 0 , "No battlefield found")
+    assert(#result < 2 , "More than 1 battlefield found")
+    assert(#result > 0 , "No battlefield found")
+    return result[1]
+end
+
+local function attackClick()
+    if instance.currentState == States.Attack then
+        instance.currentState = States.Select
+    else
+        instance.currentState = States.Attack
+        instance.actorUnitComponent = instance.selectedUnit:getComponent("UnitComponent")
+    end
+end
+
+local function moveClick()
+    if instance.currentState == States.Move then
+        dbgprint("State was MOVE, so i set it to SELECT")
+        instance.currentState = States.Select
+    else
+        dbgprint("Set State to MOVE")
+        instance.currentState = States.Move
+        instance.actorUnitComponent = instance.selectedUnit:getComponent("UnitComponent")
+    end
+end
+
+local function abilityClick()
+    if instance.currentState == States.UseAbility then
+        instance.currentState = States.Select
+    else
+        instance.currentState = States.UseAbility
+        instance.actorUnitComponent = instance.selectedUnit:getComponent("UnitComponent")
+    end
+end
+
+local function endTurnClick()
+    -- GET BATTLEFIELD
+    local battlefield = getBattlefield()
     -- END TURN
-    battlefield[1]:getComponent("BattlefieldComponent"):nextUnitRound()
+    battlefield:getComponent("BattlefieldComponent"):nextUnitRound()
+end
+
+local function onActionButton(object, x, y)
+    -- GENERAL COMMANDS
+    if object.text == "End Turn" then
+        endTurnClick()
+    end
+
+    -- UNIT BASED COMMANDS:
+    if not instance.selectedUnit then
+        return
+    end
+    -- GET BATTLEFIELD
+    local battlefield = getBattlefield()
+    -- CHECK THAT WE HAVE CURRENT ACTOR SELECTED
+    local currentActor = battlefield:getComponent("BattlefieldComponent"):getCurrentActorEntity()
+    if not (currentActor == instance.selectedUnit) then
+        return
+    end
+    if object.text == "Attack" then -- TODO: Maybe extra flag instead of button text?
+        attackClick()
+    elseif object.text == "Move" then
+        moveClick()
+    elseif object.text == "Ability" then
+        abilityClick()
+    end
 end
 
 local buttons = {
-    { name = "Attack",      onClickFunction = onAttackClick,    iconPath = "/sandbox/resources/ui_pictures/icon_attack.png" },
-    { name = "Move",        onClickFunction = onMoveClick,      iconPath = "/sandbox/resources/ui_pictures/icon_move.png" },
-    { name = "Ability",     onClickFunction = onUseAbilityClick,iconPath = "/sandbox/resources/ui_pictures/icon_useability.png" },
-    { name = "End Turn",    onClickFunction = onEndTurnClick,   iconPath = "/sandbox/resources/ui_pictures/icon_endturn.png" },
+    { name = "Attack",      onClickFunction = onActionButton,   iconPath = "/sandbox/resources/ui_pictures/icon_attack.png" },
+    { name = "Move",        onClickFunction = onActionButton,   iconPath = "/sandbox/resources/ui_pictures/icon_move.png" },
+    { name = "Ability",     onClickFunction = onActionButton,   iconPath = "/sandbox/resources/ui_pictures/icon_useability.png" },
+    { name = "End Turn",    onClickFunction = onActionButton,   iconPath = "/sandbox/resources/ui_pictures/icon_endturn.png" },
 }
 
 local textUiConfigs = {

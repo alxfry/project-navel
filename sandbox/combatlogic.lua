@@ -5,6 +5,7 @@ local CombatLogic = {}
 
 function CombatLogic.performMove(encounter, actor, newPos)
     local actorUnitComponent = actor:getComponent("UnitComponent")
+    local actorMoveComponent = actor:getComponent("MovementComponent")
     local distance = GameMath.Vector2.distance(newPos, actor.position)
 
     -- If distance is greater than walk distance, we go as much as we can.
@@ -23,8 +24,7 @@ function CombatLogic.performMove(encounter, actor, newPos)
         return
     end
 
-    actor.position.x = newPos.x
-    actor.position.y = newPos.y
+    actorMoveComponent:moveTo(newPos)
 end
 
 function CombatLogic.performAttack(encounter, actor, target)

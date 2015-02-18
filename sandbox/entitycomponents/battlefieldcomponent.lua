@@ -8,6 +8,7 @@ local BattlefieldComponent = EntityComponent:subclass("BattlefieldComponent")
 
 local PI = 3.14159265359
 local myTest = 0
+
 function BattlefieldComponent:initialize(owner)
     EntityComponent.initialize(self, owner)
     self.units = {}
@@ -82,13 +83,18 @@ function BattlefieldComponent:draw(dt)
 end
 
 function BattlefieldComponent:removeEntity(entity)
-    for idx, existingEntity in ipairs(self.turnOrder) do
-    	if existingEntity.id == entity.id then
+    for idx, entityId in ipairs(self.turnOrder) do
+        -- local existingEntity = self.units[entityId]
+    	if entityId == entity.id then
     		table.remove(self.turnOrder, idx)
-    		self.entityManager:remove(entity.id)
-            self.units[existingEntity.id] = nil
+    		self.entityManager:remove(entityId)
+            self.units[entityId] = nil
     	end
     end
+end
+
+function BattlefieldComponent:getCurrentActorEntity()
+    return self.units[self.turnOrder[self.currentActor]]
 end
 
 return BattlefieldComponent
