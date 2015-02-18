@@ -9,9 +9,9 @@ local MOVE_SPEED = 1/200 -- Speed: seconds needed by pixels moved
 
 function MovementComponent:moveTo(movePos)
     local distance = GameMath.Vector2.distance(self.owner.position, movePos)
-    dbgprint(distance)
+    -- dbgprint(distance)
     local timeToMove = distance * MOVE_SPEED
-    dbgprint(timeToMove)
+    -- dbgprint(timeToMove)
     SMEE.Flux.to(self.owner.position, timeToMove, { x = movePos.x, y = movePos.y })
 end
 

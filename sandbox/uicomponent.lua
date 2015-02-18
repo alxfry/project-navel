@@ -9,6 +9,13 @@ local UiComponent = GameComponent:subclass("UiComponent")
 
 local instance
 
+local fonts = {
+}
+
+for i=1, 40 do
+    fonts[i] = love.graphics.newFont(i)
+end
+
 local States = {
     Select = 1,
     Attack = 2,
@@ -67,6 +74,15 @@ local function endTurnClick()
     local battlefield = getBattlefield()
     -- END TURN
     battlefield:getComponent("BattlefieldComponent"):nextUnitRound()
+    local newActor = battlefield:getComponent("BattlefieldComponent"):getCurrentActorEntity()
+    instance:unitSelected(newActor)
+    -- SHOW WHOSE TURN IT IS
+    instance.overheadText = newActor:getComponent("UnitComponent").name .. "'s Turn"
+    instance.overheadTextScale = 1
+    SMEE.Flux.to(instance, 1, {overheadTextScale = 2}):ease("linear"):oncomplete(function()
+                                                                    instance.overheadText = nil
+                                                                    instance.overheadTextScale = 1
+                                                                    end)
 end
 
 local function onActionButton(object, x, y)
@@ -119,6 +135,9 @@ function UiComponent:initialize()
     self.entityManager = game.entityManager
 
     self.currentState = States.Select
+
+    self.overheadText = nil
+    self.overheadTextScale = 1
 
     local screenWidth, screenHeight = love.graphics.getDimensions()
     local unitDetails = loveframes.Create("frame")
@@ -190,6 +209,10 @@ function UiComponent:unitSelected(unitEntity)
     self.selectedUnit = unitEntity
 end
 
+function UiComponent:update(dt)    
+    loveframes.update(dt)
+end
+
 function UiComponent:draw()
     loveframes.draw()
 
@@ -209,14 +232,21 @@ function UiComponent:draw()
         local pos = self.selectedUnit.position
         love.graphics.circle("fill", pos.x, pos.y, self.actorUnitComponent.attackRange)
         love.graphics.setColor(0xff, 0xff, 0xff, 0xff)
-    else
-        return
+    end
+
+    -- SHOW NICE OVERHEAD TEXT
+    if self.overheadText then
+        local oldFont = love.graphics.getFont()
+        love.graphics.setFont(fonts[28])
+        love.graphics.setColor(220, 170, 0)
+        local windowWidth, windowHeight = love.graphics.getDimensions()
+        local xPos = windowWidth/2 - fonts[28]:getWidth(self.overheadText)/2 * self.overheadTextScale
+        local yPos = windowHeight/4 - fonts[28]:getHeight(self.overheadText)/2 * self.overheadTextScale
+        love.graphics.print(self.overheadText, xPos, yPos, 0, self.overheadTextScale, self.overheadTextScale)
+        love.graphics.setFont(oldFont)
+        love.graphics.setColor(255,255,255,255)
     end
     
-end
-
-function UiComponent:update(dt)
-    loveframes.update(dt)
 end
 
 function UiComponent:keypressed(key, unicode)
