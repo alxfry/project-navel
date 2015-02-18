@@ -29,8 +29,7 @@ end
 
 local function onEndTurnClick()
     -- GET BATTLEFIELD
-    local game = SMEE.GetGame()
-    local entityManager = game.entityManager
+    local entityManager = SMEE.GetGame().entityManager
     local battlefield = entityManager:findAllEntities(battlefieldQuery)
     -- ONLY EXACTLY 1 BATTLEFIELD ALLOWED
     assert(#battlefield < 2 , "More than 1 battlefield found")
