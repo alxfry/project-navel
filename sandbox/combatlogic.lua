@@ -5,10 +5,17 @@ local CombatLogic = {}
 function CombatLogic.performMove(encounter, actor, newPos)
     local actorUnitComponent = actor:getComponent("UnitComponent")
     local distance = GameMath.Vector2.distance(newPos, actor.position)
-    if distance <= actorUnitComponent.walkSpeed then
-        actor.position.x = newPos.x
-        actor.position.y = newPos.y
+    
+    -- If distance is greater than walk distance, we go as much as we can.
+    if distance > actorUnitComponent.walkSpeed then
+        local direction = newPos - actor.position
+        direction:normalize()
+        direction = direction * actorUnitComponent.walkSpeed
+        newPos = direction + actor.position
     end
+
+    actor.position.x = newPos.x
+    actor.position.y = newPos.y
 end
 
 function CombatLogic.performAttack(encounter, actor, target)

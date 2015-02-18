@@ -209,7 +209,6 @@ function UiComponent:mousereleased(x, y, button)
     if y < self.unitDetails.y then
         local clickPos = GameMath.Vector2:new(x,y)
         if self.currentState == States.Move then
-            dbgprint("Moving unit")
             CombatLogic.performMove(self.game.currentEncounter, self.selectedUnit, clickPos)
             self.currentState = States.Select
         else
