@@ -9,10 +9,10 @@ local Entity = require "smee.game_core.entity"
 local GameComponent     = require "smee.game_core.gamecomponent"
 local EntityManager     = require "smee.game_core.entitymanager"
 local ComponentImporter = require "smee.io.componentimporter"
-local MapComponent      = require "skoa_sandbox.mapcomponent"
-local UiComponent       = require "skoa_sandbox.uicomponent"
-local Table             = require "skoa_sandbox.utl.table"
-local InputHandler      = require "skoa_sandbox.inputhandler"
+local MapComponent      = require "sandbox.mapcomponent"
+local UiComponent       = require "sandbox.uicomponent"
+local Table             = require "sandbox.utl.table"
+local InputHandler      = require "sandbox.inputhandler"
 local loveframes        = require("libs.loveframes")
 
 local NavelGame = Game:subclass("NavelGame")
@@ -27,9 +27,9 @@ function NavelGame:load()
         componentClasses = {},
         entityStatics = {}
 	}
-    ComponentImporter.loadComponentClasses(self.resources.componentClasses, "skoa_sandbox\\entitycomponents")
-    self.resources.entityStatics = require "skoa_sandbox.statics.entitydefinitions"
-    self.resources.images["BGImage"] = love.graphics.newImage("/skoa_sandbox/resources/grass_wallpaper.jpg")
+    ComponentImporter.loadComponentClasses(self.resources.componentClasses, "sandbox\\entitycomponents")
+    self.resources.entityStatics = require "sandbox.statics.entitydefinitions"
+    self.resources.images["BGImage"] = love.graphics.newImage("/sandbox/resources/grass_wallpaper.jpg")
 end
 
 -- CALLED ON GAME INIT

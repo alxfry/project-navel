@@ -1,8 +1,8 @@
 local Entity = require "smee.game_core.entity"
 local EntityComponent = require "smee.game_core.entitycomponent"
-local UnitComponent = require "skoa_sandbox.entitycomponents.unitcomponent"
-local EntityDefinitions = require "skoa_sandbox.statics.entitydefinitions"
-local Table = require "skoa_sandbox.utl.table"
+local UnitComponent = require "sandbox.entitycomponents.unitcomponent"
+local EntityDefinitions = require "sandbox.statics.entitydefinitions"
+local Table = require "sandbox.utl.table"
 
 local BattlefieldComponent = EntityComponent:subclass("BattlefieldComponent")
 
@@ -16,7 +16,7 @@ function BattlefieldComponent:initialize(owner)
 
     local resourceImages = SMEE.GetGame().resources.images
 
-    resourceImages["arrowImage"] = resourceImages["arrowImage"] or love.graphics.newImage("/skoa_sandbox/resources/tutorial_arrow.png")
+    resourceImages["arrowImage"] = resourceImages["arrowImage"] or love.graphics.newImage("/sandbox/resources/tutorial_arrow.png")
     self.arrowImage = resourceImages["arrowImage"]
     self.arrowHalfWidth = self.arrowImage:getWidth() / 2 
     self.arrowHalfHeight = self.arrowImage:getHeight() / 2

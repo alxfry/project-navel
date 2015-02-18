@@ -43,7 +43,7 @@ local EStats = {
             initiative = 8,
     	},
         SimpleIconComponent = {
-            iconPath = "/skoa_sandbox/resources/unit_pictures/co_armygroup_axeman_circle.png",
+            iconPath = "/sandbox/resources/unit_pictures/co_armygroup_axeman_circle.png",
             width = 64,
             height = 64,
         },
@@ -62,7 +62,7 @@ local EStats = {
             initiative = 3,
     	},
         SimpleIconComponent = {
-            iconPath = "/skoa_sandbox/resources/unit_pictures/co_armygroup_viking_outcast_circle.png",
+            iconPath = "/sandbox/resources/unit_pictures/co_armygroup_viking_outcast_circle.png",
             width = 64,
             height = 64,
         },
@@ -81,7 +81,7 @@ local EStats = {
             initiative = 6,
     	},
         SimpleIconComponent = {
-            iconPath = "/skoa_sandbox/resources/unit_pictures/co_armygroup_bowman_circle.png",
+            iconPath = "/sandbox/resources/unit_pictures/co_armygroup_bowman_circle.png",
             width = 64,
             height = 64,
         },
@@ -100,7 +100,7 @@ local EStats = {
             initiative = 4,
     	},
         SimpleIconComponent = {
-            iconPath = "/skoa_sandbox/resources/unit_pictures/co_armygroup_brother_circle.png",
+            iconPath = "/sandbox/resources/unit_pictures/co_armygroup_brother_circle.png",
             width = 64,
             height = 64,
         },
@@ -119,7 +119,7 @@ local EStats = {
             initiative = 7,
     	},
         SimpleIconComponent = {
-            iconPath = "/skoa_sandbox/resources/unit_pictures/co_armygroup_tamed_wolf_circle.png",
+            iconPath = "/sandbox/resources/unit_pictures/co_armygroup_tamed_wolf_circle.png",
             width = 64,
             height = 64,
         },

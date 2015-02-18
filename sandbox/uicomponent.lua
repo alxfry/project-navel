@@ -1,6 +1,6 @@
 local GameComponent = require "smee.game_core.gamecomponent"
 local loveframes    = require("libs.loveframes")
-local table         = require("skoa_sandbox.utl.table")
+local table         = require("sandbox.utl.table")
 
 local UiComponent = GameComponent:subclass("UiComponent")
 
@@ -39,10 +39,10 @@ local function onEndTurnClick()
 end
 
 local buttons = {
-    { name = "Attack",      onClickFunction = onAttackClick,    iconPath = "/skoa_sandbox/resources/ui_pictures/icon_attack.png" },
-    { name = "Move",        onClickFunction = onMoveClick,      iconPath = "/skoa_sandbox/resources/ui_pictures/icon_move.png" },
-    { name = "Ability",     onClickFunction = onUseAbilityClick,iconPath = "/skoa_sandbox/resources/ui_pictures/icon_useability.png" },
-    { name = "End Turn",    onClickFunction = onEndTurnClick,   iconPath = "/skoa_sandbox/resources/ui_pictures/icon_endturn.png" },
+    { name = "Attack",      onClickFunction = onAttackClick,    iconPath = "/sandbox/resources/ui_pictures/icon_attack.png" },
+    { name = "Move",        onClickFunction = onMoveClick,      iconPath = "/sandbox/resources/ui_pictures/icon_move.png" },
+    { name = "Ability",     onClickFunction = onUseAbilityClick,iconPath = "/sandbox/resources/ui_pictures/icon_useability.png" },
+    { name = "End Turn",    onClickFunction = onEndTurnClick,   iconPath = "/sandbox/resources/ui_pictures/icon_endturn.png" },
 }
 
 local textUiConfigs = {

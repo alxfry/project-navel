@@ -1,8 +1,8 @@
 local GameComponent = require "smee.game_core.gamecomponent"
 local GameMath      = require "smee.logic.gamemath"
 local Entity        = require "smee.game_core.entity"
-local CollisionComponent = require "skoa_sandbox.entitycomponents.collisioncomponent"
-local CombatLogic   = require "skoa_sandbox.combatlogic"
+local CollisionComponent = require "sandbox.entitycomponents.collisioncomponent"
+local CombatLogic   = require "sandbox.combatlogic"
 
 local InputHandler = GameComponent:subclass("InputHandler")
 

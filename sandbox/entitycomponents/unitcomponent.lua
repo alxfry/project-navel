@@ -1,5 +1,5 @@
 local EntityComponent = require "smee.game_core.entitycomponent"
-local Table = require "skoa_sandbox.utl.table"
+local Table = require "sandbox.utl.table"
 
 local UnitComponent = EntityComponent:subclass("UnitComponent")
 
