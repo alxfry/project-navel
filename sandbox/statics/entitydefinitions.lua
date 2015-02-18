@@ -52,6 +52,7 @@ local EStats = {
             width = 64,
             height = 64,
         },
+        MovementComponent = {};
     },
 
     Priest = {
@@ -72,6 +73,7 @@ local EStats = {
             width = 64,
             height = 64,
         },
+        MovementComponent = {};
     },
 
     Archer = {
@@ -92,6 +94,7 @@ local EStats = {
             width = 64,
             height = 64,
         },
+        MovementComponent = {};
     },
 
     Mage = {
@@ -112,6 +115,7 @@ local EStats = {
             width = 64,
             height = 64,
         },
+        MovementComponent = {};
     },
 
     Wolf = {
@@ -132,6 +136,7 @@ local EStats = {
             width = 64,
             height = 64,
         },
+        MovementComponent = {};
     },
 }
 
