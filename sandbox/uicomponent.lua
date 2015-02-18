@@ -1,10 +1,20 @@
-local GameComponent = require "smee.game_core.gamecomponent"
-local loveframes    = require("libs.loveframes")
-local table         = require("sandbox.utl.table")
+local GameComponent         = require "smee.game_core.gamecomponent"
+local loveframes            = require("libs.loveframes")
+local table                 = require("sandbox.utl.table")
+local GameMath              = require "smee.logic.gamemath"
+local CombatLogic           = require "sandbox.combatlogic"
+local CollisionComponent    = require "sandbox.entitycomponents.collisioncomponent"
 
 local UiComponent = GameComponent:subclass("UiComponent")
 
 local instance
+
+local States = {
+    Select = 1,
+    Attack = 2,
+    Move = 3,
+    UseAbility = 4,
+}
 
 local battlefieldQuery = function(entity)
     if entity:getComponent("BattlefieldComponent") then
@@ -14,17 +24,40 @@ local battlefieldQuery = function(entity)
 end
 
 local function onAttackClick()
-    dbgprint("onAttackClick()")
-
-    instance.inputController:prepareAttack(instance.selectedUnit)
+    if instance.selectedUnit then
+        if instance.currentState == States.Attack then
+            instance.currentState = States.Select
+        else
+            instance.currentState = States.Attack
+            instance.actorUnitComponent = instance.selectedUnit:getComponent("UnitComponent")
+        end
+    end
 end
 
 local function onMoveClick()
-    instance.inputController:prepareMove(instance.selectedUnit)
+    dbgprint("onMoveClick()")
+
+    if instance.selectedUnit then
+        if instance.currentState == States.Move then
+            dbgprint("State was MOVE, so i set it to SELECT")
+            instance.currentState = States.Select
+        else
+            print("Set State to MOVE")
+            instance.currentState = States.Move
+            instance.actorUnitComponent = instance.selectedUnit:getComponent("UnitComponent")
+        end
+    end
 end
 
 local function onUseAbilityClick()
-    instance.inputController:prepareUseAbility(instance.selectedUnit)
+    if instance.selectedUnit then
+        if instance.currentState == States.UseAbility then
+            instance.currentState = States.Select
+        else
+            instance.currentState = States.UseAbility
+            instance.actorUnitComponent = instance.selectedUnit:getComponent("UnitComponent")
+        end
+    end
 end
 
 local function onEndTurnClick()
@@ -56,8 +89,16 @@ function UiComponent:initialize()
     assert(not instance, "UiComponent is a Singleton!!")
     instance = self
 
+    local game = SMEE.GetGame()
+    self.game = game
+    assert(game.entityManager, "The Game has no entityManager GameComponent, which is required for this input handler")
+    self.entityManager = game.entityManager
+
+    self.currentState = States.Select
+
     local screenWidth, screenHeight = love.graphics.getDimensions()
     local unitDetails = loveframes.Create("frame")
+    self.unitDetails = unitDetails
     self.unitDataContainer = unitDetails
     unitDetails:SetName("Click on a unit to see its details"):SetSize(screenWidth, 150):SetDraggable(false):ShowCloseButton(false)
     unitDetails:SetPos(0, screenHeight - unitDetails:GetHeight())
@@ -88,16 +129,6 @@ function UiComponent:initialize()
         button.OnClick = buttonDef.onClickFunction
         form:AddItem(button)
     end
-end
-
----
--- The input controller must provide functions for prepareAttack, prepareMove and prepareUseAbility.
-function UiComponent:registerInputController(inputController)
-    assert(inputController.prepareAttack, "Could not find function 'prepareAttack'!")
-    assert(inputController.prepareMove, "Could not find function 'prepareMove'!")
-    assert(inputController.prepareUseAbility, "Could not find function 'prepareUseAbility'!")
-    
-    self.inputController = inputController
 end
 
 function UiComponent:unitSelected(unitEntity)
@@ -137,6 +168,17 @@ end
 
 function UiComponent:draw()
     loveframes.draw()
+
+    if self.currentState == States.Move then
+        local pos = self.selectedUnit.position
+        love.graphics.setColor(0, 0, 0, 64)
+        love.graphics.circle("fill", pos.x, pos.y, self.actorUnitComponent.walkSpeed)
+        love.graphics.setColor(0xff, 0xff, 0xff, 0xff)
+    elseif self.currentState == States.Attack then
+        --TODO AMD: Draw circle
+    elseif self.currentState == States.UseAbility then
+        --TODO AMD: Draw circle
+    end
 end
 
 function UiComponent:update(dt)
@@ -148,13 +190,34 @@ function UiComponent:keypressed(key, unicode)
 end
 
 function UiComponent:mousepressed(x, y, button)
-    dbgprint("UiComponent:mousepressed(x, y, button)")
-    
     loveframes.mousepressed(x, y, button)
 end
 
 function UiComponent:mousereleased(x, y, button)
     loveframes.mousereleased(x, y, button)
+
+    if y < self.unitDetails.y then
+        local clickPos = GameMath.Vector2:new(x,y)
+        if self.currentState == States.Move then
+            dbgprint("Moving unit")
+            CombatLogic.performMove(self.game.currentEncounter, self.selectedUnit, clickPos)
+            self.currentState = States.Select
+        else
+            local clickedEntities = self.entityManager:findAllEntities(CollisionComponent.static.checkClicked, clickPos)
+            for k, entity in pairs(clickedEntities) do
+                if self.currentState == States.Select then
+                    self:unitSelected(entity)
+                elseif self.currentState == States.Attack then
+                    CombatLogic.performAttack(self.game.currentEncounter, self.selectedUnit, entity)
+                    self.currentState = States.Select
+                elseif self.currentState == States.UseAbility then
+                    --TODO AMD: Perform attack
+                    self.currentState = States.Select
+                end
+            end
+        end
+    end
+
 end
 
 function UiComponent:textinput(text)

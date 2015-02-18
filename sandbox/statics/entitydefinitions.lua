@@ -39,7 +39,7 @@ local EStats = {
     		health = 90,
     		damage = 20,
     		defense = 10,
-    		walkSpeed = 10,
+    		walkSpeed = 120,
             initiative = 8,
     	},
         SimpleIconComponent = {
@@ -58,7 +58,7 @@ local EStats = {
     		health = 60,
     		damage = 20,
     		defense = 5,
-    		walkSpeed = 10,
+    		walkSpeed = 120,
             initiative = 3,
     	},
         SimpleIconComponent = {
@@ -77,7 +77,7 @@ local EStats = {
     		health = 45,
     		damage = 30,
     		defense = 5,
-    		walkSpeed = 10,
+    		walkSpeed = 180,
             initiative = 6,
     	},
         SimpleIconComponent = {
@@ -96,7 +96,7 @@ local EStats = {
     		health = 30,
     		damage = 25,
     		defense = 0,
-    		walkSpeed = 10,
+    		walkSpeed = 120,
             initiative = 4,
     	},
         SimpleIconComponent = {
@@ -115,7 +115,7 @@ local EStats = {
     		health = 50,
     		damage = 10,
     		defense = 5,
-    		walkSpeed = 10,
+    		walkSpeed = 240,
             initiative = 7,
     	},
         SimpleIconComponent = {

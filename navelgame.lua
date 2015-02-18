@@ -40,11 +40,11 @@ function NavelGame:init()
     self.mapComponent = MapComponent:new(self.resources.images["BGImage"])
     self:addComponent(self.mapComponent)
 
-    self.uiComponent = UiComponent:new()
-    self:addComponent(self.uiComponent)
-
 	self.entityManager = EntityManager:new(self)
 	self:addComponent(self.entityManager)
+
+    self.uiComponent = UiComponent:new()
+    self:addComponent(self.uiComponent)
 
     self.inputHandler = InputHandler:new()
     self:addComponent(self.inputHandler)

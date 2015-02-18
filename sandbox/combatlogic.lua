@@ -1,4 +1,15 @@
+local GameMath =    require "smee.logic.gamemath"
+
 local CombatLogic = {}
+
+function CombatLogic.performMove(encounter, actor, newPos)
+    local actorUnitComponent = actor:getComponent("UnitComponent")
+    local distance = GameMath.Vector2.distance(newPos, actor.position)
+    if distance <= actorUnitComponent.walkSpeed then
+        actor.position.x = newPos.x
+        actor.position.y = newPos.y
+    end
+end
 
 function CombatLogic.performAttack(encounter, actor, target)
     local actorUnitComponent = actor:getComponent("UnitComponent")

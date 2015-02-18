@@ -640,7 +640,7 @@ function newobject:mousepressed(x, y, button)
 		v:mousepressed(x, y, button)
 	end	
 
-    return (not self.clickThrough) and self.hover
+    return (not self.clickThrough) and self:GetAnyChildHovered()
 end
 
 --[[---------------------------------------------------------
@@ -687,7 +687,29 @@ function newobject:mousereleased(x, y, button)
 		v:mousereleased(x, y, button)
 	end
 	
-    return (not self.clickThrough) and self.hover
+    return (not self.clickThrough) and self:GetAnyChildHovered()
+end
+
+function newobject:GetAnyChildHovered()
+	dbgprint(tostring(newobject.type) .. ":GetAnyChildHovered()")
+
+	if self.hover then
+		return true
+	end
+
+	for k, v in ipairs(self.internals) do
+		if v.hover then
+			return true
+		end
+	end
+	
+	for k, v in ipairs(self.children) do
+		if v.hover then
+			return true
+		end
+	end
+
+	return false
 end
 
 --[[---------------------------------------------------------
