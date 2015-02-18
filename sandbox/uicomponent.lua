@@ -208,22 +208,28 @@ function UiComponent:mousereleased(x, y, button)
 
     if y < self.unitDetails.y then
         local clickPos = GameMath.Vector2:new(x,y)
-        if self.currentState == States.Move then
+        local clickedEntities = self.entityManager:findAllEntities(CollisionComponent.static.checkClicked, clickPos)
+        assert(#clickedEntities <= 1, "Cannot click on more than one entity")
+        if #clickedEntities > 0 then
+            -- If we clicked on an entity, perform stuff
+            local entity = clickedEntities[1]
+
+            if self.currentState == States.Move then
+                CombatLogic.performMove(self.game.currentEncounter, self.selectedUnit, entity.position)
+                self.currentState = States.Select
+            elseif self.currentState == States.Select then
+                self:unitSelected(entity)
+            elseif self.currentState == States.Attack then
+                CombatLogic.performAttack(self.game.currentEncounter, self.selectedUnit, entity)
+                self.currentState = States.Select
+            elseif self.currentState == States.UseAbility then
+                --TODO AMD: Perform attack
+                self.currentState = States.Select
+            end
+        elseif self.currentState == States.Move then
+            -- If no entity was clicked, but we're in move mode, go there.
             CombatLogic.performMove(self.game.currentEncounter, self.selectedUnit, clickPos)
             self.currentState = States.Select
-        else
-            local clickedEntities = self.entityManager:findAllEntities(CollisionComponent.static.checkClicked, clickPos)
-            for k, entity in pairs(clickedEntities) do
-                if self.currentState == States.Select then
-                    self:unitSelected(entity)
-                elseif self.currentState == States.Attack then
-                    CombatLogic.performAttack(self.game.currentEncounter, self.selectedUnit, entity)
-                    self.currentState = States.Select
-                elseif self.currentState == States.UseAbility then
-                    --TODO AMD: Perform attack
-                    self.currentState = States.Select
-                end
-            end
         end
     end
 
