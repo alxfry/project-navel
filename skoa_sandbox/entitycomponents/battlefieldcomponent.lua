@@ -7,7 +7,7 @@ local Table = require "skoa_sandbox.utl.table"
 local BattlefieldComponent = EntityComponent:subclass("BattlefieldComponent")
 
 local PI = 3.14159265359
-
+local myTest = 0
 function BattlefieldComponent:initialize(owner)
     EntityComponent.initialize(self, owner)
     self.units = {}
@@ -54,6 +54,14 @@ function BattlefieldComponent:init(owner, battlefieldStatics, playerId)
     self:nextUnitRound()
 end
 
+function BattlefieldComponent:update(dt)
+    -- myTest = myTest + dt
+    -- if myTest > 4 then
+    --     self:nextUnitRound()
+    --     myTest = myTest - 4
+    -- end
+end
+
 function BattlefieldComponent:nextUnitRound()
     self.currentActor = (self.currentActor % #self.turnOrder) + 1
     dbgprint(self.currentActor)
@@ -64,18 +72,21 @@ end
 function BattlefieldComponent:draw(dt)
     local currentUnit = self.units[self.turnOrder[self.currentActor]]
     love.graphics.push()
-    -- Put coordinate system into the center of arrow
-    love.graphics.translate(currentUnit.position.x+self.arrowHalfWidth, currentUnit.position.y+self.arrowHalfHeight)
+    -- Do weird stuff till the arrow fits
+    love.graphics.translate(currentUnit.position.x, currentUnit.position.y)
     love.graphics.rotate(PI)
-    love.graphics.draw(self.arrowImage, 0, self.arrowHalfHeight + 32, 0)
+    love.graphics.scale(0.7)
+    love.graphics.translate(-self.arrowHalfWidth, 32)
+    love.graphics.draw(self.arrowImage, 0, 0, 0)
     love.graphics.pop()
 end
 
 function BattlefieldComponent:removeEntity(entity)
-    for idx, existingEntity in ipairs(self.units) do
+    for idx, existingEntity in ipairs(self.turnOrder) do
     	if existingEntity.id == entity.id then
-    		table:remove(idx)
+    		table.remove(self.turnOrder, idx)
     		self.entityManager:remove(entity.id)
+            self.units[existingEntity.id] = nil
     	end
     end
 end
