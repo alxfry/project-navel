@@ -1,20 +1,22 @@
 local GameComponent         = require "smee.game_core.gamecomponent"
 local loveframes            = require("libs.loveframes")
-local table                 = require("sandbox.utl.table")
+local Table                 = require("sandbox.utl.table")
 local GameMath              = require "smee.logic.gamemath"
 local CombatLogic           = require "sandbox.combatlogic"
 local CollisionComponent    = require "sandbox.entitycomponents.collisioncomponent"
+local EntityDefinitions     = require "sandbox.statics.entitydefinitions"
+local Abilities             = require "sandbox.statics.abilitiydefinitions"
 
-local UiComponent = GameComponent:subclass("UiComponent")
+local UiComponent = {}
+UiComponent = GameComponent:subclass("UiComponent")
 
 local instance
 
-local fonts = {
-}
-
+local fonts = {}
 for i=1, 40 do
     fonts[i] = love.graphics.newFont(i)
 end
+UiComponent.fonts = fonts
 
 local States = {
     Select = 1,
@@ -60,12 +62,13 @@ local function moveClick()
     end
 end
 
-local function abilityClick()
+local function abilityClick(abilityName)
     if instance.currentState == States.UseAbility then
         instance.currentState = States.Select
     else
         instance.currentState = States.UseAbility
         instance.actorUnitComponent = instance.selectedUnit:getComponent("UnitComponent")
+        instance.abilityName = abilityName
     end
 end
 
@@ -102,20 +105,22 @@ local function onActionButton(object, x, y)
     if not (currentActor == instance.selectedUnit) then
         return
     end
-    if object.text == "Attack" then -- TODO: Maybe extra flag instead of button text?
+    if object.action == "Attack" then
         attackClick()
-    elseif object.text == "Move" then
+    elseif object.action == "Move" then
         moveClick()
-    elseif object.text == "Ability" then
-        abilityClick()
+    elseif object.action == "Ability" then
+        abilityClick(object.abilityName)
     end
 end
 
 local buttons = {
-    { name = "Attack",      onClickFunction = onActionButton,   iconPath = "/sandbox/resources/ui_pictures/icon_attack.png" },
-    { name = "Move",        onClickFunction = onActionButton,   iconPath = "/sandbox/resources/ui_pictures/icon_move.png" },
-    { name = "Ability",     onClickFunction = onActionButton,   iconPath = "/sandbox/resources/ui_pictures/icon_useability.png" },
-    { name = "End Turn",    onClickFunction = onActionButton,   iconPath = "/sandbox/resources/ui_pictures/icon_endturn.png" },
+    { text = "Attack",   action = "Attack",   onClickFunction = onActionButton,   iconPath = "/sandbox/resources/ui_pictures/icon_attack.png" },
+    { text = "Move",     action = "Move",     onClickFunction = onActionButton,   iconPath = "/sandbox/resources/ui_pictures/icon_move.png" },
+    { text = "Ability",  action = "Ability",  onClickFunction = onActionButton,   iconPath = "/sandbox/resources/ui_pictures/icon_useability.png" },
+    { text = "Ability",  action = "Ability",  onClickFunction = onActionButton,   iconPath = "/sandbox/resources/ui_pictures/icon_useability.png" },
+    { text = "Ability",  action = "Ability",  onClickFunction = onActionButton,   iconPath = "/sandbox/resources/ui_pictures/icon_useability.png" },
+    { text = "End Turn", action = "EndTurn",  onClickFunction = onActionButton,   iconPath = "/sandbox/resources/ui_pictures/icon_endturn.png" },
 }
 
 local textUiConfigs = {
@@ -139,6 +144,7 @@ function UiComponent:initialize()
     self.overheadText = nil
     self.overheadTextScale = 1
 
+    -- Create frame which holds UI elements.
     local screenWidth, screenHeight = love.graphics.getDimensions()
     local unitDetails = loveframes.Create("frame")
     self.unitDetails = unitDetails
@@ -154,23 +160,26 @@ function UiComponent:initialize()
     
     -- Create grid with unit stats.
     self.unitStatsGrid = loveframes.Create("list")
-    --self.unitStatsGrid:SetRows(4):SetColumns(2):SetCellWidth(75)
     for idx, textUiConfig in ipairs(textUiConfigs) do
         local titleText = loveframes.Create("text")
         titleText:SetText(textUiConfig.title)
         self.unitStatsGrid:AddItem(titleText, idx, 1)
     end
     self.unitStatsGrid:SetHeight(100)
-    --self.unitStatsGrid:SetWidth(200)
     form:AddItem(self.unitStatsGrid)
     
-    -- Create command buttons
+    -- Create command buttons. Ability buttons are stored in a seperate table to access them later.
+    self.abilityButtons = {}
     local resources = SMEE.GetGame():getResources()
-    for idx, buttonDef in ipairs(buttons) do
+    for buttonName, buttonDef in pairs(buttons) do
         local button = loveframes.Create("imagebutton")
-        button:SetSize(100, 100):SetText(buttonDef.name):SetEnabled(true):SetImage(buttonDef.iconPath)
+        button:SetSize(100, 100):SetText(buttonDef.text):SetEnabled(true):SetImage(buttonDef.iconPath)
         button.OnClick = buttonDef.onClickFunction
+        button.action = buttonDef.action
         form:AddItem(button)
+        if button.action == "Ability" then
+            table.insert(self.abilityButtons, button)
+        end
     end
 end
 
@@ -185,6 +194,17 @@ function UiComponent:unitSelected(unitEntity)
     self.selectedUnit = unitEntity
     
     local unitComponent = unitEntity:getComponent("UnitComponent")
+    
+    -- Set abilities.
+    local idx = 1
+    dbgprint("EntityDefinitions: " .. Table.dump(EntityDefinitions))
+    dbgprint("type: " .. unitComponent.type)
+    for idx, abilityName in ipairs(EntityDefinitions[unitComponent.type].UnitComponent.abilities) do
+    	local button = self.abilityButtons[idx]
+    	button:SetText(abilityName):SetImage(Abilities.Definitions[abilityName].icon)
+    	button.abilityName = abilityName
+    	idx = idx + 1
+    end
     
     self.unitDataContainer:SetName(unitComponent.name)
     
@@ -228,9 +248,9 @@ function UiComponent:draw()
         love.graphics.circle("fill", pos.x, pos.y, self.actorUnitComponent.attackRange)
         love.graphics.setColor(0xff, 0xff, 0xff, 0xff)
     elseif self.currentState == States.UseAbility then
-        love.graphics.setColor(128, 128, 0, 64)
+        love.graphics.setColor(20, 20, 220, 64)
         local pos = self.selectedUnit.position
-        love.graphics.circle("fill", pos.x, pos.y, self.actorUnitComponent.attackRange)
+        love.graphics.circle("fill", pos.x, pos.y, Abilities.Definitions[self.abilityName].range)
         love.graphics.setColor(0xff, 0xff, 0xff, 0xff)
     end
 
@@ -277,12 +297,15 @@ function UiComponent:mousereleased(x, y, button)
                 CombatLogic.performAttack(self.game.currentEncounter, self.selectedUnit, entity)
                 self.currentState = States.Select
             elseif self.currentState == States.UseAbility then
-                --TODO AMD: Perform attack
+                CombatLogic.applyAbilityOnEntity(self.game.currentEncounter, self.selectedUnit, self.abilityName, entity)
                 self.currentState = States.Select
             end
         elseif self.currentState == States.Move then
             -- If no entity was clicked, but we're in move mode, go there.
             CombatLogic.performMove(self.game.currentEncounter, self.selectedUnit, clickPos)
+            self.currentState = States.Select
+        elseif self.currentState == States.UseAbility then
+            CombatLogic.applyAbilityOnPosition(self.game.currentEncounter, self.selectedUnit, self.abilityName, clickPos)
             self.currentState = States.Select
         end
     end

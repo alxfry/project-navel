@@ -1,15 +1,81 @@
 local GameMath              = require "smee.logic.gamemath"
 local CollisionComponent    = require "sandbox.entitycomponents.collisioncomponent"
+local Abilities             = require "sandbox.statics.abilitiydefinitions"
 
 local CombatLogic = {}
+
+local function applyEffect(effect, target)
+    local targetUnitComponent = target:getComponent("UnitComponent")
+    
+    if effect.type == Abilities.EffectTypes.Heal then
+    	targetUnitComponent.health = targetUnitComponent.health + effect.amount
+    	if targetUnitComponent.health > targetUnitComponent.initialHealth then
+    		targetUnitComponent.health = targetUnitComponent.initialHealth
+    	end
+    end
+end
+
+function CombatLogic.applyAbilityOnPosition(currentEncounter, actor, abilityName, clickPos)
+    local abilityDefinition = Abilities.Definitions[abilityName]
+
+    -- Check, if target is valid.
+    if not abilityDefinition.target:isSet(Abilities.TargetTypes.Position) then
+        dbgprint("Cannot apply ability on a position!")
+        return
+    end
+end
+
+function CombatLogic.applyAbilityOnEntity(currentEncounter, actor, abilityName, target)
+    local actorUnitComponent = actor:getComponent("UnitComponent")
+    local abilityDefinition = Abilities.Definitions[abilityName]
+    
+    -- Check, if target is valid.
+    local targetIsValid = false
+    if actor == target then
+    	-- Target type must cobtain 'Self'.
+    	if abilityDefinition.target:isSet(Abilities.TargetTypes.Self) then
+    		targetIsValid = true
+    	end
+    else
+        -- actor != target
+        --TODO AMD: Check for friend/foe
+        if abilityDefinition.target:isSet(Abilities.TargetTypes.Friend + Abilities.TargetTypes.Foe) then
+            targetIsValid = true
+        end
+    end
+    
+    if not targetIsValid then
+    	dbgprint("Not a valid target!")
+    	return
+    end
+    
+    -- Check, if we have enough action points.
+    if actorUnitComponent.curActionPts < abilityDefinition.cost then
+    	dbgprint("Not enough action points!!")
+    	return
+    end
+    
+    -- Check, if target is in range.
+    local distance = GameMath.Vector2.distance(target.position, actor.position)
+    if distance > abilityDefinition.range then
+        dbgprint("Target is too far away!")
+        return
+    end
+    
+    actorUnitComponent.curActionPts = actorUnitComponent.curActionPts - abilityDefinition.cost
+
+    for idx, effect in ipairs(abilityDefinition.effects) do
+    	applyEffect(effect, target)
+    end
+end
 
 function CombatLogic.performMove(encounter, actor, newPos)
     local actorUnitComponent = actor:getComponent("UnitComponent")
     local actorMoveComponent = actor:getComponent("MovementComponent")
-    local distance = GameMath.Vector2.distance(newPos, actor.position)
     local maxDistance = actorUnitComponent.walkRate * actorUnitComponent.curActionPts
     -- If distance is greater than walk distance, we go as much as we can.
-    if distance > maxDistance then
+    local distance = GameMath.Vector2.distance(newPos, actor.position)
+    if distance > actorUnitComponent.walkSpeed then
         local direction = newPos - actor.position
         direction:normalize()
         direction = direction * maxDistance

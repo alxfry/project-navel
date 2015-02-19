@@ -6,6 +6,7 @@ local UnitComponent = EntityComponent:subclass("UnitComponent")
 function UnitComponent:init(owner, unitStatics)
     EntityComponent.init(self, owner)
 	
+    self.type = unitStatics.name
     self.name = unitStatics.name
     
     self.health = unitStatics.health

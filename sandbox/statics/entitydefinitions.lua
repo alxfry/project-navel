@@ -1,5 +1,5 @@
 -- EntityStatic Definitions for SKoA-Sandbox:
-
+local Abilities = require "sandbox.statics.abilitiydefinitions"
 
 local EStats = {
 
@@ -43,6 +43,10 @@ local EStats = {
     		walkRate = 15,
             maxActionPts = 10,
             initiative = 8,
+
+            abilities = {
+                Abilities.Definitions.Heal.name,
+            }
     	},
         SimpleIconComponent = {
             iconPath = "/sandbox/resources/unit_pictures/co_armygroup_axeman_circle.png",
@@ -67,6 +71,10 @@ local EStats = {
             walkRate = 15,
             maxActionPts = 10,
             initiative = 3,
+            
+            abilities = {
+                Abilities.Definitions.Heal.name,
+            }
     	},
         SimpleIconComponent = {
             iconPath = "/sandbox/resources/unit_pictures/co_armygroup_viking_outcast_circle.png",
@@ -91,6 +99,10 @@ local EStats = {
             walkRate = 15,
             maxActionPts = 10,
             initiative = 6,
+
+            abilities = {
+                Abilities.Definitions.Heal.name,
+            }
     	},
         SimpleIconComponent = {
             iconPath = "/sandbox/resources/unit_pictures/co_armygroup_bowman_circle.png",
@@ -115,6 +127,10 @@ local EStats = {
             walkRate = 15,
             maxActionPts = 10,
             initiative = 4,
+ 
+            abilities = {
+                Abilities.Definitions.Heal.name,
+            }
     	},
         SimpleIconComponent = {
             iconPath = "/sandbox/resources/unit_pictures/co_armygroup_brother_circle.png",
@@ -139,6 +155,10 @@ local EStats = {
             walkRate = 15,
             maxActionPts = 10,
             initiative = 7,
+
+            abilities = {
+                Abilities.Definitions.Heal.name,
+            }
     	},
         SimpleIconComponent = {
             iconPath = "/sandbox/resources/unit_pictures/co_armygroup_tamed_wolf_circle.png",

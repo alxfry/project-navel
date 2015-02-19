@@ -1,11 +1,11 @@
 local Table = {}
 
-function Table.dump(tableToDump, depth)
+function Table.dump(tableToDump)
     if type(tableToDump) ~= "table" then
         return tostring(tableToDump)
     end
 
-    depth = depth or 10
+    local depth = 10
 
     local members = {}
     local dump = "{ "

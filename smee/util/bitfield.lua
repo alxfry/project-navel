@@ -1,4 +1,4 @@
-local Class = require "amaze.leanclass"
+local Class = require "smee.libs.middleclass"
 
 local BitField = Class "BitField"
 

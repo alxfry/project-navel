@@ -1,4 +1,5 @@
 local EntityComponent = require "smee.game_core.entitycomponent"
+local UiComponent = require "sandbox.uicomponent"
 
 local SimpleIconComponent = EntityComponent:subclass("SimpleIconComponent")
 
@@ -13,7 +14,7 @@ function SimpleIconComponent:init(owner, componentStatics)
     EntityComponent.init(self, owner)
     local resources = SMEE.GetGame():getResources()
     self.iconPath = componentStatics.iconPath
-    -- New löve2D image into GameResources
+    -- New love2D image into GameResources
     resources.images[self.iconPath] = resources.images[self.iconPath] or love.graphics.newImage(self.iconPath)
     self.icon = resources.images[self.iconPath]
     -- some basic computations
@@ -40,8 +41,10 @@ function SimpleIconComponent:draw(dt)
     
     love.graphics.draw(self.icon, self.owner.position.x - self.halfWidth, self.owner.position.y - self.halfHeight, 0, self.scaleX, self.scaleY)
     
+    -- Draw health and energy.
+    love.graphics.setFont(UiComponent.fonts[10])
     local healthString = self.actorUnitComponent.health .. "/" .. self.actorUnitComponent.initialHealth
-    love.graphics.printf(healthString, self.owner.position.x - self.halfWidth, self.owner.position.y + self.height * 0.2, self.width, 'center')
+    love.graphics.printf(healthString, self.owner.position.x - self.halfWidth, self.owner.position.y + 18, self.width, 'center')
 end
 
 return SimpleIconComponent
