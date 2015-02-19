@@ -128,6 +128,7 @@ local textUiConfigs = {
     { title = "Damage" },
     { title = "Defense" },
     { title = "Speed" },
+    { title = "AP" },
 }
 
 function UiComponent:initialize()
@@ -220,6 +221,9 @@ function UiComponent:unitSelected(unitEntity)
     
     local textFieldSpeed = statsTextFields[4]
     textFieldSpeed:SetText("Speed: " .. unitComponent.walkRate)
+
+    local textFieldActionPts = statsTextFields[5]
+    textFieldActionPts:SetText("AP: " .. unitComponent.curActionPts .. "/" .. unitComponent.maxActionPts)
     
     local simpleIconComponent = unitEntity:getComponent("SimpleIconComponent")
     if simpleIconComponent then
@@ -231,6 +235,32 @@ end
 
 function UiComponent:update(dt)    
     loveframes.update(dt)
+    if self.selectedUnit then
+        -- TODO: very inefficient... all those string concatenations every update...
+        local unitComponent = self.selectedUnit:getComponent("UnitComponent")
+        local statsTextFields = self.unitStatsGrid:GetChildren()
+        local textFieldHealth = statsTextFields[1]
+        textFieldHealth:SetText("Health: " .. unitComponent.health .. "/" .. unitComponent.initialHealth)
+
+        local textFieldDamage = statsTextFields[2]
+        textFieldDamage:SetText("Damage: " .. unitComponent.damage)
+
+        local textFieldDefense = statsTextFields[3]
+        textFieldDefense:SetText("Defense: " .. unitComponent.defense)
+        
+        local textFieldSpeed = statsTextFields[4]
+        textFieldSpeed:SetText("Speed: " .. unitComponent.walkRate)
+
+        local textFieldActionPts = statsTextFields[5]
+        textFieldActionPts:SetText("AP: " .. unitComponent.curActionPts .. "/" .. unitComponent.maxActionPts)
+        if self.currentState == States.Move then
+            local mousePos = GameMath.Vector2:new(love.mouse.getPosition())
+            local distance = GameMath.Vector2.distance(self.selectedUnit.position, mousePos)
+            self.moveCostAP = self.selectedUnit:getComponent("MovementComponent"):getDistanceInAP(distance)
+            self.moveCostAP = math.min(self.moveCostAP, unitComponent.curActionPts)
+        end
+    end
+
 end
 
 function UiComponent:draw()
@@ -241,6 +271,10 @@ function UiComponent:draw()
         local pos = self.selectedUnit.position
         love.graphics.circle("fill", pos.x, pos.y, self.actorUnitComponent:getMaxMoveDistance())
         love.graphics.setColor(0xff, 0xff, 0xff, 0xff)
+        if self.moveCostAP and self.selectedUnit then
+            local mousePosX, mousePosY = love.mouse.getPosition()
+            love.graphics.print("AP "..self.moveCostAP, mousePosX+10, mousePosY+10)
+        end
     elseif self.currentState == States.Attack then
         local pos = self.selectedUnit.position
         love.graphics.setColor(128, 0, 0, 64)
@@ -259,6 +293,7 @@ function UiComponent:draw()
         local oldFont = love.graphics.getFont()
         love.graphics.setFont(fonts[28])
         love.graphics.setColor(220, 170, 0)
+        -- TODO: very inefficient, instead of scaling into all directions were constantly repositioning
         local windowWidth, windowHeight = love.graphics.getDimensions()
         local xPos = windowWidth/2 - fonts[28]:getWidth(self.overheadText)/2 * self.overheadTextScale
         local yPos = windowHeight/4 - fonts[28]:getHeight(self.overheadText)/2 * self.overheadTextScale
