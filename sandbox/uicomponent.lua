@@ -199,7 +199,7 @@ function UiComponent:unitSelected(unitEntity)
     textFieldDefense:SetText("Defense: " .. unitComponent.defense)
     
     local textFieldSpeed = statsTextFields[4]
-    textFieldSpeed:SetText("Speed: " .. unitComponent.walkSpeed)
+    textFieldSpeed:SetText("Speed: " .. unitComponent.walkRate)
     
     local simpleIconComponent = unitEntity:getComponent("SimpleIconComponent")
     if simpleIconComponent then
@@ -219,7 +219,7 @@ function UiComponent:draw()
     if self.currentState == States.Move then
         love.graphics.setColor(0, 0, 0, 64)
         local pos = self.selectedUnit.position
-        love.graphics.circle("fill", pos.x, pos.y, self.actorUnitComponent.walkSpeed)
+        love.graphics.circle("fill", pos.x, pos.y, self.actorUnitComponent:getMaxMoveDistance())
         love.graphics.setColor(0xff, 0xff, 0xff, 0xff)
     elseif self.currentState == States.Attack then
         local pos = self.selectedUnit.position

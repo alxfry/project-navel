@@ -68,6 +68,11 @@ function BattlefieldComponent:nextUnitRound()
     dbgprint(self.currentActor)
     dbgprint(self.turnOrder[self.currentActor])
     -- TODO: Apply roundbased effects here
+    -- refill AP
+    local curActorEntity = self:getCurrentActorEntity()
+    if curActorEntity then
+        curActorEntity.componentsMap["UnitComponent"].curActionPts = curActorEntity.componentsMap["UnitComponent"].maxActionPts
+    end
 end
 
 function BattlefieldComponent:draw(dt)

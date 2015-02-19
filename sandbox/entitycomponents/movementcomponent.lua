@@ -15,4 +15,16 @@ function MovementComponent:moveTo(movePos)
     SMEE.Flux.to(self.owner.position, timeToMove, { x = movePos.x, y = movePos.y })
 end
 
+function MovementComponent:getDistanceInAP(distance)
+    local unitComponent = self.owner.componentsMap["UnitComponent"]
+    if not unitComponent then
+        return 0
+    end
+    if unitComponent.walkRate == 0 then
+        return 0
+    end
+
+    return math.ceil(distance/unitComponent.walkRate)
+end
+
 return MovementComponent

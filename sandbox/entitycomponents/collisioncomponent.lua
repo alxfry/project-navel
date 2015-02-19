@@ -23,8 +23,12 @@ function CollisionComponent.static.closestPosition(entity, point)
     return length * direction + entity.position
 end
 
-local function findCloseEntitiesFilter(entity, position)
+local function findCloseEntitiesFilter(entity, position, ignoreList)
     local collisionComponent = entity.componentsMap["CollisionComponent"]
+
+    if ignoreList[entity.id] then
+        return false
+    end
 
     if collisionComponent then
         local distance = GameMath.Vector2.distance(entity.position, position)
@@ -34,8 +38,8 @@ local function findCloseEntitiesFilter(entity, position)
     return false
 end
 
-function CollisionComponent.static.findCloseEntities(position)
-    return SMEE.GetGame().entityManager:findAllEntities(findCloseEntitiesFilter, position)
+function CollisionComponent.static.findCloseEntities(position, ignoreList)
+    return SMEE.GetGame().entityManager:findAllEntities(findCloseEntitiesFilter, position, ignoreList)
 end
 
 function CollisionComponent:initialize(owner)

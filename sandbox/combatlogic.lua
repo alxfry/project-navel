@@ -7,24 +7,29 @@ function CombatLogic.performMove(encounter, actor, newPos)
     local actorUnitComponent = actor:getComponent("UnitComponent")
     local actorMoveComponent = actor:getComponent("MovementComponent")
     local distance = GameMath.Vector2.distance(newPos, actor.position)
-
+    local maxDistance = actorUnitComponent.walkRate * actorUnitComponent.curActionPts
     -- If distance is greater than walk distance, we go as much as we can.
-    if distance > actorUnitComponent.walkSpeed then
+    if distance > maxDistance then
         local direction = newPos - actor.position
         direction:normalize()
-        direction = direction * actorUnitComponent.walkSpeed
+        direction = direction * maxDistance
+        distance = maxDistance
         newPos = direction + actor.position
     end
 
     -- Search for any units which are over target position.
-    local nearEntities = CollisionComponent.static.findCloseEntities(newPos)
+    local nearEntities = CollisionComponent.static.findCloseEntities(newPos, {[actor.id] = true})
     if #nearEntities == 1 then
         newPos = CollisionComponent.static.closestPosition(nearEntities[1], actor.position)
+        distance = GameMath.Vector2.distance(newPos, actor.position)
     elseif #nearEntities > 1 then
         return
     end
 
-    actorMoveComponent:moveTo(newPos)
+    local apCost = actorMoveComponent:getDistanceInAP(distance)
+    if actorUnitComponent:payAP(apCost) then
+        actorMoveComponent:moveTo(newPos)
+    end
 end
 
 function CombatLogic.performAttack(encounter, actor, target)

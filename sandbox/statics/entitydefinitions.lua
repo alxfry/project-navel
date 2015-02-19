@@ -40,7 +40,8 @@ local EStats = {
     		damage = 20,
             attackRange = 90,
     		defense = 10,
-    		walkSpeed = 120,
+    		walkRate = 15,
+            maxActionPts = 10,
             initiative = 8,
     	},
         SimpleIconComponent = {
@@ -52,7 +53,9 @@ local EStats = {
             width = 64,
             height = 64,
         },
-        MovementComponent = {};
+        MovementComponent = {
+
+        },
     },
 
     Priest = {
@@ -61,7 +64,8 @@ local EStats = {
     		damage = 20,
             attackRange = 90,
     		defense = 5,
-    		walkSpeed = 120,
+            walkRate = 15,
+            maxActionPts = 10,
             initiative = 3,
     	},
         SimpleIconComponent = {
@@ -73,7 +77,9 @@ local EStats = {
             width = 64,
             height = 64,
         },
-        MovementComponent = {};
+        MovementComponent = {
+
+        },
     },
 
     Archer = {
@@ -82,7 +88,8 @@ local EStats = {
     		damage = 30,
             attackRange = 330,
     		defense = 5,
-    		walkSpeed = 180,
+            walkRate = 15,
+            maxActionPts = 10,
             initiative = 6,
     	},
         SimpleIconComponent = {
@@ -94,7 +101,9 @@ local EStats = {
             width = 64,
             height = 64,
         },
-        MovementComponent = {};
+        MovementComponent = {
+
+        },
     },
 
     Mage = {
@@ -103,7 +112,8 @@ local EStats = {
     		damage = 25,
             attackRange = 210,
     		defense = 0,
-    		walkSpeed = 120,
+            walkRate = 15,
+            maxActionPts = 10,
             initiative = 4,
     	},
         SimpleIconComponent = {
@@ -115,7 +125,9 @@ local EStats = {
             width = 64,
             height = 64,
         },
-        MovementComponent = {};
+        MovementComponent = {
+
+        },
     },
 
     Wolf = {
@@ -124,7 +136,8 @@ local EStats = {
     		damage = 10,
             attackRange = 90,
     		defense = 5,
-    		walkSpeed = 240,
+            walkRate = 15,
+            maxActionPts = 10,
             initiative = 7,
     	},
         SimpleIconComponent = {
@@ -136,7 +149,9 @@ local EStats = {
             width = 64,
             height = 64,
         },
-        MovementComponent = {};
+        MovementComponent = {
+
+        },
     },
 }
 
