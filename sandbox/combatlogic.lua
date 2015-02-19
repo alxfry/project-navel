@@ -75,7 +75,7 @@ function CombatLogic.performMove(encounter, actor, newPos)
     local maxDistance = actorUnitComponent.walkRate * actorUnitComponent.curActionPts
     -- If distance is greater than walk distance, we go as much as we can.
     local distance = GameMath.Vector2.distance(newPos, actor.position)
-    if distance > actorUnitComponent.walkSpeed then
+    if distance > maxDistance then
         local direction = newPos - actor.position
         direction:normalize()
         direction = direction * maxDistance

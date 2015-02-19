@@ -71,7 +71,8 @@ function BattlefieldComponent:nextUnitRound()
     -- refill AP
     local curActorEntity = self:getCurrentActorEntity()
     if curActorEntity then
-        curActorEntity.componentsMap["UnitComponent"].curActionPts = curActorEntity.componentsMap["UnitComponent"].maxActionPts
+        local unitComponent = curActorEntity.componentsMap["UnitComponent"]
+        unitComponent.curActionPts = math.min(unitComponent.baseActionPts + unitComponent.curActionPts, unitComponent.maxActionPts)
     end
 end
 

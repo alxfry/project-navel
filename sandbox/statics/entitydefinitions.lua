@@ -40,7 +40,8 @@ local EStats = {
     		damage = 20,
             attackRange = 90,
     		defense = 10,
-    		walkRate = 15,
+    		walkRate = 32,
+            baseActionPts = 6,
             maxActionPts = 10,
             initiative = 8,
 
@@ -68,7 +69,8 @@ local EStats = {
     		damage = 20,
             attackRange = 90,
     		defense = 5,
-            walkRate = 15,
+            walkRate = 32,
+            baseActionPts = 6,
             maxActionPts = 10,
             initiative = 3,
             
@@ -96,7 +98,8 @@ local EStats = {
     		damage = 30,
             attackRange = 330,
     		defense = 5,
-            walkRate = 15,
+            walkRate = 32,
+            baseActionPts = 6,
             maxActionPts = 10,
             initiative = 6,
 
@@ -124,7 +127,8 @@ local EStats = {
     		damage = 25,
             attackRange = 210,
     		defense = 0,
-            walkRate = 15,
+            walkRate = 32,
+            baseActionPts = 6,
             maxActionPts = 10,
             initiative = 4,
  
@@ -152,7 +156,8 @@ local EStats = {
     		damage = 10,
             attackRange = 90,
     		defense = 5,
-            walkRate = 15,
+            walkRate = 32,
+            baseActionPts = 6,
             maxActionPts = 10,
             initiative = 7,
 

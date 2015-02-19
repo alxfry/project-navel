@@ -15,7 +15,8 @@ function UnitComponent:init(owner, unitStatics)
     self.defense = unitStatics.defense
     self.walkRate = unitStatics.walkRate
     self.initiative = unitStatics.initiative
-    self.curActionPts = unitStatics.maxActionPts
+    self.baseActionPts = unitStatics.baseActionPts
+    self.curActionPts = 0
     self.maxActionPts = unitStatics.maxActionPts
 
     self.initialHealth = unitStatics.health
