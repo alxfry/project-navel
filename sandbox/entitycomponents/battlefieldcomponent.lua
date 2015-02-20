@@ -3,6 +3,7 @@ local EntityComponent = require "smee.game_core.entitycomponent"
 local UnitComponent = require "sandbox.entitycomponents.unitcomponent"
 local EntityDefinitions = require "sandbox.statics.entitydefinitions"
 local Table = require "sandbox.utl.table"
+local CombatLogic = require "sandbox.combatlogic"
 
 local BattlefieldComponent = EntityComponent:subclass("BattlefieldComponent")
 
@@ -13,6 +14,7 @@ function BattlefieldComponent:initialize(owner)
     EntityComponent.initialize(self, owner)
     self.units = {}
     self.turnOrder = {}
+    self.actionSequence = {}
     self.currentActor = 0
 
     local resourceImages = SMEE.GetGame().resources.images
@@ -56,6 +58,7 @@ function BattlefieldComponent:init(owner, battlefieldStatics, playerId)
 end
 
 function BattlefieldComponent:update(dt)
+
     -- myTest = myTest + dt
     -- if myTest > 4 then
     --     self:nextUnitRound()
@@ -93,6 +96,12 @@ function BattlefieldComponent:removeEntity(entity)
         -- local existingEntity = self.units[entityId]
     	if entityId == entity.id then
     		table.remove(self.turnOrder, idx)
+            -- if we kill someone who is in
+            -- turn order before current actor
+            -- we need to adjust the current actor
+            if idx < self.currentActor then
+                self.currentActor = self.currentActor - 1
+            end
     		self.entityManager:remove(entityId)
             self.units[entityId] = nil
     	end
@@ -101,6 +110,19 @@ end
 
 function BattlefieldComponent:getCurrentActorEntity()
     return self.units[self.turnOrder[self.currentActor]]
+end
+
+local function validateAction(battlefield, actor)
+    return actor == battlefield:getCurrentActorEntity() and #battlefield.actionSequence == 0
+end
+
+function BattlefieldComponent:performAction(combatLogicCB, actor, ...)
+    if not validateAction(self, actor) then
+        return false
+    end 
+    --TODO: Allow Moving and acting in one action
+
+    combatLogicCB(self.owner, actor, ...)
 end
 
 return BattlefieldComponent

@@ -316,6 +316,7 @@ function UiComponent:mousereleased(x, y, button)
     loveframes.mousereleased(x, y, button)
 
     if y < self.unitDetails.y then
+        local battlefieldComponent = getBattlefield():getComponent("BattlefieldComponent")
         local clickPos = GameMath.Vector2:new(x,y)
         local clickedEntities = self.entityManager:findAllEntities(CollisionComponent.static.checkClicked, clickPos)
         assert(#clickedEntities <= 1, "Cannot click on more than one entity")
@@ -324,23 +325,21 @@ function UiComponent:mousereleased(x, y, button)
             local entity = clickedEntities[1]
 
             if self.currentState == States.Move then
-                CombatLogic.performMove(self.game.currentEncounter, self.selectedUnit, entity.position)
-                self.currentState = States.Select
+                battlefieldComponent:performAction(CombatLogic.performMove, self.selectedUnit, entity.position)
             elseif self.currentState == States.Select then
                 self:unitSelected(entity)
             elseif self.currentState == States.Attack then
-                CombatLogic.performAttack(self.game.currentEncounter, self.selectedUnit, entity)
-                self.currentState = States.Select
+                battlefieldComponent:performAction(CombatLogic.performAttack, self.selectedUnit, entity)
             elseif self.currentState == States.UseAbility then
-                CombatLogic.applyAbilityOnEntity(self.game.currentEncounter, self.selectedUnit, self.abilityName, entity)
-                self.currentState = States.Select
+                battlefieldComponent:performAction(CombatLogic.applyAbilityOnEntity, self.selectedUnit, self.abilityName, entity)
             end
+            self.currentState = States.Select
         elseif self.currentState == States.Move then
             -- If no entity was clicked, but we're in move mode, go there.
-            CombatLogic.performMove(self.game.currentEncounter, self.selectedUnit, clickPos)
+            battlefieldComponent:performAction(CombatLogic.performMove, self.selectedUnit, clickPos)
             self.currentState = States.Select
         elseif self.currentState == States.UseAbility then
-            CombatLogic.applyAbilityOnPosition(self.game.currentEncounter, self.selectedUnit, self.abilityName, clickPos)
+            battlefieldComponent:performAction(CombatLogic.applyAbilityOnPosition, self.selectedUnit, self.abilityName, clickPos)
             self.currentState = States.Select
         end
     end

@@ -11,8 +11,8 @@ function MovementComponent:moveTo(movePos)
     local distance = GameMath.Vector2.distance(self.owner.position, movePos)
     -- dbgprint(distance)
     local timeToMove = distance * MOVE_SPEED
+    SMEE.Flux.to(self.owner.position, timeToMove, { x = movePos.x, y = movePos.y }) 
     -- dbgprint(timeToMove)
-    SMEE.Flux.to(self.owner.position, timeToMove, { x = movePos.x, y = movePos.y })
 end
 
 function MovementComponent:getDistanceInAP(distance)
