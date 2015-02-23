@@ -76,7 +76,7 @@ CombatEffect.Type = {
     AddToCurrentPerc    = "AddToCurrentPerc",
     ModifyCurrentFlat   = "ModifyCurrentFlat",
     ModifyCurrentPerc   = "ModifyCurrentPerc",
-    ModifyMaximumFlat   = "ModifyCurrentFlat",
+    ModifyMaximumFlat   = "ModifyMaximumFlat",
     ModifyMaximumPerc   = "ModifyMaximumPerc",
     Summon              = "Summon",
     Stun                = "Stun",
@@ -90,14 +90,14 @@ CombatEffect.Application = {
 }
 
 CombatEffect.hasRunOut = {
-    CombatEffect.Application.Instant    = hasRunOutInstant,
-    CombatEffect.Application.Interval   = hasRunOutDuration,
-    CombatEffect.Application.Duration   = hasRunOutDuration,
-    CombatEffect.Application.WhileAttached = hasRunOutLasting,
+    [CombatEffect.Application.Instant] = hasRunOutInstant,
+    [CombatEffect.Application.Interval] = hasRunOutDuration,
+    [CombatEffect.Application.Duration] = hasRunOutDuration,
+    [CombatEffect.Application.WhileAttached] = hasRunOutLasting,
 }
 
 CombatEffect.applyEffect = {
-    CombatEffect.Type.AddToCurrentFlat      = effectAddToCurrentFlat,
+    [CombatEffect.Type.AddToCurrentFlat] = effectAddToCurrentFlat,
 }
 
 function CombatEffect:initialize()
@@ -141,3 +141,5 @@ function CombatEffect:apply(entity, roundUpdate)
 
     return CombatEffect.hasRunOut[self.application](self, roundUpdate)
 end
+
+return CombatEffect
