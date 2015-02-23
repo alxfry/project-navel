@@ -211,19 +211,19 @@ function UiComponent:unitSelected(unitEntity)
     
     local statsTextFields = self.unitStatsGrid:GetChildren()
     local textFieldHealth = statsTextFields[1]
-    textFieldHealth:SetText("Health: " .. unitComponent.health .. "/" .. unitComponent.initialHealth)
+    textFieldHealth:SetText("Health: " .. unitComponent.current.health .. "/" .. unitComponent.max.health)
 
     local textFieldDamage = statsTextFields[2]
-    textFieldDamage:SetText("Damage: " .. unitComponent.damage)
+    textFieldDamage:SetText("Damage: " .. unitComponent.current.damage)
 
     local textFieldDefense = statsTextFields[3]
-    textFieldDefense:SetText("Defense: " .. unitComponent.defense)
+    textFieldDefense:SetText("Defense: " .. unitComponent.current.defense)
     
     local textFieldSpeed = statsTextFields[4]
-    textFieldSpeed:SetText("Speed: " .. unitComponent.walkRate)
+    textFieldSpeed:SetText("Speed: " .. unitComponent.current.walkRate)
 
     local textFieldActionPts = statsTextFields[5]
-    textFieldActionPts:SetText("AP: " .. unitComponent.curActionPts .. "/" .. unitComponent.maxActionPts)
+    textFieldActionPts:SetText("AP: " .. unitComponent.base.actionPts .. "/" .. unitComponent.current.maxActionPts)
     
     local simpleIconComponent = unitEntity:getComponent("SimpleIconComponent")
     if simpleIconComponent then
@@ -240,24 +240,24 @@ function UiComponent:update(dt)
         local unitComponent = self.selectedUnit:getComponent("UnitComponent")
         local statsTextFields = self.unitStatsGrid:GetChildren()
         local textFieldHealth = statsTextFields[1]
-        textFieldHealth:SetText("Health: " .. unitComponent.health .. "/" .. unitComponent.initialHealth)
+        textFieldHealth:SetText("Health: " .. unitComponent.current.health .. "/" .. unitComponent.max.health)
 
         local textFieldDamage = statsTextFields[2]
-        textFieldDamage:SetText("Damage: " .. unitComponent.damage)
+        textFieldDamage:SetText("Damage: " .. unitComponent.current.damage)
 
         local textFieldDefense = statsTextFields[3]
-        textFieldDefense:SetText("Defense: " .. unitComponent.defense)
+        textFieldDefense:SetText("Defense: " .. unitComponent.current.defense)
         
         local textFieldSpeed = statsTextFields[4]
-        textFieldSpeed:SetText("Speed: " .. unitComponent.walkRate)
+        textFieldSpeed:SetText("Speed: " .. unitComponent.current.walkRate)
 
         local textFieldActionPts = statsTextFields[5]
-        textFieldActionPts:SetText("AP: " .. unitComponent.curActionPts .. "/" .. unitComponent.maxActionPts)
+        textFieldActionPts:SetText("AP: " .. unitComponent.base.actionPts .. "/" .. unitComponent.current.maxActionPts)
         if self.currentState == States.Move then
             local mousePos = GameMath.Vector2:new(love.mouse.getPosition())
             local distance = GameMath.Vector2.distance(self.selectedUnit.position, mousePos)
             self.moveCostAP = self.selectedUnit:getComponent("MovementComponent"):getDistanceInAP(distance)
-            self.moveCostAP = math.min(self.moveCostAP, unitComponent.curActionPts)
+            self.moveCostAP = math.min(self.moveCostAP, unitComponent.base.actionPts)
         end
     end
 
@@ -279,7 +279,7 @@ function UiComponent:draw()
         local pos = self.selectedUnit.position
         love.graphics.setColor(128, 0, 0, 64)
         local pos = self.selectedUnit.position
-        love.graphics.circle("fill", pos.x, pos.y, self.actorUnitComponent.attackRange)
+        love.graphics.circle("fill", pos.x, pos.y, self.actorUnitComponent.current.attackRange)
         love.graphics.setColor(0xff, 0xff, 0xff, 0xff)
     elseif self.currentState == States.UseAbility then
         love.graphics.setColor(20, 20, 220, 64)

@@ -2,12 +2,6 @@ local Class = require "smee.libs.middleclass"
 
 local Ability = Class "Ability"
 
-Ability.TargetFaction =
-{
-    Friend = 1,
-    Foe = 2,
-}
-
 Ability.TargetType = {
     Self = 1,
     Friend = 2,
@@ -15,14 +9,19 @@ Ability.TargetType = {
     Position = 8,
 }
 
-Ability.EffectApplication = {
+Ability.Application = {
     Single = 1,
     Area = 2,
     Count = 4,
     Jumping = 8,
 }
 
--- Ability.
+Ability.AttachType = {
+    AttachTo = 1,
+    Stationary = 2,
+}
+
+
 
 function Ability:initialize(name, params)
     assert(params.targetType, "No target type set")

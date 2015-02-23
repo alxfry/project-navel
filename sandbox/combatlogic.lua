@@ -7,12 +7,12 @@ local CombatLogic = {}
 local function applyEffect(effect, target)
     local targetUnitComponent = target:getComponent("UnitComponent")
     
-    if effect.type == Abilities.EffectTypes.Heal then
-    	targetUnitComponent.health = targetUnitComponent.health + effect.amount
-    	if targetUnitComponent.health > targetUnitComponent.initialHealth then
-    		targetUnitComponent.health = targetUnitComponent.initialHealth
-    	end
-    end
+    -- if effect.type == Abilities.EffectTypes.Heal then
+    -- 	targetUnitComponent.health = targetUnitComponent.health + effect.amount
+    -- 	if targetUnitComponent.health > targetUnitComponent.initialHealth then
+    -- 		targetUnitComponent.health = targetUnitComponent.initialHealth
+    -- 	end
+    -- end
 end
 
 function CombatLogic.applyAbilityOnPosition(currentEncounter, actor, abilityName, clickPos)
@@ -50,7 +50,7 @@ function CombatLogic.applyAbilityOnEntity(currentEncounter, actor, abilityName, 
     end
     
     -- Check, if we have enough action points.
-    if actorUnitComponent.curActionPts < abilityDefinition.cost then
+    if actorUnitComponent.base.actionPts < abilityDefinition.cost then
     	dbgprint("Not enough action points!!")
     	return
     end
@@ -62,7 +62,7 @@ function CombatLogic.applyAbilityOnEntity(currentEncounter, actor, abilityName, 
         return
     end
     
-    actorUnitComponent.curActionPts = actorUnitComponent.curActionPts - abilityDefinition.cost
+    actorUnitComponent.base.actionPts = actorUnitComponent.base.actionPts - abilityDefinition.cost
 
     for idx, effect in ipairs(abilityDefinition.effects) do
     	applyEffect(effect, target)
@@ -72,7 +72,7 @@ end
 function CombatLogic.performMove(encounter, actor, newPos)
     local actorUnitComponent = actor:getComponent("UnitComponent")
     local actorMoveComponent = actor:getComponent("MovementComponent")
-    local maxDistance = actorUnitComponent.walkRate * actorUnitComponent.curActionPts
+    local maxDistance = actorUnitComponent.current.walkRate * actorUnitComponent.base.actionPts
     -- If distance is greater than walk distance, we go as much as we can.
     local distance = GameMath.Vector2.distance(newPos, actor.position)
     if distance > maxDistance then
@@ -103,18 +103,13 @@ function CombatLogic.performAttack(encounter, actor, target)
     local targetUnitComponent = target:getComponent("UnitComponent")
     
     local distance = GameMath.Vector2.distance(actor.position, target.position)
-    if distance <= actorUnitComponent.attackRange then
-        local damage = actorUnitComponent.damage - targetUnitComponent.defense
+    if distance <= actorUnitComponent.current.attackRange then
+        local damage = actorUnitComponent.current.damage - targetUnitComponent.current.defense
         if damage <= 0 then
         	damage = 1
         end
         
-        targetUnitComponent.health = targetUnitComponent.health - damage
-        if targetUnitComponent.health <= 0 then
-        	-- Remove entity from battlefield component.
-            local battlefieldComponent = encounter:getComponent("BattlefieldComponent")
-        	battlefieldComponent:removeEntity(target)
-        end
+        targetUnitComponent.base.health = targetUnitComponent.base.health - damage
     end
 end
 

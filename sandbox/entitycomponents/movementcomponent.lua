@@ -20,11 +20,11 @@ function MovementComponent:getDistanceInAP(distance)
     if not unitComponent then
         return 0
     end
-    if unitComponent.walkRate == 0 then
+    if unitComponent.current.walkRate == 0 then
         return 0
     end
 
-    return math.ceil(distance/unitComponent.walkRate)
+    return math.ceil(distance/unitComponent.current.walkRate)
 end
 
 return MovementComponent

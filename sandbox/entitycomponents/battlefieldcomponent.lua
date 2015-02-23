@@ -43,7 +43,7 @@ function BattlefieldComponent:init(owner, battlefieldStatics, playerId)
             local candidate = self.units[candidateId]
             local candidateUnitComponent = candidate:getComponent("UnitComponent")
             local newUnitUnitComponent = newUnit:getComponent("UnitComponent")
-            if candidateUnitComponent.initiative < newUnitUnitComponent.initiative then
+            if candidateUnitComponent.current.initiative < newUnitUnitComponent.current.initiative then
                 table.insert(self.turnOrder, i, newUnit.id)
                 found = true
                 break
@@ -54,11 +54,20 @@ function BattlefieldComponent:init(owner, battlefieldStatics, playerId)
         end
 		-- dbgprint("Added new unit at: " .. Table.dump(unitDescription.pos))
 	end
+    self.round = 0
     self:nextUnitRound()
 end
 
 function BattlefieldComponent:update(dt)
-
+    for eId, entity in pairs(self.units) do
+        local unitCmp = entity:getComponent("UnitComponent")
+        if unitCmp.dead == true then
+            unitCmp.dead = self.round
+            -- TODO: Play death animation or something / revive?
+            -- for now just remove
+            self:removeEntity(entity)
+        end
+    end
     -- myTest = myTest + dt
     -- if myTest > 4 then
     --     self:nextUnitRound()
@@ -68,6 +77,7 @@ end
 
 function BattlefieldComponent:nextUnitRound()
     self.currentActor = (self.currentActor % #self.turnOrder) + 1
+    self.round = self.round + 1
     dbgprint(self.currentActor)
     dbgprint(self.turnOrder[self.currentActor])
     -- TODO: Apply roundbased effects here
@@ -75,7 +85,7 @@ function BattlefieldComponent:nextUnitRound()
     local curActorEntity = self:getCurrentActorEntity()
     if curActorEntity then
         local unitComponent = curActorEntity.componentsMap["UnitComponent"]
-        unitComponent.curActionPts = math.min(unitComponent.baseActionPts + unitComponent.curActionPts, unitComponent.maxActionPts)
+        unitComponent.base.actionPts = math.min(unitComponent.current.baseActionPts + unitComponent.base.actionPts, unitComponent.current.maxActionPts)
     end
 end
 

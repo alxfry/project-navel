@@ -43,7 +43,7 @@ function SimpleIconComponent:draw(dt)
     
     -- Draw health and energy.
     love.graphics.setFont(UiComponent.fonts[10])
-    local healthString = self.actorUnitComponent.health .. "/" .. self.actorUnitComponent.initialHealth
+    local healthString = self.actorUnitComponent.current.health .. "/" .. self.actorUnitComponent.max.health
     love.graphics.printf(healthString, self.owner.position.x - self.halfWidth, self.owner.position.y + 18, self.width, 'center')
 end
 
